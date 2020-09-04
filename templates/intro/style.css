@@ -1,0 +1,92 @@
+ body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+        Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+        "Segoe UI Symbol";
+      color: #4a5568;
+      background-color: #fff;
+    }
+
+    h1 {
+      font-size: 48px;
+      font-weight: 500;
+      margin-top: 40px;
+      margin-bottom: 10px;
+    }
+
+    .wrapper {
+      display: flex;
+      height: calc(100vh - 40px);
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .caps {
+      font-size: 14px;
+      font-weight: 600;
+      text-transform: uppercase;
+      color: #57b560;
+    }
+
+    .snippet-wrapper {
+      margin-top: 30px;
+      background: #ffffff;
+      box-shadow: 20px 20px 60px #cfcfcf, -20px -20px 60px #ffffff;
+      overflow: hidden;
+      border-radius: 20px;
+    }
+
+    input[type="file"] {
+      display: none;
+    }
+
+    .snippet {
+      padding: 40px;
+      border: none;
+      background: transparent;
+    }
+
+    .cta {
+      margin-top: 40px;
+    }
+
+    .btn {
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      padding: 20px 40px;
+      background: #57b560;
+      border: none;
+      color: white;
+      font-size: 16px;
+      border-radius: 8px;
+      font-weight: 600;
+    }
+
+    .btn:hover {
+      background: #59ad61;
+    }
+
+    .btn:active {
+      background: #57b560;
+    }
+
+    .btn>svg {
+      padding-right: 8px;
+    }
+
+    .loading {
+      background: gray !important;
+      cursor: not-allowed;
+    }
+
+    .skylinks {
+      padding-top: 40px;
+    }
+
+    .skylinks>a {
+      padding-top: 20px;
+      display: block;
+      color: #4a5568;
+      font-size: 18px;
+    }
