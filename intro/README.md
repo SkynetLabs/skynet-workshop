@@ -90,7 +90,7 @@ Now that we have the main code files for our application ready to do let's
 install the Browser JS SDK for Skynet.
 
 ```
-npm install skynet-js
+npm install skynet-js@v0.1.0
 ```
 
 Don't forget to commit your work!
