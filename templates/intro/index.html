@@ -1,16 +1,16 @@
 <!doctype html>
 <html>
-	<head>
-		<meta charset=utf-8>
-		<title>Super Awesome Skapp</title>
+  <head>
+	<meta charset=utf-8>
+	<title>Super Awesome Skapp</title>
     
     <!-- Edit or Replace the css file as you wish -->
     <link rel="stylesheet" href="style.css">
   </head>
 
-	<body>
+  <body>
     <div class="wrapper">
-		  <h1>Create a Media Page</h1>
+	  <h1>Create a Media Page</h1>
       <span class="caps" style="font-size: 16px;">Your Media, Decentralized &amp; Encrypted.</span>
       <br />
 
@@ -21,26 +21,26 @@
           Upload your Media 
         </label>
       </div>
-    
+
       <!-- Display the path to the media to be uploaded -->
       <br />
       <span class="snippet" id="file-selected"></span>
-     
+
       <!-- Display button for Generating the Skylink -->
       <div class="cta">
         <!-- 
-         The 'onClick' event for this Button is where the magic is happening.
-         Everything else in this html for the most part can be changed based on 
-         your application. 
-         -->
-		    <button id="save-trigger" class="btn" onclick="createMediaPage(document.getElementById('mediaFile').files[0])">
+             The 'onClick' event for this Button is where the magic is happening.
+             Everything else in this html for the most part can be changed based on
+             your application.
+          -->
+		<button id="save-trigger" class="btn" onclick="window.createMediaPage(document.getElementById('mediaFile').files[0])">
           Create Media Page!
         </button>
       </div>
 
       <!-- Display the generated skylink -->
       <a class="skylinks" id="mediaLink" href=""></a>
- 
+
       <span style="margin-top: auto;" class="caps">Powered by Sia Skynet</span>
     </div>
 
@@ -54,5 +54,5 @@
         result.textContent = `${event.target.value}`;
       });
     </script>
-	</body>
+  </body>
 </html>
