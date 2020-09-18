@@ -2,9 +2,9 @@ import { SkynetClient } from "skynet-js";
 
 const client = new SkynetClient();
 
-window.createMediaPage = function(mainMediaFile) {
-	// Establish the page content.
-	const pageContent = `
+window.createMediaPage = function (mainMediaFile) {
+  // Establish the page content.
+  const pageContent = `
 <!doctype html>
 <html>
 	<head>
@@ -26,22 +26,25 @@ window.createMediaPage = function(mainMediaFile) {
 </html>
 `;
 
-	// Establish the index file in the directory.
-	const mediaFolder = {
-		"index.html": new File([pageContent], "index.html", { type: "text/html"}),
-		"media.jpg": mainMediaFile,
-	};
+  // Establish the index file in the directory.
+  const mediaFolder = {
+    "index.html": new File([pageContent], "index.html", { type: "text/html" }),
+    "media.jpg": mainMediaFile,
+  };
 
-	// Upload the media tip as a directory.
-	try {
-		(async () => {
-			const skylink = await client.uploadDirectory(mediaFolder, "mediaFolder");
-			let directLink = "/"+skylink+"/";
-			document.getElementById("mediaLink").href=directLink;
-			document.getElementById("mediaLink").text=skylink;
-		})();
-	} catch (error) {
-		alert(error);
-	}
+  // Upload the media tip as a directory.
+  try {
+    (async () => {
+      // Uploading the directory will return a skylink. The skylink is prefix
+      // with 'sia:' to UX purposes
+      const skylink = await client.uploadDirectory(mediaFolder, "mediaFolder");
+      // For the redirect link we want to trim the 'sia:' prefix so that the
+      // link is https://siasky.net/<skylink hash>/
+      let directLink = "/" + skylink.replace("sia:", "") + "/";
+      document.getElementById("mediaLink").href = directLink;
+      document.getElementById("mediaLink").text = skylink;
+    })();
+  } catch (error) {
+    alert(error);
+  }
 };
-
