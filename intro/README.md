@@ -74,7 +74,7 @@ Or you can download them directly.
 
 ```
 wget -O dist/index.html "https://siasky.net/AAAQ-PWUT9nwBNcE6fCgWbXCUhQyxMGG73kXeUJVe6zzRA"
-wget -O src/index.js "https://siasky.net/AADsOwimDa0BuorI26OM0r-seSPQoXIDsuq-6rIRA4ND0g"
+wget -O src/index.js "https://siasky.net/AAB_8DdhoGYopps1MxoqNsg7mrEO5bwGRqb62VyVqB8T3w"
 ```
 
 Just like a normal webpage you can add a `style.css` file. You can add your own
@@ -85,7 +85,7 @@ cp ../templates/intro/style.css dist/style.css
 
 or
 
-wget -O dist/style.css "https://siasky.net/AAApNjwWHNlrCGUHyDRV0oVMAno9jwKzjELhhGGOzu9rjA"
+wget -O dist/style.css "https://siasky.net/AADsV64QC7kXXCtjk_HSClXG0SIQD5FU44l6PnhoIUgjgQ"
 ```
 
 Don't forget to commit your work!
