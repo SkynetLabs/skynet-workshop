@@ -74,7 +74,7 @@ Or you can download them directly.
 
 ```
 wget -O dist/index.html "https://siasky.net/AAAQ-PWUT9nwBNcE6fCgWbXCUhQyxMGG73kXeUJVe6zzRA"
-wget -O src/index.js "https://siasky.net/AAB_8DdhoGYopps1MxoqNsg7mrEO5bwGRqb62VyVqB8T3w"
+wget -O src/index.js "https://siasky.net/AACXLP_UaRPKv0Oaoz1Bs1MvyDc4gmO2tK9f6hhzv_FLOQ"
 ```
 
 Just like a normal webpage you can add a `style.css` file. You can add your own
