@@ -1,20 +1,24 @@
 # Intro
+
 In this introduction we will go through the process of creating and deploying
 a simple application on [Skynet](https://siasky.net).
 
 This package can be used as a stand alone repo.
 
 # Prerequisites
- - Fork the main Skynet Workshop repo or install wget
- - [node & npm](https://nodejs.org/en/)
- - [Psych](https://www.youtube.com/watch?v=ZXsQAXx_ao0)
+
+- Fork the main Skynet Workshop repo or install wget
+- [node & npm](https://nodejs.org/en/)
+- [Psych](https://www.youtube.com/watch?v=ZXsQAXx_ao0)
 
 # Creating Your First Skapp
+
 Much of this introduction is following the webpack Getting Start guide:
 
 https://webpack.js.org/guides/getting-started/
 
 ## Initialization
+
 First we want to initialize the project. We do this by running the following
 command:
 
@@ -49,6 +53,7 @@ node_modules
 Don't forget to commit your work!
 
 ## Add Code Files
+
 Now that our repo is initialized let's add some code files. Our code will live
 in two directories `dist/` and `src/` so let's make those.
 
@@ -68,8 +73,8 @@ cp ../templates/intro/index.js src/index.js
 Or you can download them directly.
 
 ```
-wget -O dist/index.html "https://siasky.net/AADX6yDR4UsENZH42IzUwg2DyucOh3FEHCm7ai8m4fRKGg"
-wget -O src/index.js "https://siasky.net/AACqlQ-nD6yb5L_4yG_FXR5OeLpYB6wWW0q93tQXJuI96A"
+wget -O dist/index.html "https://siasky.net/AAAQ-PWUT9nwBNcE6fCgWbXCUhQyxMGG73kXeUJVe6zzRA"
+wget -O src/index.js "https://siasky.net/AAB_8DdhoGYopps1MxoqNsg7mrEO5bwGRqb62VyVqB8T3w"
 ```
 
 Just like a normal webpage you can add a `style.css` file. You can add your own
@@ -80,22 +85,24 @@ cp ../templates/intro/style.css dist/style.css
 
 or
 
-wget -O dist/style.css "https://siasky.net/AAApNjwWHNlrCGUHyDRV0oVMAno9jwKzjELhhGGOzu9rjA"
+wget -O dist/style.css "https://siasky.net/AADsV64QC7kXXCtjk_HSClXG0SIQD5FU44l6PnhoIUgjgQ"
 ```
 
 Don't forget to commit your work!
 
 ## Skynet SDK
+
 Now that we have the main code files for our application ready to do let's
 install the Browser JS SDK for Skynet.
 
 ```
-npm install skynet-js@v0.1.0
+npm install skynet-js
 ```
 
 Don't forget to commit your work!
 
 ## Build Application
+
 Now we are ready to build our application. We do that by running the following
 command.
 
@@ -103,17 +110,17 @@ command.
 npx webpack
 ```
 
-You'll notice that this generated a `main.js` file in your `dist/` directory. 
+You'll notice that this generated a `main.js` file in your `dist/` directory.
 
 Don't forget to commit your work!
 
 ## Deploy Application
+
 We are now ready to deploy our application on Skynet. To deploy our application
 we simply need to upload the `dist/` directory using any available Skynet Portal
 like https://siasky.net.
 
- - Click Upload Directory
- - Find your `dist/` directory
- - Click Upload
- - Follow Skylink to your App!
-
+- Click Upload Directory
+- Find your `dist/` directory
+- Click Upload
+- Follow Skylink to your App!
