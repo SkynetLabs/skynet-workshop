@@ -4,6 +4,7 @@ const client = new SkynetClient()
 
 window.createMediaPage = function (mainMediaFile) {
   // Establish the page content.
+  /* eslint-disable */
   const pageContent = `
 <!doctype html>
 <html>
@@ -24,7 +25,8 @@ window.createMediaPage = function (mainMediaFile) {
 	<img src="media.jpg">
 	</body>
 </html>
-`
+`;
+  /* eslint-enable */
 
   // Establish the index file in the directory.
   const mediaFolder = {
