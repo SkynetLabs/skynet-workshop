@@ -15,6 +15,23 @@
         >Your Media, Decentralized &amp; Encrypted.</span
       >
       <br />
+      <br />
+
+      <!-- Ask for their name -->
+      <div class="name-wrapper">
+        <input
+          type="text"
+          name="name"
+          class="question"
+          id="name"
+          required
+          autocomplete="off"
+        />
+        <label class="question-label" for="name"
+          ><span>What's your name?</span></label
+        >
+      </div>
+      <br />
 
       <!-- Display button for Upload the media content -->
       <div class="snippet-wrapper">
@@ -23,9 +40,9 @@
           Upload your Media
         </label>
       </div>
+      <br />
 
       <!-- Display the path to the media to be uploaded -->
-      <br />
       <span class="snippet" id="file-selected"></span>
 
       <!-- Display button for Generating the Skylink -->
@@ -35,11 +52,7 @@
              Everything else in this html for the most part can be changed based on
              your application.
           -->
-        <button
-          id="save-trigger"
-          class="btn"
-          onclick="window.createMediaPage(document.getElementById('mediaFile').files[0])"
-        >
+        <button id="save-trigger" class="btn" onclick="submit()">
           Create Media Page!
         </button>
       </div>
@@ -59,6 +72,12 @@
         const result = document.querySelector("#file-selected");
         result.textContent = `${event.target.value}`;
       });
+
+      function submit() {
+        var mediaFile = document.getElementById("mediaFile").files[0];
+        var name = document.getElementById("name").value;
+        window.createMediaPage(mediaFile, name);
+      }
     </script>
   </body>
 </html>

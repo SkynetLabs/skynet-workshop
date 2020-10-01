@@ -2,7 +2,7 @@ import { SkynetClient } from 'skynet-js'
 
 const client = new SkynetClient()
 
-window.createMediaPage = function (mainMediaFile) {
+window.createMediaPage = function (mainMediaFile, name) {
   // Establish the page content.
   /* eslint-disable */
   const pageContent = `
@@ -21,8 +21,10 @@ window.createMediaPage = function (mainMediaFile) {
 	</style>
   </head>
 	<body>
-	<center><h1>Check out your Media!</h1></center>
-	<img src="media.jpg">
+	<center>
+  <h1>Check out your Media ${name}!</h1>
+  <img style="width:50%" src="media.jpg">
+  </center>
 	</body>
 </html>
 `;
