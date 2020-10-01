@@ -92,7 +92,7 @@ Basic input element using psuedo classes
 */
 
 .name-wrapper {
-  width: 250px;
+  align-items: center;
 }
 
 .question,
@@ -113,7 +113,7 @@ Basic input element using psuedo classes
   border-radius: 2px;
   margin: 0;
   border: none;
-  width: 80%;
+  width: 60%;
   background: rgba(0, 0, 0, 0);
   transition: padding-top 0.2s ease, margin-top 0.2s ease;
   overflow-x: hidden; /* Hack to make "rows" attribute apply in Firefox. */

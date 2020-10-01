@@ -10,14 +10,14 @@
 
   <body>
     <div class="wrapper">
-      <h1>Create a Media Page</h1>
+      <h1>Create Your First Skynet Content</h1>
       <span class="caps" style="font-size: 16px"
-        >Your Media, Decentralized &amp; Encrypted.</span
+        >Decentralized &amp; Encrypted</span
       >
       <br />
       <br />
 
-      <!-- Ask for their name -->
+      <!-- Display input for their name -->
       <div class="name-wrapper">
         <input
           type="text"
@@ -33,11 +33,11 @@
       </div>
       <br />
 
-      <!-- Display button for Upload the media content -->
+      <!-- Display button for to upload a picture -->
       <div class="snippet-wrapper">
         <label class="btn">
           <input type="file" id="mediaFile" />
-          Upload your Media
+          Upload a Picture
         </label>
       </div>
       <br />
@@ -45,7 +45,7 @@
       <!-- Display the path to the media to be uploaded -->
       <span class="snippet" id="file-selected"></span>
 
-      <!-- Display button for Generating the Skylink -->
+      <!-- Display button to upload the content and generate the Skylink -->
       <div class="cta">
         <!-- 
              The 'onClick' event for this Button is where the magic is happening.
@@ -76,7 +76,7 @@
       function submit() {
         var mediaFile = document.getElementById("mediaFile").files[0];
         var name = document.getElementById("name").value;
-        window.createMediaPage(mediaFile, name);
+        window.createWebPage(mediaFile, name);
       }
     </script>
   </body>
