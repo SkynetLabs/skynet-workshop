@@ -43,15 +43,6 @@ remove - "main": "index.js",
 add    - "private": true,
 ```
 
-Lastly let's add a `.gitignore` file and add the following lines to help keep things in order.
-
-```
-.git
-node_modules
-```
-
-Don't forget to commit your work!
-
 ## Add Code Files
 
 Now that our repo is initialized let's add some code files. Our code will live
@@ -88,8 +79,6 @@ or
 wget -O dist/style.css "https://siasky.net/AADsV64QC7kXXCtjk_HSClXG0SIQD5FU44l6PnhoIUgjgQ"
 ```
 
-Don't forget to commit your work!
-
 ## Skynet SDK
 
 Now that we have the main code files for our application ready to do let's
@@ -98,8 +87,6 @@ install the Browser JS SDK for Skynet.
 ```
 npm install skynet-js
 ```
-
-Don't forget to commit your work!
 
 ## Build Application
 
@@ -111,8 +98,6 @@ npx webpack
 ```
 
 You'll notice that this generated a `main.js` file in your `dist/` directory.
-
-Don't forget to commit your work!
 
 ## Deploy Application
 
