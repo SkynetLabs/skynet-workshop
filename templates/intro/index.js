@@ -123,10 +123,10 @@ function createHTMLFile (name) {
       <tr>
         <td align="center">
           <h1 class="crt_title">Certificate Of Completion</h1>
-          <h2>This Certificate is awarded to</h2>
+          <h2>This Certificate is Awarded to</h2>
           <h1 class="colorGreen crt_user">${name}</h1>
           <h3 class="afterName">
-            For their completion of the Intro to Skynet workshop.
+            For their completion of the 'Intro to Skynet workshop'.
           </h3>
           <h3>Awarded on ${month}/${day}/${year}</h3>
         </td>
