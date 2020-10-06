@@ -43,14 +43,12 @@ remove - "main": "index.js",
 add    - "private": true,
 ```
 
-Lastly let's add a `.gitignore` file and add the following lines to help keep things in order.
+`"main": "index.js"` was telling the application to expect `index.js` to be the
+entry point for the application. Since we are uploading this application to
+Skynet the entry point is going to be `index.html`.
 
-```
-.git
-node_modules
-```
-
-Don't forget to commit your work!
+Adding the `"private": true` line ensures that we don't accidentally publish our
+application to `npm`.
 
 ## Add Code Files
 
@@ -73,8 +71,8 @@ cp ../templates/intro/index.js src/index.js
 Or you can download them directly.
 
 ```
-wget -O dist/index.html "https://siasky.net/AAAQ-PWUT9nwBNcE6fCgWbXCUhQyxMGG73kXeUJVe6zzRA"
-wget -O src/index.js "https://siasky.net/AACXLP_UaRPKv0Oaoz1Bs1MvyDc4gmO2tK9f6hhzv_FLOQ"
+wget -O dist/index.html "https://siasky.net/AABDxjXy3nukGnc6mK0SIeLZ_qAcyRj8DVeUffydHBYSYQ"
+wget -O src/index.js "https://siasky.net/AACBVHyF5m2t9efH4GU4b83XZlYW7rynrZR4SiGztkL8QQ"
 ```
 
 Just like a normal webpage you can add a `style.css` file. You can add your own
@@ -85,10 +83,8 @@ cp ../templates/intro/style.css dist/style.css
 
 or
 
-wget -O dist/style.css "https://siasky.net/AADsV64QC7kXXCtjk_HSClXG0SIQD5FU44l6PnhoIUgjgQ"
+wget -O dist/style.css "https://siasky.net/AAATOFYwsrzvfAJUZZB3ZWWZWGVac3rSoxlnnlw-17JvPA"
 ```
-
-Don't forget to commit your work!
 
 ## Skynet SDK
 
@@ -98,8 +94,6 @@ install the Browser JS SDK for Skynet.
 ```
 npm install skynet-js
 ```
-
-Don't forget to commit your work!
 
 ## Build Application
 
@@ -112,8 +106,6 @@ npx webpack
 
 You'll notice that this generated a `main.js` file in your `dist/` directory.
 
-Don't forget to commit your work!
-
 ## Deploy Application
 
 We are now ready to deploy our application on Skynet. To deploy our application
@@ -124,3 +116,24 @@ like https://siasky.net.
 - Find your `dist/` directory
 - Click Upload
 - Follow Skylink to your App!
+
+## Share you Success!
+
+Congratulations! You just completed your first Skynet workshop and have an
+awesome Certificate of Completion hosted on Skynet.
+
+Be sure to share you accomplishment on Social Media to help spread the word
+about how awesome and easy Skynet is to use!
+
+Here is a sample post
+
+```
+I just completed my first Skynet workshop! Check out my Certificate of
+Completion that was created and stored on Skynet <your skylink here>!
+
+Give it a shot today!
+https://github.com/NebulousLabs/skynet-workshop
+https://siasky.net
+
+@SiaTechHQ #skynet
+```
