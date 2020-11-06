@@ -1,4 +1,4 @@
-# Skynet Wokrshop
+# Skynet Workshop
 
 Welcome! You are taking the first step in becoming a Skynet Developer!
 
