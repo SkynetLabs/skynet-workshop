@@ -1,199 +1,87 @@
+/* CSS for the button */
+.skyid-button,
+.skyid-button:focus {
+  color: #fff;
+  background-color: #57b560;
+  border-radius: 0.25rem;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+  padding: 0.75rem 2rem;
+  outline: none;
+}
+
+.skyid-logo {
+  height: 18px;
+  vertical-align: middle;
+  margin-right: 2px;
+}
+
+/* CSS for the example page */
+.button-blow {
+  box-shadow: 1px 1px 60px 10px rgba(255, 255, 255, 0.2);
+  transition: 0.3s;
+}
+
+.button-blow:hover {
+  box-shadow: 1px 1px 80px 20px rgba(255, 255, 255, 0.2);
+}
+
+.big-margin {
+  margin-top: 140px;
+  margin-bottom: 140px;
+}
+
+.small-margin {
+  margin-top: 40px;
+  margin-bottom: 40px;
+}
+
+.small-margin-top {
+  margin-top: 40px;
+}
+
 body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
-    Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-  color: #4a5568;
-  background-color: #fff;
+  text-align: center;
+  background: #25272a;
+  color: #fff;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-h1 {
-  font-size: 48px;
-  font-weight: 500;
-  margin-top: 40px;
-  margin-bottom: 10px;
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
 }
 
-.wrapper {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-
-.caps {
-  font-size: 14px;
-  font-weight: 600;
-  text-transform: uppercase;
+a,
+a:hover {
   color: #57b560;
+  text-decoration: none;
 }
 
-.snippet-wrapper {
-  margin-top: 30px;
-  background: #ffffff;
-  box-shadow: 20px 20px 60px #cfcfcf, -20px -20px 60px #ffffff;
-  border-radius: 20px;
-}
-
-input[type="file"] {
-  display: none;
-}
-
-.snippet {
-  padding: 40px;
-  border: none;
-  background: transparent;
-}
-
-.cta {
+h2 {
   margin-top: 40px;
+  font-weight: bold;
 }
 
-.btn {
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  padding: 20px 40px;
-  background: #57b560;
-  border: none;
-  color: white;
-  font-size: 16px;
-  border-radius: 8px;
-  font-weight: 600;
+.logout-bar {
+  text-align: right;
+  padding-top: 10px;
+  padding-right: 20px;
 }
 
-.btn:hover {
-  background: #59ad61;
+textarea {
+  max-width: 100%;
+  width: 450px;
+  height: 200px;
 }
 
-.btn:active {
-  background: #57b560;
-}
-
-.btn > svg {
-  padding-right: 8px;
-}
-
-.loading {
-  background: gray !important;
-  cursor: not-allowed;
-}
-
-.skylinks {
-  padding-top: 40px;
-}
-
-.skylinks > a {
-  padding-top: 20px;
-  display: block;
-  color: #4a5568;
-  font-size: 18px;
-}
-/*
-Basic input element using psuedo classes
-*/
-
-.name-wrapper {
-  align-items: center;
-}
-
-.question,
-.question-label {
-  font-family: "Ubuntu", sans-serif;
-  display: block;
-  margin: 10px;
-  padding: 5px;
-  border: none;
-  font-size: 22px;
-}
-
-/* Question */
-
-.question {
-  font-size: 48px;
-  font-weight: 300;
-  border-radius: 2px;
-  margin: 0;
-  border: none;
-  width: 60%;
-  background: rgba(0, 0, 0, 0);
-  transition: padding-top 0.2s ease, margin-top 0.2s ease;
-  overflow-x: hidden; /* Hack to make "rows" attribute apply in Firefox. */
-}
-/* Underline and Placeholder */
-
-.question + .question-label {
-  display: block;
-  position: relative;
-  white-space: nowrap;
-  padding: 0;
-  margin: 0;
-  width: 10%;
-  border-top: 1px solid red;
-  -webkit-transition: width 0.4s ease;
-  transition: width 0.4s ease;
-  height: 0px;
-}
-
-.question:focus + .question-label {
-  width: 80%;
-}
-
-.question:focus,
-.question:valid {
-  padding-top: 35px;
-  outline: 0;
-}
-
-.question:focus + .question-label > span,
-.question:valid + .question-label > span {
-  top: -100px;
-  font-size: 22px;
-  color: #333;
-}
-
-.question:valid + .question-label {
-  border-color: green;
-}
-
-.question:invalid {
-  box-shadow: none;
-}
-
-.question + .question-label > span {
-  font-weight: 300;
-  margin: 0;
-  position: absolute;
-  color: #8f8f8f;
-  font-size: 48px;
-  top: -66px;
-  left: 0px;
-  z-index: -1;
-  -webkit-transition: top 0.2s ease, font-size 0.2s ease, color 0.2s ease;
-  transition: top 0.2s ease, font-size 0.2s ease, color 0.2s ease;
-}
-
-input[type="submit"] {
-  -webkit-transition: opacity 0.2s ease, background 0.2s ease;
-  transition: opacity 0.2s ease, background 0.2s ease;
-  display: block;
-  opacity: 0;
-  margin: 10px 0 0 0;
-  padding: 10px;
-  cursor: pointer;
-}
-
-input[type="submit"]:hover {
-  background: #eee;
-}
-
-input[type="submit"]:active {
-  background: #999;
-}
-
-.question:valid ~ input[type="submit"] {
-  -webkit-animation: appear 1s forwards;
-  animation: appear 1s forwards;
-}
-
-.question:invalid ~ input[type="submit"] {
-  display: none;
+.disabled {
+  background-color: gray !important;
+  cursor: not-allowed !important;
 }
