@@ -9,27 +9,46 @@
 <link rel="stylesheet" href="style.css" />
 <meta charset="utf-8" />
 
-<title>Skynet Profile</title>
+<title>SkyDB Profile</title>
 
 <div>
-  <h2>Save your Profile Information to Skynet!</h2>
+  <h2>Make a Profile and Save it to Skynet with SkyDB!</h2>
 </div>
+
+<!-- Seed and Load Button -->
+<div>
+  <!-- Load a Profile with seed or provide seed to save -->
+  <label for="seed">Seed</label>
+  <input id="seed" placeholder="Your Secret Seed" />
+  <button
+    id="load_profile"
+    class="skyid-button small-margin-top"
+    onclick="window.getProfile()"
+  >
+    Load Profile
+  </button>
+</div>
+<br />
 
 <!-- Profile Inputs -->
 <div>
   <!-- Profile Info -->
   <label for="name">Name</label>
   <input id="name" placeholder="name" /><br />
+  <label for="email">Email</label>
+  <input id="email" placeholder="email" /><br />
   <label for="avatar">Avatar</label>
   <input id="avatar" type="file" /><br />
   <span id="file-selected"></span><br />
-  <a id="skylink" href=""></a>
+  <p>Current Avatar Link: <a id="skylink" href=""></a></p>
   <br />
+  <p>Bio</p>
+  <textarea id="bio" class="p-3 rounded" placeholder="bio"></textarea><br />
   <!-- Save Profile Button -->
   <button
     id="save_profile"
     class="skyid-button small-margin-top"
-    onclick="window.createWebPage()"
+    onclick="window.setProfile()"
   >
     Save Profile
   </button>

@@ -5,16 +5,20 @@ const client = new SkynetClient()
 // createWebPage is the main function of this Skynet Application. It takes the
 // mediaFile and name submitted by the user and generates a new web page
 // containing that content.
-window.createWebPage = function (mediaFile, name) {
+window.createWebPage = function () {
+  // Get all the DOM element and the corresponding values
+  var name = document.getElementById('name').value
+  var avatar = document.getElementById('avatar').files[0]
+
   // Create the html file
   const htmlFile = createHTMLFile(name)
 
   // Establish the directory that will be uploaded. This will contain the
-  // mediaFile that was uploaded as well as an index.html file to display the
+  // avatar image that was uploaded as well as an index.html file to display the
   // content.
   const webDirectory = {
     'index.html': new File([htmlFile], 'index.html', { type: 'text/html' }),
-    'media.jpg': mediaFile
+    'avatar.jpg': avatar
   }
 
   // Upload the directory.
@@ -29,8 +33,8 @@ window.createWebPage = function (mediaFile, name) {
       // For the redirect link we want to trim the 'sia:' prefix so that the
       // link is https://siasky.net/<skylink hash>/
       const directLink = '/' + skylink.replace('sia:', '') + '/'
-      document.getElementById('mediaLink').href = directLink
-      document.getElementById('mediaLink').text = skylink
+      document.getElementById('skylink').href = directLink
+      document.getElementById('skylink').text = skylink
     })()
   } catch (error) {
     alert(error)
@@ -133,7 +137,7 @@ function createHTMLFile (name) {
       </tr>
       <tr>
         <td align="center" class="crt_logo">
-          <img src="media.jpg" alt="logo" />
+          <img src="avatar.jpg" alt="logo" />
         </td>
       </tr>
     </table>

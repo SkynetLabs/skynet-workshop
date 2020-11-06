@@ -2,10 +2,13 @@
 
 This repo is a workshop aimed at onboarding developers onto Skynet.
 
-Each directory is a separate workshop aimed at covering a separate topic. To get
-started fork this repo. This repo is designed for developers to fork and then
-begin working on to progress through the workshops.
+The [/app](./app) directory can be used to build your application by following
+the Steps in the [README](./app/README). Alternatively you can create a new
+local project directory.
 
-## Intro
+To get started building your Skapp (Skynet Application) in the [/app](./app)
+directory, fork this repo and `cd` into [/app](./app).
 
-For an introduction to Skynet development start [here](./intro).
+To get started building your Skapp in a local project directory, create your
+directory and `cd` into it. Additionally you will need to have `wget` install to
+be able to download the template files.
