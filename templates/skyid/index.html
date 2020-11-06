@@ -1,0 +1,154 @@
+<!-- bootstrap styling -->
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
+  integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2"
+  crossorigin="anonymous"
+/>
+<!-- Additional Custom styling -->
+<link rel="stylesheet" href="style.css" />
+<meta charset="utf-8" />
+
+<title>SkyID Profile</title>
+
+<!-- Logout button -->
+<div
+  class="show-if-initialized show-if-logged-in logout-bar"
+  style="display: none"
+>
+  <a href="javascript: skyid.sessionDestroy()">Logout</a>
+</div>
+
+<!-- Shown while loading/saving Profile -->
+<div class="hide-if-initialized">
+  <h2 class="big-margin">Loading...</h2>
+</div>
+
+<!-- Login Button -->
+<div class="show-if-initialized hide-if-logged-in" style="display: none">
+  <h2>
+    Make a Profile while using
+    <a href="https:/skyaccounts.hns.siasky.net">SkyID</a> for authentication
+  </h2>
+
+  <!-- Button for login -->
+  <button
+    onclick="skyid.sessionStart()"
+    class="skyid-button button-blow big-margin"
+  >
+    <img src="SkyID_Logo_128_white.png" alt="SkyID" class="skyid-logo" />
+    Sign in with SkyID
+  </button>
+</div>
+
+<!-- Profile Inputs -->
+<div
+  class="show-if-initialized show-if-logged-in small-margin"
+  style="display: none"
+>
+  <h2>Create your profile information</h2>
+  <!-- Profile Info -->
+  <label for="name">Name</label>
+  <input id="name" placeholder="name" /><br />
+  <label for="email">Email</label>
+  <input id="email" placeholder="email" /><br />
+  <label for="avatar">Avatar</label>
+  <input id="avatar" type="file" /><br />
+  <span id="file-selected"></span><br />
+  <p>Current Avatar Link: <a id="skylink" href=""></a></p>
+  <br />
+  <p>Bio</p>
+  <textarea id="bio" class="p-3 rounded" placeholder="bio"></textarea><br />
+
+  <button
+    id="save_note"
+    class="skyid-button small-margin-top"
+    onclick="setProfile()"
+  >
+    Save Profile
+  </button>
+</div>
+
+<!-- Footer Info -->
+<footer>
+  Read more on
+  <a href="https://github.com/NebulousLabs/skynet-workshop" target="_blank"
+    >GitHub</a
+  >
+  - inspired by
+  <a href="https://github.com/DaWe35/SkyID-example-note-dapp" target="_blank"
+    >SkyID Note</a
+  >
+</footer>
+
+<!-- Import SkyID JavaScript to Initialize and setup SkyID -->
+<script src="https://skyaccounts.hns.siasky.net/skyid.js"></script>
+<!-- Import webpack bundled JavaScript -->
+<script src="main.js"></script>
+
+<!-- SkyID JavaScript Code -->
+<script>
+  // Initialize SkyID
+  var skyid = new SkyID("SkyID Workshop", loginCallBack);
+
+  // loginCallBack listens to the response from the login attempt
+  function loginCallBack(message) {
+    if (message == "login_success") {
+      getProfile();
+    }
+  }
+
+  // Check if user is Logged in on page load and refresh
+  if (skyid.seed != "") {
+    getProfile();
+  }
+
+  // Get the users Profile
+  function getProfile() {
+    // Use getFiel to fetch the profile info
+    skyid.getFile("profile", function (response, revision) {
+      if (response) {
+        // Parse the Response
+        var respObs = JSON.parse(response);
+
+        // Grab all the DOM Elements
+        var name = document.getElementById("name");
+        var email = document.getElementById("email");
+        var bio = document.getElementById("bio");
+        var fileSelecter = document.getElementById("file-selected");
+        var avatarlink = document.getElementById("skylink");
+
+        // Update DOM Elements with profile information
+        name.value = respObs.name;
+        email.value = respObs.email;
+        bio.value = respObs.bio;
+        avatarlink.text = respObs.avatarskylink;
+        avatarlink.href = respObs.avatarskylink;
+        fileSelecter.textContent = "";
+      }
+    });
+  }
+
+  // Save the users profile
+  function setProfile() {
+    // Upload the avatar then grab the Skylink from the DOM Element
+    window.uploadAvatar();
+    var avatarskylink = document.getElementById("skylink").text;
+
+    // Grab the rest of the profile information
+    var name = document.getElementById("name").value;
+    var email = document.getElementById("email").value;
+    var bio = document.getElementById("bio").value;
+    var avatar = document.getElementById("avatar").files[0];
+
+    // Convert to json
+    var json = JSON.stringify({ name, email, bio, avatarskylink });
+
+    // Use setFile to upload the profile information to SkyDB
+    skyid.setFile("profile", json, function (response) {
+      if (response != true) {
+        alert("Sorry, but upload failed :(");
+      }
+    });
+  }
+</script>

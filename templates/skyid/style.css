@@ -1,0 +1,87 @@
+/* CSS for the button */
+.skyid-button,
+.skyid-button:focus {
+  color: #fff;
+  background-color: #57b560;
+  border-radius: 0.25rem;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+  padding: 0.75rem 2rem;
+  outline: none;
+}
+
+.skyid-logo {
+  height: 18px;
+  vertical-align: middle;
+  margin-right: 2px;
+}
+
+/* CSS for the example page */
+.button-blow {
+  box-shadow: 1px 1px 60px 10px rgba(255, 255, 255, 0.2);
+  transition: 0.3s;
+}
+
+.button-blow:hover {
+  box-shadow: 1px 1px 80px 20px rgba(255, 255, 255, 0.2);
+}
+
+.big-margin {
+  margin-top: 140px;
+  margin-bottom: 140px;
+}
+
+.small-margin {
+  margin-top: 40px;
+  margin-bottom: 40px;
+}
+
+.small-margin-top {
+  margin-top: 40px;
+}
+
+body {
+  text-align: center;
+  background: #25272a;
+  color: #fff;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
+
+a,
+a:hover {
+  color: #57b560;
+  text-decoration: none;
+}
+
+h2 {
+  margin-top: 40px;
+  font-weight: bold;
+}
+
+.logout-bar {
+  text-align: right;
+  padding-top: 10px;
+  padding-right: 20px;
+}
+
+textarea {
+  max-width: 100%;
+  width: 450px;
+  height: 200px;
+}
+
+.disabled {
+  background-color: gray !important;
+  cursor: not-allowed !important;
+}
