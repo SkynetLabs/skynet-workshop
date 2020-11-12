@@ -163,7 +163,7 @@ cp ../templates/skydb/index.js src/index.js
 or
 
 wget -O dist/index.html "https://siasky.net/AAD1wg6wV3am-ft06YmVVB-HYtbrdOJa_rd7DPXTp_WN_Q"
-wget -O src/index.js "https://siasky.net/AADxV2CcfG_jkIsAO7Ad9wCD56B0zn9cQffvxKR9BpjZTg"
+wget -O src/index.js "https://siasky.net/AACjKhHk1AWfGdrWRYPfAkBzfFqlqiAPnhnXWNoDLrRbsg"
 ```
 
 If we look at the `index.html` file we will notice it looks verify similar. We
