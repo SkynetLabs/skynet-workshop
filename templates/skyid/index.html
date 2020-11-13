@@ -67,9 +67,21 @@
   <button
     id="save_note"
     class="skyid-button small-margin-top"
-    onclick="setProfile()"
+    onclick="window.uploadAvatar()"
   >
     Save Profile
+  </button>
+</div>
+<div
+  class="show-if-initialized show-if-logged-in small-margin"
+  style="display: none"
+>
+  <button
+    id="clear"
+    class="skyid-button small-margin-top"
+    onclick="clearProfile()"
+  >
+    Clear Profile
   </button>
 </div>
 
@@ -134,16 +146,12 @@
   }
 
   // Save the users profile
-  function setProfile() {
-    // Upload the avatar then grab the Skylink from the DOM Element
-    window.uploadAvatar();
-    var avatarskylink = document.getElementById("skylink").text;
-
-    // Grab the rest of the profile information
+  window.setProfile = function () {
+    // Grab the profile information
     var name = document.getElementById("name").value;
     var email = document.getElementById("email").value;
     var bio = document.getElementById("bio").value;
-    var avatar = document.getElementById("avatar").files[0];
+    var avatarskylink = document.getElementById("skylink").text;
 
     // Convert to json
     var json = JSON.stringify({ name, email, bio, avatarskylink });
@@ -154,5 +162,37 @@
         alert("Sorry, but upload failed :(");
       }
     });
+  };
+
+  // Clear the users profile
+  function clearProfile() {
+    var avatarskylink = "";
+    var name = "";
+    var email = "";
+    var bio = "";
+
+    // Convert to json
+    var json = JSON.stringify({ name, email, bio, avatarskylink });
+
+    // Use setFile to upload the profile information to SkyDB
+    skyid.setFile("profile", json, function (response) {
+      if (response != true) {
+        alert("Sorry, but upload failed :(");
+      }
+    });
+    // Grab all the DOM Elements
+    var name = document.getElementById("name");
+    var email = document.getElementById("email");
+    var bio = document.getElementById("bio");
+    var fileSelecter = document.getElementById("file-selected");
+    var avatarlink = document.getElementById("skylink");
+
+    // Update DOM Elements with profile information
+    name.value = "";
+    email.value = "";
+    bio.value = "";
+    avatarlink.text = "";
+    avatarlink.href = "";
+    fileSelecter.textContent = "";
   }
 </script>
