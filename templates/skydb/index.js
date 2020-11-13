@@ -1,5 +1,5 @@
 // Import SkynetClient and keyPairFromSeed from the Skynet BrowserJS library
-import { SkynetClient, keyPairFromSeed } from 'skynet-js'
+import { SkynetClient, genKeyPairFromSeed } from 'skynet-js'
 
 // Create a Default Skynet client
 const client = new SkynetClient()
@@ -11,7 +11,7 @@ const dbEntryName = 'profile'
 window.setProfile = function () {
   // Get the privateKey from the seed
   var seed = document.getElementById('seed').value
-  const { privateKey } = keyPairFromSeed(seed)
+  const { privateKey } = genKeyPairFromSeed(seed)
 
   // Get all the DOM element and the corresponding values
   var name = document.getElementById('name').value
@@ -59,7 +59,7 @@ window.getProfile = function () {
     (async () => {
       // Get the public key from the seed
       var seed = document.getElementById('seed').value
-      const { publicKey } = keyPairFromSeed(seed)
+      const { publicKey } = genKeyPairFromSeed(seed)
 
       // Get the SkyDB entry
       const entry = await client.db.getJSON(publicKey, dbEntryName)
