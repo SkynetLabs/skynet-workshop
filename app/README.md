@@ -249,13 +249,13 @@ Awesome!
 Let's update the `index.html` and the `index.js` file.
 
 ```
-cp ../templates/skyib/index.html dist/index.html
-cp ../templates/skyib/index.js src/index.js
+cp ../templates/skyid/index.html dist/index.html
+cp ../templates/skyid/index.js src/index.js
 
 or
 
-wget -O dist/index.html "https://siasky.net/CABhYd980mXUhS3I5xOLHzjgeCEx_jgL4KcRfUTZNmWeEQ"
-wget -O src/index.js "https://siasky.net/AAAt-AHgLfMjdkDOmOeq9714WqbHl6Brsn8rNZyTdZWPiQ"
+wget -O dist/index.html "https://siasky.net/CAAphjrA3G1mVKNs79njAquO17rNUEpaszNkIODKYGNqIA"
+wget -O src/index.js "https://siasky.net/AACWwSgZoB_9S-Z4Atmkpcgme495TktqmKN1iVG3S2QWAg"
 ```
 
 First let's look at the changes to the `index.html` file. At first glance it
