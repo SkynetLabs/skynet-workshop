@@ -254,8 +254,8 @@ cp ../templates/skyid/index.js src/index.js
 
 or
 
-wget -O dist/index.html "https://siasky.net/CAAphjrA3G1mVKNs79njAquO17rNUEpaszNkIODKYGNqIA"
-wget -O src/index.js "https://siasky.net/AACWwSgZoB_9S-Z4Atmkpcgme495TktqmKN1iVG3S2QWAg"
+wget -O dist/index.html "https://siasky.net/CAC55A0gnYGnBIIlkY_exMcd6DlfwfD4Lw6avNOYJ2nnvg"
+wget -O src/index.js "https://siasky.net/AABxzVyBfbVZu6Pbw59IW2Q9wHOK3HCa1Dq8AwNgA2gM6w"
 ```
 
 First let's look at the changes to the `index.html` file. At first glance it
@@ -304,19 +304,17 @@ Again, `SkyID` is handling all the `seed` and key managed for us.
 
 ```javascript
 // Save the users profile
-function setProfile() {
-  // Upload the avatar then grab the Skylink from the DOM Element
-  window.uploadAvatar();
-  var avatarskylink = document.getElementById("skylink").text;
+async function setProfile() {
+  // Upload the avatar
+  const avatarskylink = await window.uploadAvatar();
 
-  // Grab the rest of the profile information
-  var name = document.getElementById("name").value;
-  var email = document.getElementById("email").value;
-  var bio = document.getElementById("bio").value;
-  var avatar = document.getElementById("avatar").files[0];
+  // Grab the profile information
+  const name = document.getElementById("name").value;
+  const email = document.getElementById("email").value;
+  const bio = document.getElementById("bio").value;
 
   // Convert to json
-  var json = JSON.stringify({ name, email, bio, avatarskylink });
+  const json = JSON.stringify({ name, email, bio, avatarskylink });
 
   // Use setFile to upload the profile information to SkyDB
   skyid.setFile("profile", json, function (response) {

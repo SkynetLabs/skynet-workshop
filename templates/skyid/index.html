@@ -67,7 +67,7 @@
   <button
     id="save_note"
     class="skyid-button small-margin-top"
-    onclick="window.uploadAvatar()"
+    onclick="setProfile()"
   >
     Save Profile
   </button>
@@ -125,14 +125,14 @@
     skyid.getFile("profile", function (response, revision) {
       if (response) {
         // Parse the Response
-        var respObs = JSON.parse(response);
+        const respObs = JSON.parse(response);
 
         // Grab all the DOM Elements
-        var name = document.getElementById("name");
-        var email = document.getElementById("email");
-        var bio = document.getElementById("bio");
-        var fileSelecter = document.getElementById("file-selected");
-        var avatarlink = document.getElementById("skylink");
+        const name = document.getElementById("name");
+        const email = document.getElementById("email");
+        const bio = document.getElementById("bio");
+        const fileSelecter = document.getElementById("file-selected");
+        const avatarlink = document.getElementById("skylink");
 
         // Update DOM Elements with profile information
         name.value = respObs.name;
@@ -146,15 +146,17 @@
   }
 
   // Save the users profile
-  window.setProfile = function () {
+  async function setProfile() {
+    // Upload the avatar
+    const avatarskylink = await window.uploadAvatar();
+
     // Grab the profile information
-    var name = document.getElementById("name").value;
-    var email = document.getElementById("email").value;
-    var bio = document.getElementById("bio").value;
-    var avatarskylink = document.getElementById("skylink").text;
+    const name = document.getElementById("name").value;
+    const email = document.getElementById("email").value;
+    const bio = document.getElementById("bio").value;
 
     // Convert to json
-    var json = JSON.stringify({ name, email, bio, avatarskylink });
+    const json = JSON.stringify({ name, email, bio, avatarskylink });
 
     // Use setFile to upload the profile information to SkyDB
     skyid.setFile("profile", json, function (response) {
@@ -162,17 +164,17 @@
         alert("Sorry, but upload failed :(");
       }
     });
-  };
+  }
 
   // Clear the users profile
   function clearProfile() {
-    var avatarskylink = "";
-    var name = "";
-    var email = "";
-    var bio = "";
+    let avatarskylink = "";
+    let name = "";
+    let email = "";
+    let bio = "";
 
     // Convert to json
-    var json = JSON.stringify({ name, email, bio, avatarskylink });
+    const json = JSON.stringify({ name, email, bio, avatarskylink });
 
     // Use setFile to upload the profile information to SkyDB
     skyid.setFile("profile", json, function (response) {
@@ -181,11 +183,11 @@
       }
     });
     // Grab all the DOM Elements
-    var name = document.getElementById("name");
-    var email = document.getElementById("email");
-    var bio = document.getElementById("bio");
-    var fileSelecter = document.getElementById("file-selected");
-    var avatarlink = document.getElementById("skylink");
+    name = document.getElementById("name");
+    email = document.getElementById("email");
+    bio = document.getElementById("bio");
+    const fileSelecter = document.getElementById("file-selected");
+    const avatarlink = document.getElementById("skylink");
 
     // Update DOM Elements with profile information
     name.value = "";
