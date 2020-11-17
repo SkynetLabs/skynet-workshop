@@ -5,23 +5,20 @@ import { SkynetClient } from 'skynet-js'
 const client = new SkynetClient('https://siasky.net')
 
 // uploadAvatar uploads the avatar file to Skynet
-window.uploadAvatar = function () {
+window.uploadAvatar = async function () {
   // Get avatar file
   const avatar = document.getElementById('avatar').files[0]
-  let avatarskylink
   try {
-    (async () => {
-      // Check if there is a new file selected
-      if (avatar) {
-        // Upload the avatar image and update the DOM Element with the Skylink
-        const link = await client.uploadFile(avatar)
-        // Display the Skylink to the User
-        avatarskylink = '/' + link.replace('sia:', '')
-        document.getElementById('skylink').href = avatarskylink
-        document.getElementById('skylink').text = avatarskylink
-        window.setProfile()
-      }
-    })()
+    // Check if there is a new file selected
+    if (avatar) {
+      // Upload the avatar image and update the DOM Element with the Skylink
+      const link = await client.uploadFile(avatar)
+      // Display the Skylink to the User
+      const avatarskylink = '/' + link.replace('sia:', '')
+      document.getElementById('skylink').href = avatarskylink
+      document.getElementById('skylink').text = avatarskylink
+      return avatarskylink
+    }
   } catch (error) {
     alert('Skynet Upload Error: ' + error)
   }
