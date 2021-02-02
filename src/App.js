@@ -1,28 +1,59 @@
+// Import react components
+import { useState } from 'react';
+
+// Import custom css
 import './App.css';
 
+// Import bootstrap
+import { Button, Form } from 'react-bootstrap';
+
 function App() {
+	// Define app state
+	const [name, setName] = useState('');
+	const [file, setFile] = useState();
+
+	// Handle form submission
+	const handleSubmit = async (event) => {
+		event.preventDefault();
+		console.log('form submitted');
+		console.log('name', name);
+		console.log('file', file);
+	};
+
 	return (
 		<div className="App">
-			<div>
-				<h2>Welcome to Skynet!</h2>
-			</div>
-			{/* Basic input form */}
-			<div className="basic-form">
-				{/* Input for name */}
-				<label className="form-label">Name</label>
-				<input type="text" />
+			<h1>Welcome to Skynet!</h1>
+			<br />
 
-				<br />
+			{/* Basic input form */}
+			<Form onSubmit={handleSubmit}>
+				{/* Input for name */}
+				<Form.Group inline>
+					<Form.Control
+						type="text"
+						placeholder="Enter your name"
+						onChange={(e) => {
+							setName(e.target.value);
+						}}
+					/>
+				</Form.Group>
+
 				<br />
 
 				{/* Input for file */}
-				<label className="form-label">File</label>
-				<input type="file" />
+				<Form.Group inline>
+					<Form.File
+						onChange={(e) => {
+							setFile(e.target.files[0]);
+						}}
+					/>
+				</Form.Group>
 
 				<br />
-				<br />
-				<button className="form-button">Send to Skynet</button>
-			</div>
+				<Button variant="success" type="submit">
+					Send to Skynet
+				</Button>
+			</Form>
 		</div>
 	);
 }
