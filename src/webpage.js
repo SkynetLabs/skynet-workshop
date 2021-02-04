@@ -2,7 +2,7 @@
 import './webpage.css';
 
 // Create the HTML file for the Skynet content.
-const WebPage = (name: string, skylink: string) => {
+const WebPage = (name, imageSource) => {
 	const today = new Date();
 	const day = today.getDate();
 	const month = today.getMonth() + 1;
@@ -30,7 +30,7 @@ const WebPage = (name: string, skylink: string) => {
 				</tr>
 				<tr>
 					<td align="center" className="crt_logo">
-						<img src={skylink} alt="logo" />
+						<img src={imageSource} alt="logo" />
 					</td>
 				</tr>
 			</table>

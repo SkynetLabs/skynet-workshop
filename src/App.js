@@ -9,15 +9,16 @@ import { Button, Form } from 'react-bootstrap';
 
 function App() {
 	// Define app state
-	const [name, setName] = useState('');
+	// const [name, setName] = useState('');
 	const [file, setFile] = useState();
+	const [fileSkylink, setFileSkylink] = useState('');
 
 	// Handle form submission
 	const handleSubmit = async (event) => {
 		event.preventDefault();
 		console.log('form submitted');
-		console.log('name', name);
-		console.log('file', file);
+
+		// Add Code Here
 	};
 
 	return (
@@ -28,7 +29,7 @@ function App() {
 			{/* Basic input form */}
 			<Form onSubmit={handleSubmit}>
 				{/* Input for name */}
-				<Form.Group inline>
+				{/* <Form.Group inline>
 					<Form.Control
 						type="text"
 						placeholder="Enter your name"
@@ -36,7 +37,7 @@ function App() {
 							setName(e.target.value);
 						}}
 					/>
-				</Form.Group>
+				</Form.Group> */}
 
 				<br />
 
@@ -54,6 +55,10 @@ function App() {
 					Send to Skynet
 				</Button>
 			</Form>
+
+			{/* Show button to view file on skynet once uploaded */}
+			<br />
+			{fileSkylink && <Button href={fileSkylink}>View on Skynet</Button>}
 		</div>
 	);
 }
