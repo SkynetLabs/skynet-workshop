@@ -1,41 +1,111 @@
-// Import CSS styling
-import './webpage.css';
-
 // Create the HTML file for the Skynet content.
 const WebPage = (name, imageSource) => {
-	const today = new Date();
-	const day = today.getDate();
-	const month = today.getMonth() + 1;
-	const year = today.getFullYear();
+  return new File([html(name, imageSource)], "index.html", {
+    type: "text/html",
+  });
+};
 
-	return (
-		<body>
-			<table className="cert">
-				<tr>
-					<td align="center" className="crt_logo">
-						{/* Skynet logo */}
-						<img src="https://siasky.net/AAAW-h21PPBfkDsDaL1HwKasKBKc08i6Euz8I_9CLM3eww" alt="logo" />
-					</td>
-				</tr>
-				<tr>
-					<td align="center">
-						<h1 className="crt_title">Certificate Of Completion</h1>
-						<h2>This Certificate is Awarded to</h2>
-						<h1 className="colorGreen crt_user">{name}</h1>
-						<h3 className="afterName">For their completion of the 'Intro to Skynet workshop'.</h3>
-						<h3>
-							Awarded on {month}/{day}/{year}
-						</h3>
-					</td>
-				</tr>
-				<tr>
-					<td align="center" className="crt_logo">
-						<img src={imageSource} alt="logo" />
-					</td>
-				</tr>
-			</table>
-		</body>
-	);
+// html creates an html page
+const html = (name, imageSource) => {
+  const today = new Date();
+  const day = today.getDate();
+  const month = today.getMonth() + 1;
+  const year = today.getFullYear();
+
+  /* eslint-disable */
+  return `
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Skynet-Generated Webpage</title>
+    <style>
+      .cert {
+        border: 15px solid #0072c6;
+        border-right: 15px solid #0894fb;
+        border-left: 15px solid #0894fb;
+        width: 700px;
+        font-family: arial;
+        color: #383737;
+      }
+      .crt_title {
+        margin-top: 30px;
+        font-family: "Satisfy", cursive;
+        font-size: 40px;
+        letter-spacing: 1px;
+        color: #0060a9;
+      }
+      .crt_logo img {
+        width: 130px;
+        height: auto;
+        margin: auto;
+        padding: 30px;
+      }
+      .colorGreen {
+        color: #27ae60;
+      }
+      .crt_user {
+        display: inline-block;
+        width: 80%;
+        padding: 5px 25px;
+        margin-bottom: 0px;
+        padding-bottom: 0px;
+        font-family: "Satisfy", cursive;
+        font-size: 40px;
+        border-bottom: 1px dashed #cecece;
+      }
+      .afterName {
+        font-weight: 100;
+        color: #383737;
+      }
+      .colorGrey {
+        color: grey;
+      }
+      .certSign {
+        width: 200px;
+      }
+      @media (max-width: 700px) {
+        .cert {
+          width: 100%;
+        }
+      }
+    </style>
+    <link
+      href="https://fonts.googleapis.com/css?family=Satisfy"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <table class="cert">
+      <tr>
+        <td align="center" class="crt_logo">
+          <img
+            src="https://siasky.net/AAAW-h21PPBfkDsDaL1HwKasKBKc08i6Euz8I_9CLM3eww"
+            alt="logo"
+          />
+        </td>
+      </tr>
+      <tr>
+        <td align="center">
+          <h1 class="crt_title">Certificate Of Completion</h1>
+          <h2>This Certificate is Awarded to</h2>
+          <h1 class="colorGreen crt_user">${name}</h1>
+          <h3 class="afterName">
+            For their completion of the 'Intro to Skynet workshop'.
+          </h3>
+          <h3>Awarded on ${month}/${day}/${year}</h3>
+        </td>
+      </tr>
+      <tr>
+        <td align="center" class="crt_logo">
+          <img src=${imageSource} alt="logo" />
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>
+`;
+  /* eslint-enable */
 };
 
 export { WebPage };
