@@ -13,8 +13,8 @@ to skynet.
 2.  Initiate Skynet Client by adding the code to `src/Add.js`
 
 ```javascript
-import { SkynetClient } from 'skynet-js';
-const portalURL = 'https://siasky.net';
+import { SkynetClient } from "skynet-js";
+const portalURL = "https://siasky.net";
 const client = new SkynetClient(portalURL);
 ```
 
@@ -22,47 +22,49 @@ It is important to note here that we are defining the `portalURL` to allow
 for the testing on `localhost`, otherwise we can simply leave it blank.
 
 3. Create the upload functionality. Add the following code that will upload
-   file in `handleSubmit` in `src/App.js`
+   file in `handleFileUpload` in `src/App.js`
 
 ```javascript
 try {
-	const { skylink } = await client.uploadFile(file);
+  // Upload user's file
+  const { skylink } = await client.uploadFile(file);
 
-	// Set state
-	const link = portalURL + '/' + skylink.replace('sia:', '');
-	setFileSkylink(link);
-	console.log('File Uploaded', link);
+  // Set state
+  const link = portalURL + "/" + skylink.replace("sia:", "");
+  setFileSkylink(link);
+  console.log("File Uploaded", link);
 } catch (error) {
-	console.log(error);
+  console.log(error);
 }
 ```
 
 4. Test it out!
 
-## Step 2: Upload a Web Page
-
-TODO:
-
--   Update webpage to return straight HTML. JSX elements can't be uploaded
+## Step 2: Upload a Web Page (working)
 
 Now that we have successfully uploaded a file, let's upload a webpage.
 
-1. Import the helper `WebPage` component in `src/App.js`.
+1. Create the upload functionality. Add the following code that will upload
+   file in `handleWebPageUpload` in `src/App.js`
 
 ```javascript
-import { WebPage } from './webpage';
+try {
+  // Create WebPage
+  const page = WebPage(name, fileSkylink);
+
+  // Upload user's webpage
+  const { skylink } = await client.uploadFile(page);
+
+  // Set state
+  const link = portalURL + "/" + skylink.replace("sia:", "");
+  setWebPageSkylink(link);
+  console.log("WebPage Uploaded", link);
+} catch (error) {
+  console.log(error);
+}
 ```
 
-2. Uncomment the Name input field and name `userState` definition
-
-3. After the user's file is uploaded, upload the webpage  
-   TODO: Need to figure this part out
-
-```javascript
-TODO: code snippet
-```
-
-4. Test it out!  
+2. Test it out!\
    Now the user can submit their name and picture and generate their very own
    webpage on Skynet!
 
@@ -70,8 +72,8 @@ TODO: code snippet
 
 TODO
 
--   Have SkyDB have profile information and link to webpage
--   When info changes, update SkyDB and skylink to webpage
+- Have SkyDB have profile information and link to webpage
+- When info changes, update SkyDB and skylink to webpage
 
 Having your own webpage on Skynet is pretty cool, however since skylinks are
 immutable, the user can't change their webpage without changing the skylink. Let's make this webpage editable with SkyDB.
