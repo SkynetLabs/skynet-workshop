@@ -3,6 +3,10 @@
 Welcome! In this repo you will find a basic react app that is ready for you to
 use to get started with developing on skynet!
 
+## Prerequisits
+1. [NodeJS](https://nodejs.org/) installed
+1. Close this repo
+
 ## Step 1: Upload a file
 
 Let us first cover the most basic functionality of Skynet, uploading data.
@@ -39,7 +43,8 @@ try {
 }
 ```
 
-4. Test it out!
+4. Test it out!\
+Run `yarn start` and check out the app at `localhost:3000`
 
 ## Step 2: Upload a Web Page
 
