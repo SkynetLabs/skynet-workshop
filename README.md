@@ -78,9 +78,15 @@ TODO
 Having your own webpage on Skynet is pretty cool, however since skylinks are
 immutable, the user can't change their webpage without changing the skylink. Let's make this webpage editable with SkyDB.
 
-1. Import genSeed
-1. Add Seed input to Form
-1. Add getJSON and setJSON methods
+1. First we need to import the `genKeyPariFromSeed` method from `skynet-js`.
+
+```javascript
+import { SkynetClient, genKeyPairFromSeed } from "skynet-js";
+```
+
+2. Add Seed input to Form
+
+3. Add getJSON and setJSON methods
 
 ## Step 3B: HNS
 
