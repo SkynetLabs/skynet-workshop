@@ -15,6 +15,8 @@ import { WebPage } from "./webpage";
 
 // TODO: add Step 1 import code here
 
+// TODO: Add Step 3 variable here
+
 // asyncFunc is a helper function for error handling async function calls
 function asyncFunc(promise) {
   return promise
@@ -37,6 +39,7 @@ function App() {
   const [webpageSkylink, setWebPageSkylink] = useState("");
   // Step 3
   const [seed, setSeed] = useState("");
+  const [registryURL, setRegistryURL] = useState("");
 
   // Handle form submission
   const handleSubmit = async (event) => {
@@ -111,6 +114,15 @@ function App() {
     console.log("User data saved to SkyDB!");
   };
 
+  const handleRegistryURL = async (event) => {
+    event.preventDefault();
+    setLoading(true);
+
+    // TODO: Fill in code to load user data from SkyDB here
+
+    setLoading(false);
+  };
+
   return (
     <div className="App">
       <h1>Welcome to Skynet!</h1>
@@ -130,6 +142,7 @@ function App() {
               <Form.Control
                 type="text"
                 placeholder="Enter your Seed"
+                value={seed}
                 onChange={(e) => {
                   setSeed(e.target.value);
                 }}
@@ -144,6 +157,14 @@ function App() {
             >
               Load Data
             </Button>
+            <Button
+              variant="default"
+              onClick={(e) => {
+                handleRegistryURL(e);
+              }}
+            >
+              See Registry URL
+            </Button>
 
             <br />
             <br />
@@ -153,6 +174,7 @@ function App() {
               <Form.Control
                 type="text"
                 placeholder="Enter your name"
+                value={name}
                 onChange={(e) => {
                   setName(e.target.value);
                 }}
@@ -186,6 +208,12 @@ function App() {
           <br />
           {webpageSkylink && (
             <Button href={webpageSkylink}>View Webpage on Skynet</Button>
+          )}
+
+          {/* Show button to view the user's registry URL */}
+          <br />
+          {registryURL && (
+            <Button href={registryURL}>View the Registry URL</Button>
           )}
         </>
       )}
