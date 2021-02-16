@@ -8,7 +8,7 @@ import logo from "./skynet_logo.svg";
 import "./App.css";
 
 // Import bootstrap
-import { Button, Form } from "react-bootstrap";
+import { Button, Col, Form, Row } from "react-bootstrap";
 
 // Step 2
 import { WebPage } from "./webpage";
@@ -20,9 +20,9 @@ import { WebPage } from "./webpage";
 // asyncFunc is a helper function for error handling async function calls
 function asyncFunc(promise) {
   return promise
-    .then((data) => [null, data])
+    .then((data) => [data, null])
     .catch((err) => {
-      return [err]; // which is same as [err, undefined];
+      return [null, err];
     });
 }
 
@@ -48,7 +48,7 @@ function App() {
     setLoading(true);
 
     // Step 1: Upload File
-    const [fileErr] = await asyncFunc(handleFileUpload(event));
+    const [filelink, fileErr] = await asyncFunc(handleFileUpload(event));
     if (fileErr) {
       console.error("error from file upload", fileErr);
       setLoading(false);
@@ -56,7 +56,9 @@ function App() {
     }
 
     // Step 2: Upload Webpage
-    const [webpageErr] = await asyncFunc(handleWebPageUpload(event));
+    const [weblink, webpageErr] = await asyncFunc(
+      handleWebPageUpload(event, filelink)
+    );
     if (webpageErr) {
       console.error("error from webpage upload", webpageErr);
       setLoading(false);
@@ -64,7 +66,7 @@ function App() {
     }
 
     // Step 3: Save to SkyDB
-    const [skydbErr] = await asyncFunc(saveData(event));
+    const [skydbErr] = await asyncFunc(saveData(event, filelink, weblink));
     if (skydbErr) {
       console.error("error from skyDB upload", skydbErr);
       setLoading(false);
@@ -85,7 +87,7 @@ function App() {
   };
 
   // handleWebPageUpload is the function used to upload the webpage
-  const handleWebPageUpload = async (event) => {
+  const handleWebPageUpload = async (event, filelink) => {
     event.preventDefault();
     console.log("Uploading WebPage");
 
@@ -105,7 +107,7 @@ function App() {
     console.log("User data loaded from SkyDB!");
   };
 
-  const saveData = async (event) => {
+  const saveData = async (event, fileLink, webpageLink) => {
     event.preventDefault();
     console.log("Saving user data to SkyDB");
 
@@ -117,9 +119,11 @@ function App() {
   const handleRegistryURL = async (event) => {
     event.preventDefault();
     setLoading(true);
-
+    console.log("Generating registryURL");
+    
     // TODO: Fill in code to load user data from SkyDB here
 
+    console.log("RegistryURL generated!");
     setLoading(false);
   };
 
@@ -148,25 +152,28 @@ function App() {
                 }}
               />
             </Form.Group>
-
-            <Button
-              variant="primary"
-              onClick={(e) => {
-                loadData(e);
-              }}
-            >
-              Load Data
-            </Button>
-            <Button
-              variant="default"
-              onClick={(e) => {
-                handleRegistryURL(e);
-              }}
-            >
-              See Registry URL
-            </Button>
-
-            <br />
+            <Row>
+              <Col>
+                <Button
+                  variant="success"
+                  onClick={(e) => {
+                    loadData(e);
+                  }}
+                >
+                  Load Data
+                </Button>
+              </Col>
+              <Col>
+                <Button
+                  variant="success"
+                  onClick={(e) => {
+                    handleRegistryURL(e);
+                  }}
+                >
+                  See Registry URL
+                </Button>
+              </Col>
+            </Row>
             <br />
 
             {/* Input for name */}
@@ -200,21 +207,25 @@ function App() {
 
           {/* Show button to view user's file on skynet once uploaded */}
           <br />
-          {fileSkylink && (
-            <Button href={fileSkylink}>View File on Skynet</Button>
-          )}
-
-          {/* Show button to view user's webpage on skynet once uploaded */}
-          <br />
-          {webpageSkylink && (
-            <Button href={webpageSkylink}>View Webpage on Skynet</Button>
-          )}
-
-          {/* Show button to view the user's registry URL */}
-          <br />
-          {registryURL && (
-            <Button href={registryURL}>View the Registry URL</Button>
-          )}
+          <Row>
+            <Col>
+              {fileSkylink && (
+                <Button href={fileSkylink}>View File on Skynet</Button>
+              )}
+            </Col>
+            <Col>
+              {/* Show button to view user's webpage on skynet once uploaded */}
+              {webpageSkylink && (
+                <Button href={webpageSkylink}>View Webpage on Skynet</Button>
+              )}
+            </Col>
+            <Col>
+              {/* Show button to view the user's registry URL */}
+              {registryURL && (
+                <Button href={registryURL}>View the Registry URL</Button>
+              )}
+            </Col>
+          </Row>
         </>
       )}
     </div>

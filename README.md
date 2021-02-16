@@ -33,6 +33,7 @@ try {
   const link = portalURL + "/" + skylink.replace("sia:", "");
   setFileSkylink(link);
   console.log("File Uploaded", link);
+  return link;
 } catch (error) {
   console.log(error);
 }
@@ -50,7 +51,7 @@ Now that we have successfully uploaded a file, let's upload a webpage.
 ```javascript
 try {
   // Create WebPage
-  const page = WebPage(name, fileSkylink);
+  const page = WebPage(name, filelink);
 
   // Upload user's webpage
   const { skylink } = await client.uploadFile(page);
@@ -59,6 +60,7 @@ try {
   const link = portalURL + "/" + skylink.replace("sia:", "");
   setWebPageSkylink(link);
   console.log("WebPage Uploaded", link);
+  return link;
 } catch (error) {
   console.log(error);
 }
@@ -82,10 +84,11 @@ import { SkynetClient, genKeyPairFromSeed } from "skynet-js";
 2. Next we want to define the SkyDB entry `datakey` that we will be working with.
 
 ```javascript
-const datakey = "workshop";
+const dataKey = "workshop";
 ```
 
-3. Add the code for loading the user's data from SkyDB with getJSON
+3. Create the functionality to load the user's data from SkyDB. Add the
+   following code that will use `getJSON` to `loadData` in `src/App.js`
 
 ```javascript
 // Generate the user's public key
@@ -93,7 +96,7 @@ const { publicKey } = genKeyPairFromSeed(seed);
 
 // Use getJSON to load the user's information from SkyDB
 try {
-  const { data, revision } = await client.db.getJSON(publicKey, datakey);
+  const { data } = await client.db.getJSON(publicKey, dataKey);
   if (data) {
     setName(data.name);
     setFileSkylink(data.fileskylink);
@@ -104,7 +107,8 @@ try {
 }
 ```
 
-4. Add the code for saving the user's data to SkyDB with setJSON
+4. Create the functionality to save the user's data to SkyDB. Add the
+   following code that will use `setJSON` to `saveData` in `src/App.js`
 
 ```javascript
 // Generate the user's private key
@@ -113,8 +117,8 @@ const { privateKey } = genKeyPairFromSeed(seed);
 // Create a json object with the relavant data
 const json = {
   name: name,
-  fileskylink: fileSkyLink,
-  webpageskylink: webpageSkyLink,
+  fileskylink: fileLink,
+  webpageskylink: webpageLink,
 };
 
 // Use setJSON to save the user's information to SkyDB
@@ -130,6 +134,10 @@ try {
 
 ## Step 3B: HNS
 
+TODO
+
+- Need to make sure the registry URL points to the webpage
+
 Now that we have the code updating the user's information in SkyDB, we want
 to be able to easily see those updates. This is where Handshake domains come
 in. Let's see how we would link this user's data with an HNS domain.
@@ -138,7 +146,7 @@ in. Let's see how we would link this user's data with an HNS domain.
 
 ```javascript
 // Generate the user's private key
-const { privateKey } = genKeyPairFromSeed(seed);
+const { publicKey } = genKeyPairFromSeed(seed);
 
 // Use getEntryUrl to generate the registry URl for this SkyDB Entry
 try {
