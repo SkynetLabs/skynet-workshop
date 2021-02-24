@@ -30,18 +30,19 @@ for the testing on `localhost`, otherwise we can simply leave it blank.
    file in `handleFileUpload` in `src/App.js`
 
 ```javascript
-try {
-  // Upload user's file
-  const { skylink } = await client.uploadFile(file);
+// Upload user's file
+    let res = await client.uploadFile(file).catch((error) => {
+      console.log("error uploading file", error);
+    });
+    if (!res) {
+      setLoading(false);
+      return;
+    }
 
-  // Set state
-  const link = portalURL + "/" + skylink.replace("sia:", "");
-  setFileSkylink(link);
-  console.log("File Uploaded", link);
-  return link;
-} catch (error) {
-  console.log(error);
-}
+    // Set state
+    const fileLink = portalURL + "/" + res.skylink.replace("sia:", "");
+    setFileSkylink(fileLink);
+    console.log("File Uploaded", fileLink);
 ```
 
 4. Test it out!\
@@ -49,27 +50,30 @@ try {
 
 ## Step 2: Upload a Web Page
 
+TODO: change to upload directory with index.html
+
 Now that we have successfully uploaded a file, let's upload a webpage.
 
 1. Create the upload functionality. Add the following code that will upload
    file in `handleWebPageUpload` in `src/App.js`
 
 ```javascript
-try {
-  // Create WebPage
-  const page = WebPage(name, filelink);
+// Create WebPage
+    const page = WebPage(name, fileLink);
 
-  // Upload user's webpage
-  const { skylink } = await client.uploadFile(page);
+    // Upload user's webpage
+    res = await client.uploadFile(page).catch((error) => {
+      console.log("error uploading webpage", error);
+    });
+    if (!res) {
+      setLoading(false);
+      return;
+    }
 
-  // Set state
-  const link = portalURL + "/" + skylink.replace("sia:", "");
-  setWebPageSkylink(link);
-  console.log("WebPage Uploaded", link);
-  return link;
-} catch (error) {
-  console.log(error);
-}
+    // Set state
+    const webLink = portalURL + "/" + res.skylink.replace("sia:", "");
+    setWebPageSkylink(webLink);
+    console.log("WebPage Uploaded", webLink);
 ```
 
 2. Test it out!\
@@ -124,7 +128,7 @@ const { privateKey } = genKeyPairFromSeed(seed);
 const json = {
   name: name,
   fileskylink: fileLink,
-  webpageskylink: webpageLink,
+      webpageskylink: webLink,
 };
 
 // Use setJSON to save the user's information to SkyDB
@@ -141,6 +145,9 @@ try {
 ## Step 3B: HNS
 
 TODO
+1. Look at how Karol is doing it in his GitHub actions
+1. Link to that tooling
+1. Look at linking to dLink
 
 - Need to make sure the registry URL points to the webpage
 
@@ -174,6 +181,10 @@ try {
 ## Step 4: Identity
 
 Coming soon...
+
+## Step 5: Deployment
+
+TODO
 
 ### Developing this Workshop
 

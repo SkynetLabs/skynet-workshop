@@ -17,15 +17,6 @@ import { WebPage } from "./webpage";
 
 // TODO: Add Step 3 variable here
 
-// asyncFunc is a helper function for error handling async function calls
-function asyncFunc(promise) {
-  return promise
-    .then((data) => [data, null])
-    .catch((err) => {
-      return [null, err];
-    });
-}
-
 function App() {
   // Define app state
   //
@@ -48,52 +39,25 @@ function App() {
     setLoading(true);
 
     // Step 1: Upload File
-    const [filelink, fileErr] = await asyncFunc(handleFileUpload(event));
-    if (fileErr) {
-      console.error("error from file upload", fileErr);
-      setLoading(false);
-      return;
-    }
+    console.log("Uploading file");
+    // Step 1 code starts here
+
+    // Step 1 code ends here
 
     // Step 2: Upload Webpage
-    const [weblink, webpageErr] = await asyncFunc(
-      handleWebPageUpload(event, filelink)
-    );
-    if (webpageErr) {
-      console.error("error from webpage upload", webpageErr);
-      setLoading(false);
-      return;
-    }
+    console.log("Uploading Webpage");
+    // Step 2: code starts here
+
+    // Step 2: code ends here
 
     // Step 3: Save to SkyDB
-    const [skydbErr] = await asyncFunc(saveData(event, filelink, weblink));
-    if (skydbErr) {
-      console.error("error from skyDB upload", skydbErr);
-      setLoading(false);
-      return;
-    }
+    console.log("Saving user data to SkyDB");
+
+    // Step 3: code start here
+
+    // Step 3: code ends here
 
     setLoading(false);
-  };
-
-  // handleFileUpload is the function used to upload the file
-  const handleFileUpload = async (event) => {
-    event.preventDefault();
-    console.log("Uploading File");
-
-    // TODO: Fill in code to upload file
-
-    console.log("File Uploaded!");
-  };
-
-  // handleWebPageUpload is the function used to upload the webpage
-  const handleWebPageUpload = async (event, filelink) => {
-    event.preventDefault();
-    console.log("Uploading WebPage");
-
-    // TODO: Fill in code to upload webpage
-
-    console.log("WebPage Uploaded!");
   };
 
   const loadData = async (event) => {
@@ -101,19 +65,9 @@ function App() {
     setLoading(true);
     console.log("Loading user data from SkyDB");
 
-    // TODO: Fill in code to load user data from SkyDB here
 
     setLoading(false);
     console.log("User data loaded from SkyDB!");
-  };
-
-  const saveData = async (event, fileLink, webpageLink) => {
-    event.preventDefault();
-    console.log("Saving user data to SkyDB");
-
-    // TODO: Fill in code to save user data to SkyDB
-
-    console.log("User data saved to SkyDB!");
   };
 
   const handleRegistryURL = async (event) => {
@@ -142,7 +96,7 @@ function App() {
           {/* Basic input form */}
           <Form onSubmit={handleSubmit}>
             {/* Input for seed */}
-            <Form.Group inline>
+            <Form.Group>
               <Form.Control
                 type="text"
                 placeholder="Enter your Seed"
@@ -177,7 +131,7 @@ function App() {
             <br />
 
             {/* Input for name */}
-            <Form.Group inline>
+            <Form.Group>
               <Form.Control
                 type="text"
                 placeholder="Enter your name"
@@ -191,7 +145,7 @@ function App() {
             <br />
 
             {/* Input for file */}
-            <Form.Group inline>
+            <Form.Group>
               <Form.File
                 onChange={(e) => {
                   setFile(e.target.files[0]);
