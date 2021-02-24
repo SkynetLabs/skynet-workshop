@@ -120,7 +120,7 @@ function App() {
     event.preventDefault();
     setLoading(true);
     console.log("Generating registryURL");
-    
+
     // TODO: Fill in code to load user data from SkyDB here
 
     console.log("RegistryURL generated!");

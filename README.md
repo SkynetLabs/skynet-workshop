@@ -4,6 +4,7 @@ Welcome! In this repo you will find a basic react app that is ready for you to
 use to get started with developing on skynet!
 
 ## Prerequisits
+
 1. [NodeJS](https://nodejs.org/) installed
 1. Close this repo
 
@@ -44,7 +45,7 @@ try {
 ```
 
 4. Test it out!\
-Run `yarn start` and check out the app at `localhost:3000`
+   Run `yarn start` and check out the app at `localhost:3000`
 
 ## Step 2: Upload a Web Page
 

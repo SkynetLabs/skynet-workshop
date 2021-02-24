@@ -1,111 +1,71 @@
 // Create the HTML file for the Skynet content.
 const WebPage = (name, imageSource) => {
-  return new File([html(name, imageSource)], "index.html", {
+  return new File([certificate(name, imageSource)], "index.html", {
     type: "text/html",
   });
 };
 
-// html creates an html page
-const html = (name, imageSource) => {
+const certificate = (name, imageSource) => {
+  // Define date variables
   const today = new Date();
   const day = today.getDate();
   const month = today.getMonth() + 1;
   const year = today.getFullYear();
 
+  // Define sources
+  const resources =
+    "https://siasky.net/PALEjinbHTTnydodyL370S9koJByTPBIdN5VlANcxfucmA";
+
   /* eslint-disable */
   return `
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8" />
-    <title>Skynet-Generated Webpage</title>
-    <style>
-      .cert {
-        border: 15px solid #0072c6;
-        border-right: 15px solid #0894fb;
-        border-left: 15px solid #0894fb;
-        width: 700px;
-        font-family: arial;
-        color: #383737;
-      }
-      .crt_title {
-        margin-top: 30px;
-        font-family: "Satisfy", cursive;
-        font-size: 40px;
-        letter-spacing: 1px;
-        color: #0060a9;
-      }
-      .crt_logo img {
-        width: 130px;
-        height: auto;
-        margin: auto;
-        padding: 30px;
-      }
-      .colorGreen {
-        color: #27ae60;
-      }
-      .crt_user {
-        display: inline-block;
-        width: 80%;
-        padding: 5px 25px;
-        margin-bottom: 0px;
-        padding-bottom: 0px;
-        font-family: "Satisfy", cursive;
-        font-size: 40px;
-        border-bottom: 1px dashed #cecece;
-      }
-      .afterName {
-        font-weight: 100;
-        color: #383737;
-      }
-      .colorGrey {
-        color: grey;
-      }
-      .certSign {
-        width: 200px;
-      }
-      @media (max-width: 700px) {
-        .cert {
-          width: 100%;
-        }
-      }
-    </style>
-    <link
-      href="https://fonts.googleapis.com/css?family=Satisfy"
-      rel="stylesheet"
-    />
-  </head>
-  <body>
-    <table class="cert">
-      <tr>
-        <td align="center" class="crt_logo">
-          <img
-            src="https://siasky.net/AAAW-h21PPBfkDsDaL1HwKasKBKc08i6Euz8I_9CLM3eww"
-            alt="logo"
-          />
-        </td>
-      </tr>
-      <tr>
-        <td align="center">
-          <h1 class="crt_title">Certificate Of Completion</h1>
-          <h2>This Certificate is Awarded to</h2>
-          <h1 class="colorGreen crt_user">${name}</h1>
-          <h3 class="afterName">
-            For their completion of the 'Intro to Skynet workshop'.
-          </h3>
-          <h3>Awarded on ${month}/${day}/${year}</h3>
-        </td>
-      </tr>
-      <tr>
-        <td align="center" class="crt_logo">
-          <img src=${imageSource} alt="logo" />
-        </td>
-      </tr>
-    </table>
-  </body>
+<html lang="en" dir="ltr">
+	<head>
+		<meta charset="utf-8">
+		<title>Skynet Certificate</title>
+		<meta name="description" content="Certificate">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="${resources}/css/reset.css" type="text/css" />
+		<link rel="stylesheet" href="${resources}/css/style.css" type="text/css" />
+	</head>
+
+	<body>
+		<div class="content-container">
+			<div class="logo">
+				<img src="${resources}/images/skynet-logo.svg" alt="Logo Skynet" />
+			</div>
+			
+			<h1>Certificate Of Completion</h1>
+			<div class="ribbon">
+				<img src="${resources}/images/ribbon.png" alt="Ribbon" />
+			</div>
+					
+			<h2>This Certificate is Awarded to</h2>
+					
+			<h3>${name}</h3>
+						
+			<div class="completion">
+				<p>For their completion of the</p>
+			</div>
+			
+			<div class="workshop">
+				<p>'Intro to Skynet workshop'</p>
+			</div>
+						
+			<div class="date">
+				<span>Awarded on ${month}/${day}/${year}</span>
+			</div>
+						
+			<div class="avatar">
+				<img src=${imageSource} alt="Avatar">
+			</div>
+							
+			<footer>Sia Skynet 2021, all rights reserved</footer>				
+		</div>
+	</body>
+
 </html>
 `;
   /* eslint-enable */
 };
-
 export { WebPage };
