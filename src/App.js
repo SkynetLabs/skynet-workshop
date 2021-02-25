@@ -10,8 +10,11 @@ import "./App.css";
 // Import bootstrap
 import { Button, Col, Form, Row } from "react-bootstrap";
 
+// Drag and Drop Files
+import { FileDrop } from "./components/filedrop";
+
 // Step 2
-import { WebPage } from "./webpage";
+import { WebPage } from "./components/webpage";
 
 // TODO: add Step 1 import code here
 
@@ -64,7 +67,6 @@ function App() {
     event.preventDefault();
     setLoading(true);
     console.log("Loading user data from SkyDB");
-
 
     setLoading(false);
     console.log("User data loaded from SkyDB!");
@@ -146,11 +148,7 @@ function App() {
 
             {/* Input for file */}
             <Form.Group>
-              <Form.File
-                onChange={(e) => {
-                  setFile(e.target.files[0]);
-                }}
-              />
+              <FileDrop />
             </Form.Group>
 
             <br />

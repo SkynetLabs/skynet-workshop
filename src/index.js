@@ -1,9 +1,14 @@
+// Custom css
+import "./index.css";
+
+// Bootstrap css
+import "bootstrap/dist/css/bootstrap.min.css";
+
+// React Imports
 import React from "react";
 import ReactDOM from "react-dom";
-import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import "bootstrap/dist/css/bootstrap.min.css";
 
 ReactDOM.render(
   <React.StrictMode>

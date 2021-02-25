@@ -3,6 +3,9 @@
 Welcome! In this repo you will find a basic react app that is ready for you to
 use to get started with developing on skynet!
 
+The goal of this workshop is to provide developers with examples of the
+important concepts of developing an app on skynet.
+
 ## Prerequisits
 
 1. [NodeJS](https://nodejs.org/) installed
@@ -31,18 +34,18 @@ for the testing on `localhost`, otherwise we can simply leave it blank.
 
 ```javascript
 // Upload user's file
-    let res = await client.uploadFile(file).catch((error) => {
-      console.log("error uploading file", error);
-    });
-    if (!res) {
-      setLoading(false);
-      return;
-    }
+let res = await client.uploadFile(file).catch((error) => {
+  console.log("error uploading file", error);
+});
+if (!res) {
+  setLoading(false);
+  return;
+}
 
-    // Set state
-    const fileLink = portalURL + "/" + res.skylink.replace("sia:", "");
-    setFileSkylink(fileLink);
-    console.log("File Uploaded", fileLink);
+// Set state
+const fileLink = portalURL + "/" + res.skylink.replace("sia:", "");
+setFileSkylink(fileLink);
+console.log("File Uploaded", fileLink);
 ```
 
 4. Test it out!\
@@ -59,21 +62,21 @@ Now that we have successfully uploaded a file, let's upload a webpage.
 
 ```javascript
 // Create WebPage
-    const page = WebPage(name, fileLink);
+const page = WebPage(name, fileLink);
 
-    // Upload user's webpage
-    res = await client.uploadFile(page).catch((error) => {
-      console.log("error uploading webpage", error);
-    });
-    if (!res) {
-      setLoading(false);
-      return;
-    }
+// Upload user's webpage
+res = await client.uploadFile(page).catch((error) => {
+  console.log("error uploading webpage", error);
+});
+if (!res) {
+  setLoading(false);
+  return;
+}
 
-    // Set state
-    const webLink = portalURL + "/" + res.skylink.replace("sia:", "");
-    setWebPageSkylink(webLink);
-    console.log("WebPage Uploaded", webLink);
+// Set state
+const webLink = portalURL + "/" + res.skylink.replace("sia:", "");
+setWebPageSkylink(webLink);
+console.log("WebPage Uploaded", webLink);
 ```
 
 2. Test it out!\
@@ -128,7 +131,7 @@ const { privateKey } = genKeyPairFromSeed(seed);
 const json = {
   name: name,
   fileskylink: fileLink,
-      webpageskylink: webLink,
+  webpageskylink: webLink,
 };
 
 // Use setJSON to save the user's information to SkyDB
@@ -145,6 +148,7 @@ try {
 ## Step 3B: HNS
 
 TODO
+
 1. Look at how Karol is doing it in his GitHub actions
 1. Link to that tooling
 1. Look at linking to dLink
