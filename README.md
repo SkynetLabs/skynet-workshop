@@ -15,35 +15,44 @@ important concepts of developing an app on skynet.
 
 Let us first cover the most basic functionality of Skynet, uploading data.
 Follow the steps below to update this app to allow the user to upload a file
-to skynet.
+to skynet. For this example we are asking the user to upload a picture.
 
 1.  Install `skynet-js` with `yarn add skynet-js`
-2.  Initiate Skynet Client by adding the code to `src/Add.js`
+2.  Initiate Skynet Client by adding the code to `src/Add.js` for `Step 1.2`
 
 ```javascript
-import { SkynetClient } from "skynet-js";
-const portalURL = "https://siasky.net";
-const client = new SkynetClient(portalURL);
+// Import the SkynetClient and the defaultPortalUrl
+import { SkynetClient, defaultPortalUrl } from "skynet-js";
+
+// Check if the portal is localhost, if so, set it to siasky.net for local
+// development.
+let portal = defaultPortalUrl();
+if (portal.includes("localhost")) {
+  portal = "https://siasky.net/";
+}
+
+// Initiate the skynet client
+const client = new SkynetClient(portal);
 ```
 
-It is important to note here that we are defining the `portalURL` to allow
-for the testing on `localhost`, otherwise we can simply leave it blank.
-
 3. Create the upload functionality. Add the following code that will upload
-   file in `handleFileUpload` in `src/App.js`
+   file in `handleSubmit` in `src/App.js` for `Step 1.3`
 
 ```javascript
 // Upload user's file
 let res = await client.uploadFile(file).catch((error) => {
   console.log("error uploading file", error);
 });
+
+// Check for a response
 if (!res) {
   setLoading(false);
   return;
 }
 
-// Set state
-const fileLink = portalURL + "/" + res.skylink.replace("sia:", "");
+// Set App state
+// NOTE: This is for this app specifically, not required.
+const fileLink = portal + "/" + res.skylink.replace("sia:", "");
 setFileSkylink(fileLink);
 console.log("File Uploaded", fileLink);
 ```
@@ -53,28 +62,37 @@ console.log("File Uploaded", fileLink);
 
 ## Step 2: Upload a Web Page
 
-TODO: change to upload directory with index.html
-
-Now that we have successfully uploaded a file, let's upload a webpage.
+Now that we have successfully uploaded a file, let's upload a webpage. To do
+this, we will be uploading a directory with an `index.html` file. Skynet
+supports directory uploads and if the directory has an `index.html` file it
+will render that file. This enables uploading websites and applications as a
+directory for easy deployment.
 
 1. Create the upload functionality. Add the following code that will upload
-   file in `handleWebPageUpload` in `src/App.js`
+   the directory in `handleSubmit` in `src/App.js` for `Step 2.1`
 
 ```javascript
 // Create WebPage
-const page = WebPage(name, fileLink);
+const webPage = WebPage(name);
+const webDirectory = {
+  "index.html": webPage,
+  "image.jpg": file,
+};
 
 // Upload user's webpage
-res = await client.uploadFile(page).catch((error) => {
+res = await client.uploadDirectory(webPage, "certificate").catch((error) => {
   console.log("error uploading webpage", error);
 });
+
+// Check for a response
 if (!res) {
   setLoading(false);
   return;
 }
 
-// Set state
-const webLink = portalURL + "/" + res.skylink.replace("sia:", "");
+// Set App state
+// NOTE: This is for this app specifically, not required.
+const webLink = portal + "/" + res.skylink.replace("sia:", "");
 setWebPageSkylink(webLink);
 console.log("WebPage Uploaded", webLink);
 ```
@@ -86,15 +104,23 @@ console.log("WebPage Uploaded", webLink);
 ## Step 3: Make it Dynamic
 
 Having your own webpage on Skynet is pretty cool, however since skylinks are
-immutable, the user can't change their webpage without changing the skylink. Let's make this webpage editable with SkyDB.
+immutable, the user can't change their webpage without changing the skylink.
 
-1. First we need to import the `genKeyPariFromSeed` method from `skynet-js`.
+### Part A: SkyDB
+
+The first step to making this webpage editable is hooking it up to SkyDB.
+SkyDB uses a user's seed to access and store information in a simple `Key | Value` store. Although this might seem very basic, it enables some incredible
+functionality on Skynet.
+
+1. First we need to import the `genKeyPariFromSeed` method from
+   `skynet-js`. Add the code to `src/Add.js` for `Step 3A.1`.
 
 ```javascript
-import { SkynetClient, genKeyPairFromSeed } from "skynet-js";
+import { genKeyPairFromSeed } from "skynet-js";
 ```
 
-2. Next we want to define the SkyDB entry `datakey` that we will be working with.
+2. Next we want to define the SkyDB entry `datakey`, this is the `Key` that
+   we will be working with in SkyDB. Add the code to `src/Add.js` for `Step 3A.2`.
 
 ```javascript
 const dataKey = "workshop";
@@ -120,8 +146,8 @@ try {
 }
 ```
 
-4. Create the functionality to save the user's data to SkyDB. Add the
-   following code that will use `setJSON` to `saveData` in `src/App.js`
+TODO: switch order for set and load so that it follows the flow of the file. 4. Create the functionality to save the user's data to SkyDB. Add the
+following code that will use `setJSON` to `saveData` in `src/App.js`
 
 ```javascript
 // Generate the user's private key

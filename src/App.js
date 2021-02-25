@@ -2,12 +2,11 @@
 import { useState } from "react";
 
 // Import App Component
-import { FileDrop } from "./components/filedrop";
-import {Loading} from "./components/loading";
+import { Links } from "./components/links";
+import { Loading } from "./components/loading";
+import { Steps } from "./components/steps";
 import { WebPage } from "./components/webpage";
-
-// Import bootstrap
-import { Button, Col, Form, Nav, Row } from "react-bootstrap";
+import { WorkshopForm } from "./components/form";
 
 /************************************************/
 /*        Step 1.2 Code goes here               */
@@ -30,53 +29,65 @@ import { Button, Col, Form, Nav, Row } from "react-bootstrap";
 /************************************************/
 
 function App() {
-  // Define app state
-  //
-  // Helpers
+  // Define app state helpers
   const [loading, setLoading] = useState(false);
   const [activeKey, setActiveKey] = useState("1");
   const [step2, setStep2] = useState(false);
   const [step3, setStep3] = useState(false);
-  // Step 1
+
+  // Step 1 Helpers
   const [file, setFile] = useState();
   const [fileSkylink, setFileSkylink] = useState("");
-  // Step 2
+
+  // Step 2 Helpers
   const [name, setName] = useState("");
   const [webpageSkylink, setWebPageSkylink] = useState("");
-  // Step 3
+
+  // Step 3 Helpers
   const [seed, setSeed] = useState("");
   const [registryURL, setRegistryURL] = useState("");
 
-  // Handle form submission
+  // Handle form submission. This is where the bulk of the workshop logic is
+  // handled
   const handleSubmit = async (event) => {
     event.preventDefault();
     console.log("form submitted");
     setLoading(true);
 
-    // Step 1: Upload File
+    /************************************************/
+    /*        Step 1: Upload a file                */
+    /************************************************/
     console.log("Uploading file");
+
     /************************************************/
     /*        Step 1.3 Code goes here               */
 
     /************************************************/
 
-    // Step 2: Upload Webpage
+    /************************************************/
+    /*        Step 1: Upload a Web Page             */
+    /************************************************/
     console.log("Uploading Webpage");
+
     /************************************************/
     /*        Step 2.1 Code goes here               */
 
     /************************************************/
 
-    // Step 3: Save to SkyDB
+    /************************************************/
+    /*        Step 3: Make it Dynamic               */
+    /************************************************/
     console.log("Saving user data to SkyDB");
 
-    // Step 3: code start here
+    /************************************************/
+    /*        Step 3A.3 Code goes here               */
 
-    // Step 3: code ends here
+    /************************************************/
 
     setLoading(false);
   };
 
+  // loadData will load the users data from SkyDB
   const loadData = async (event) => {
     event.preventDefault();
     setLoading(true);
@@ -86,6 +97,7 @@ function App() {
     console.log("User data loaded from SkyDB!");
   };
 
+  // handleRegistryURL will handle generating the registry URL for the WebPage
   const handleRegistryURL = async (event) => {
     event.preventDefault();
     setLoading(true);
@@ -97,22 +109,20 @@ function App() {
     setLoading(false);
   };
 
-  const handleSelect = (eventKey, event) => {
+  // handleSelectStep handles selecting the step of the workshop
+  const handleSelectStep = (eventKey, event) => {
     event.preventDefault();
     if (eventKey === "1") {
-      console.log("1 clicked");
       setActiveKey("1");
       setStep2(false);
       setStep3(false);
     }
     if (eventKey === "2") {
-      console.log("2 clicked");
       setActiveKey("2");
       setStep2(true);
       setStep3(false);
     }
     if (eventKey === "3") {
-      console.log("3 clicked");
       setActiveKey("3");
       setStep2(true);
       setStep3(true);
@@ -128,111 +138,30 @@ function App() {
         <Loading />
       ) : (
         <>
-          <Nav
-            variant="tabs"
-            defaultActiveKey={activeKey}
-            onSelect={handleSelect}
-          >
-            <Nav.Item>
-              <Nav.Link eventKey="1">Step 1</Nav.Link>
-            </Nav.Item>
-            <Nav.Item>
-              <Nav.Link eventKey="2">Step 2</Nav.Link>
-            </Nav.Item>
-            <Nav.Item>
-              <Nav.Link eventKey="3">Step 3</Nav.Link>
-            </Nav.Item>
-          </Nav>
+          {/* Steps Nav */}
+          <Steps activeKey={activeKey} handleSelect={handleSelectStep} />
           <br />
-          {/* Basic input form */}
-          <Form onSubmit={handleSubmit}>
-            {/* Input for seed */}
-            {step3 && (
-              <>
-                <Form.Group>
-                  <Form.Control
-                    type="text"
-                    placeholder="Enter your Seed"
-                    value={seed}
-                    onChange={(e) => {
-                      setSeed(e.target.value);
-                    }}
-                  />
-                </Form.Group>
-                <Row>
-                  <Col>
-                    <Button
-                      variant="success"
-                      onClick={(e) => {
-                        loadData(e);
-                      }}
-                    >
-                      Load Data
-                    </Button>
-                  </Col>
-                  <Col>
-                    <Button
-                      variant="success"
-                      onClick={(e) => {
-                        handleRegistryURL(e);
-                      }}
-                    >
-                      See Registry URL
-                    </Button>
-                  </Col>
-                </Row>
-                <br />
-              </>
-            )}
-            {/* Input for name */}
-            {step2 && (
-              <>
-                {" "}
-                <Form.Group>
-                  <Form.Control
-                    type="text"
-                    placeholder="Enter your name"
-                    value={name}
-                    onChange={(e) => {
-                      setName(e.target.value);
-                    }}
-                  />
-                </Form.Group>
-                <br />
-              </>
-            )}
-            {/* Input for file */}
-            <Form.Group>
-              <FileDrop />
-            </Form.Group>
 
-            <br />
-            <Button variant="success" type="submit">
-              Send to Skynet
-            </Button>
-          </Form>
+          {/* Workshop input form */}
+          <WorkshopForm
+            handleRegistryURL={handleRegistryURL}
+            handleSubmit={handleSubmit}
+            loadData={loadData}
+            name={name}
+            seed={seed}
+            setName={setName}
+            setSeed={setSeed}
+            step2={step2}
+            step3={step3}
+          />
+          <br />
 
           {/* Show button to view user's file on skynet once uploaded */}
-          <br />
-          <Row>
-            <Col>
-              {fileSkylink && (
-                <Button href={fileSkylink}>View File on Skynet</Button>
-              )}
-            </Col>
-            <Col>
-              {/* Show button to view user's webpage on skynet once uploaded */}
-              {webpageSkylink && (
-                <Button href={webpageSkylink}>View Webpage on Skynet</Button>
-              )}
-            </Col>
-            <Col>
-              {/* Show button to view the user's registry URL */}
-              {registryURL && (
-                <Button href={registryURL}>View the Registry URL</Button>
-              )}
-            </Col>
-          </Row>
+          <Links
+            fileSkylink={fileSkylink}
+            registryURL={registryURL}
+            webpageSkylink={webpageSkylink}
+          />
         </>
       )}
     </div>
