@@ -22,7 +22,7 @@ to skynet. For this example we are asking the user to upload a picture.
 
 ```javascript
 // Import the SkynetClient and the defaultPortalUrl
-import { SkynetClient, defaultPortalUrl } from "skynet-js";
+import { SkynetClient, defaultPortalUrl, parseSkylink } from "skynet-js";
 
 // Check if the portal is localhost, if so, set it to siasky.net for local
 // development.
@@ -52,9 +52,9 @@ if (!res) {
 
 // Set App state
 // NOTE: This is for this app specifically, not required.
-const fileLink = portal + "/" + res.skylink.replace("sia:", "");
-setFileSkylink(fileLink);
-console.log("File Uploaded", fileLink);
+const rawLink = parseSkylink(res.skylink);
+setFileSkylink(rawLink);
+console.log("File Uploaded", portal + rawLink);
 ```
 
 4. Test it out!\
@@ -92,9 +92,9 @@ if (!res) {
 
 // Set App state
 // NOTE: This is for this app specifically, not required.
-const webLink = portal + "/" + res.skylink.replace("sia:", "");
-setWebPageSkylink(webLink);
-console.log("WebPage Uploaded", webLink);
+const rawLink = parseSkylink(res.skylink);
+setWebPageSkylink(rawLink);
+console.log("WebPage Uploaded", portal + rawLink);
 ```
 
 2. Test it out!\
@@ -108,8 +108,8 @@ immutable, the user can't change their webpage without changing the skylink.
 
 ### Part A: SkyDB
 
-The first step to making this webpage editable is hooking it up to SkyDB.
-SkyDB uses a user's seed to access and store information in a simple `Key | Value` store. Although this might seem very basic, it enables some incredible
+The first step to making this webpage editable is hooking it up to `SkyDB`.
+`SkyDB` uses a user's seed to access and store information in a simple `Key | Value` store. Although this might seem very basic, it enables some incredible
 functionality on Skynet.
 
 1. First we need to import the `genKeyPariFromSeed` method from
@@ -119,41 +119,21 @@ functionality on Skynet.
 import { genKeyPairFromSeed } from "skynet-js";
 ```
 
-2. Next we want to define the SkyDB entry `datakey`, this is the `Key` that
-   we will be working with in SkyDB. Add the code to `src/Add.js` for `Step 3A.2`.
+2. Next we want to define the `SkyDB` entry `datakey`, this is the `Key` that
+   we will be working with in `SkyDB`. Add the code to `src/Add.js` for `Step 3A.2`.
 
 ```javascript
 const dataKey = "workshop";
 ```
 
-3. Create the functionality to load the user's data from SkyDB. Add the
-   following code that will use `getJSON` to `loadData` in `src/App.js`
-
-```javascript
-// Generate the user's public key
-const { publicKey } = genKeyPairFromSeed(seed);
-
-// Use getJSON to load the user's information from SkyDB
-try {
-  const { data } = await client.db.getJSON(publicKey, dataKey);
-  if (data) {
-    setName(data.name);
-    setFileSkylink(data.fileskylink);
-    setWebPageSkylink(data.webpageskylink);
-  }
-} catch (error) {
-  console.log(error);
-}
-```
-
-TODO: switch order for set and load so that it follows the flow of the file. 4. Create the functionality to save the user's data to SkyDB. Add the
-following code that will use `setJSON` to `saveData` in `src/App.js`
+3. Create the functionality to save the user's data to `SkyDB`. Add the
+   following code to `src/App.js` for `Step 3A.3`.
 
 ```javascript
 // Generate the user's private key
 const { privateKey } = genKeyPairFromSeed(seed);
 
-// Create a json object with the relavant data
+// Create a json object with the relevant data
 const json = {
   name: name,
   fileskylink: fileLink,
@@ -168,35 +148,73 @@ try {
 }
 ```
 
+4. Create the functionality to load the user's data from `SkyDB`. Add the
+   following code to `loadData` in `src/App.js` for `Step 3A.4`.
+
+```javascript
+// Generate the user's public key
+const { publicKey } = genKeyPairFromSeed(seed);
+
+// Use getJSON to load the user's information from SkyDB
+const res = await client.db.getJSON(publicKey, dataKey).catch((error) => {
+  console.log("error with getJSON", error);
+});
+
+// Check for a response
+if (!res) {
+  setLoading(false);
+  return;
+}
+
+// Update App State
+// NOTE: This is for this app specifically, not required.
+setName(res.data.name);
+setFileSkylink(res.data.fileskylink);
+setWebPageSkylink(res.data.webpageskylink);
+```
+
 5. Test it out!\
    Now the user can update their information and see those updates!
 
 ## Step 3B: HNS
 
-TODO
-
-1. Look at how Karol is doing it in his GitHub actions
-1. Link to that tooling
 1. Look at linking to dLink
 
 - Need to make sure the registry URL points to the webpage
 
-Now that we have the code updating the user's information in SkyDB, we want
-to be able to easily see those updates. This is where Handshake domains come
-in. Let's see how we would link this user's data with an HNS domain.
+The technology that makes `SkyDB` work is called the `registry`. Now that we
+have the code updating the user's information in `SkyDB`, we want to be able to
+easily see those updates. This is where Handshake domains come in. Let's see
+how we would link this user's data with an HNS domain.
 
-1. First we need to see the registry URL. This a link to the SkyDB content.
+1. First we need to see the registry URL. This a link to the `SkyDB` content.
 
 ```javascript
-// Generate the user's private key
-const { publicKey } = genKeyPairFromSeed(seed);
+// This registry entry is going to be different from the SkyDB entry so we need
+// to handle it slightly differently.
+// First we need a new Data Key as to not overwrite what we put into SkyDB
+const registryDataKey = "registry-workshop");
 
-// Use getEntryUrl to generate the registry URl for this SkyDB Entry
+// As before we need the public and private keys
+const { publicKey, privateKey } = genKeyPairFromSeed(seed);
+
+// Registry entries have revisions. SkyDB handles the revision for us when we us
+// setJSON and getJSON. Since we are working with the registry directly we need
+// to know the revision number.
+const { entry } = await skynetClient.registry.getEntry(publicKey, dataKey);
+const revision = entry ? entry.revision + 1 : 0;
+
 try {
-  const url = client.registry.getEntryUrl(publicKey, dataKey);
-  setRegistryURL(url);
+  // Build the update entry to save to the registry
+  const updatedEntry = { datakey: registryDataKey, revision, data: webpageSkylink };
+  await skynetClient.registry.setEntry(privateKey, updatedEntry);
+
+  // Now that we have updated the registry entry, get the registry entry URL
+  const entryUrl = skynetClient.registry.getEntryUrl(publicKey, dataKey);
+  setRegistryURL(entryUrl)
+  console.log(`Registry entry updated: ${entryUrl}`);
 } catch (error) {
-  console.log(error);
+  console.log(`Failed to update registry entry ${error.message}`);
 }
 ```
 
@@ -214,7 +232,27 @@ Coming soon...
 
 ## Step 5: Deployment
 
-TODO
+Congratulations! You have a fully functioning Skapp! Now it is time to deploy
+it and let the world see its wonder! As we mentioned before, deploying an
+application is as easy as uploading a directory.
+
+1. Build the application with `yarn build`
+
+2. Upload the newly created `build` folder to `https://siasky.net`
+
+3. Done!
+
+Now you might be thinking, `wait, I all I have is this immutable skylink, what if I want to update my Skapp?`. You are right! Having a skylink that
+points to your Skapp isn't very useful because if you make updates to your
+Skapp the Skylink will change. We just learned about the registry and using
+it to link data to an `HNS` domain. You can do that for your app as well!
+
+To make your life even easier, one of our core team members created a super
+useful Github Action to automate that entire process for you. You can find
+the code [here](https://github.com/kwypchlo/deploy-to-skynet-action) and you
+can use [this
+blog](https://blog.sia.tech/automated-deployments-on-skynet-28d2f32f6ca1) to
+help you get started.
 
 ### Developing this Workshop
 

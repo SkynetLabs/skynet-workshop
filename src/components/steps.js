@@ -1,5 +1,7 @@
 import { Nav } from "react-bootstrap";
 
+// TODO: style tabs to match skynet styling
+
 // Steps is a simple nav for switching between the steps in the workshop
 const Steps = (props) => {
   return (

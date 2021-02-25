@@ -80,7 +80,7 @@ function App() {
     console.log("Saving user data to SkyDB");
 
     /************************************************/
-    /*        Step 3A.3 Code goes here               */
+    /*        Step 3A.3 Code goes here              */
 
     /************************************************/
 
@@ -93,6 +93,11 @@ function App() {
     setLoading(true);
     console.log("Loading user data from SkyDB");
 
+    /************************************************/
+    /*        Step 3A.4 Code goes here              */
+
+    /************************************************/
+
     setLoading(false);
     console.log("User data loaded from SkyDB!");
   };
@@ -103,7 +108,10 @@ function App() {
     setLoading(true);
     console.log("Generating registryURL");
 
-    // TODO: Fill in code to load user data from SkyDB here
+    /************************************************/
+    /*        Step 3B.1 Code goes here              */
+
+    /************************************************/
 
     console.log("RegistryURL generated!");
     setLoading(false);
