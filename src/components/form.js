@@ -36,7 +36,7 @@ const WorkshopForm = (props) => {
                   props.handleRegistryURL(e);
                 }}
               >
-                See Registry URL
+                Create Registry URL
               </Button>
             </Col>
           </Row>

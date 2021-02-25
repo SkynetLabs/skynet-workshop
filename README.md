@@ -41,7 +41,7 @@ const client = new SkynetClient(portal);
 ```javascript
 // Upload user's file
 let res = await client.uploadFile(file).catch((error) => {
-  console.log("error uploading file", error);
+  console.log(`error uploading file: ${error.message}`);
 });
 
 // Check for a response
@@ -52,9 +52,9 @@ if (!res) {
 
 // Set App state
 // NOTE: This is for this app specifically, not required.
-const rawLink = parseSkylink(res.skylink);
-setFileSkylink(rawLink);
-console.log("File Uploaded", portal + rawLink);
+const fileLink = parseSkylink(res.skylink);
+setFileSkylink(fileLink);
+console.log("File Uploaded", portal + fileLink);
 ```
 
 4. Test it out!\
@@ -80,9 +80,11 @@ const webDirectory = {
 };
 
 // Upload user's webpage
-res = await client.uploadDirectory(webPage, "certificate").catch((error) => {
-  console.log("error uploading webpage", error);
-});
+res = await client
+  .uploadDirectory(webDirectory, "certificate")
+  .catch((error) => {
+    console.log(`error uploading webpage: ${error.message}`);
+  });
 
 // Check for a response
 if (!res) {
@@ -92,9 +94,9 @@ if (!res) {
 
 // Set App state
 // NOTE: This is for this app specifically, not required.
-const rawLink = parseSkylink(res.skylink);
-setWebPageSkylink(rawLink);
-console.log("WebPage Uploaded", portal + rawLink);
+const webLink = parseSkylink(res.skylink);
+setWebPageSkylink(webLink);
+console.log("WebPage Uploaded", portal + webLink);
 ```
 
 2. Test it out!\
@@ -144,7 +146,7 @@ const json = {
 try {
   await client.db.setJSON(privateKey, dataKey, json);
 } catch (error) {
-  console.log(error);
+  console.log(`error with setJSON: ${error.message}`);
 }
 ```
 
@@ -157,7 +159,7 @@ const { publicKey } = genKeyPairFromSeed(seed);
 
 // Use getJSON to load the user's information from SkyDB
 const res = await client.db.getJSON(publicKey, dataKey).catch((error) => {
-  console.log("error with getJSON", error);
+  console.log(`error with getJSON: ${error.message}`);
 });
 
 // Check for a response
@@ -171,6 +173,7 @@ if (!res) {
 setName(res.data.name);
 setFileSkylink(res.data.fileskylink);
 setWebPageSkylink(res.data.webpageskylink);
+console.log(res);
 ```
 
 5. Test it out!\
@@ -193,7 +196,7 @@ how we would link this user's data with an HNS domain.
 // This registry entry is going to be different from the SkyDB entry so we need
 // to handle it slightly differently.
 // First we need a new Data Key as to not overwrite what we put into SkyDB
-const registryDataKey = "registry-workshop");
+const registryDataKey = "registry-workshop2";
 
 // As before we need the public and private keys
 const { publicKey, privateKey } = genKeyPairFromSeed(seed);
@@ -201,20 +204,24 @@ const { publicKey, privateKey } = genKeyPairFromSeed(seed);
 // Registry entries have revisions. SkyDB handles the revision for us when we us
 // setJSON and getJSON. Since we are working with the registry directly we need
 // to know the revision number.
-const { entry } = await skynetClient.registry.getEntry(publicKey, dataKey);
-const revision = entry ? entry.revision + 1 : 0;
+const { entry } = await client.registry.getEntry(publicKey, registryDataKey);
+const revision = entry ? entry.revision + BigInt(1) : BigInt(0);
 
 try {
   // Build the update entry to save to the registry
-  const updatedEntry = { datakey: registryDataKey, revision, data: webpageSkylink };
-  await skynetClient.registry.setEntry(privateKey, updatedEntry);
+  const updatedEntry = {
+    datakey: registryDataKey,
+    revision,
+    data,
+  };
+  await client.registry.setEntry(privateKey, updatedEntry);
 
   // Now that we have updated the registry entry, get the registry entry URL
-  const entryUrl = skynetClient.registry.getEntryUrl(publicKey, dataKey);
-  setRegistryURL(entryUrl)
+  const entryUrl = client.registry.getEntryUrl(publicKey, registryDataKey);
+  setRegistryURL(entryUrl);
   console.log(`Registry entry updated: ${entryUrl}`);
 } catch (error) {
-  console.log(`Failed to update registry entry ${error.message}`);
+  console.log(`Failed to update registry entry: ${error.message}`);
 }
 ```
 

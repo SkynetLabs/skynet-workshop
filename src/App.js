@@ -10,22 +10,18 @@ import { WorkshopForm } from "./components/form";
 
 /************************************************/
 /*        Step 1.2 Code goes here               */
-
-/************************************************/
-
-/************************************************/
-/*        Step 2.1 Code goes here               */
-
 /************************************************/
 
 /************************************************/
 /*        Step 3A.1 Code goes here               */
+/************************************************/
 
+/************************************************/
+/*        Step 1.2 Code goes here               */
 /************************************************/
 
 /************************************************/
 /*        Step 3A.2 Code goes here               */
-
 /************************************************/
 
 function App() {
@@ -41,7 +37,7 @@ function App() {
 
   // Step 2 Helpers
   const [name, setName] = useState("");
-  const [webpageSkylink, setWebPageSkylink] = useState("");
+  const [webPageSkylink, setWebPageSkylink] = useState("");
 
   // Step 3 Helpers
   const [seed, setSeed] = useState("");
@@ -61,17 +57,15 @@ function App() {
 
     /************************************************/
     /*        Step 1.3 Code goes here               */
-
     /************************************************/
 
     /************************************************/
-    /*        Step 1: Upload a Web Page             */
+    /*        Step 2: Upload a Web Page             */
     /************************************************/
     console.log("Uploading Webpage");
 
     /************************************************/
     /*        Step 2.1 Code goes here               */
-
     /************************************************/
 
     /************************************************/
@@ -81,7 +75,6 @@ function App() {
 
     /************************************************/
     /*        Step 3A.3 Code goes here              */
-
     /************************************************/
 
     setLoading(false);
@@ -95,11 +88,15 @@ function App() {
 
     /************************************************/
     /*        Step 3A.4 Code goes here              */
-
     /************************************************/
 
     setLoading(false);
     console.log("User data loaded from SkyDB!");
+    return {
+      name: res.data.name,
+      fileskylink: res.data.fileskylink,
+      webskylink: res.data.webpageskylink,
+    };
   };
 
   // handleRegistryURL will handle generating the registry URL for the WebPage
@@ -108,12 +105,20 @@ function App() {
     setLoading(true);
     console.log("Generating registryURL");
 
+    // We want the webPageLinks so make sure it was set or try and load from
+    // SkyDB
+    let data = webPageSkylink;
+    if (!data) {
+      let { webskylink } = await loadData(event).catch((error) => {
+        console.log(`error loading user data: ${error.message}`);
+      });
+      data = webskylink;
+    }
+
     /************************************************/
     /*        Step 3B.1 Code goes here              */
-
     /************************************************/
 
-    console.log("RegistryURL generated!");
     setLoading(false);
   };
 
@@ -169,7 +174,7 @@ function App() {
           <Links
             fileSkylink={fileSkylink}
             registryURL={registryURL}
-            webpageSkylink={webpageSkylink}
+            webPageSkylink={webPageSkylink}
           />
         </>
       )}
