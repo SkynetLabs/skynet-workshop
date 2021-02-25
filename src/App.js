@@ -1,30 +1,42 @@
 // Import react components
 import { useState } from "react";
 
-// Logo
-import logo from "./skynet_logo.svg";
-
-// Import custom css
-import "./App.css";
-
-// Import bootstrap
-import { Button, Col, Form, Row } from "react-bootstrap";
-
-// Drag and Drop Files
+// Import App Component
 import { FileDrop } from "./components/filedrop";
-
-// Step 2
+import {Loading} from "./components/loading";
 import { WebPage } from "./components/webpage";
 
-// TODO: add Step 1 import code here
+// Import bootstrap
+import { Button, Col, Form, Nav, Row } from "react-bootstrap";
 
-// TODO: Add Step 3 variable here
+/************************************************/
+/*        Step 1.2 Code goes here               */
+
+/************************************************/
+
+/************************************************/
+/*        Step 2.1 Code goes here               */
+
+/************************************************/
+
+/************************************************/
+/*        Step 3A.1 Code goes here               */
+
+/************************************************/
+
+/************************************************/
+/*        Step 3A.2 Code goes here               */
+
+/************************************************/
 
 function App() {
   // Define app state
   //
   // Helpers
   const [loading, setLoading] = useState(false);
+  const [activeKey, setActiveKey] = useState("1");
+  const [step2, setStep2] = useState(false);
+  const [step3, setStep3] = useState(false);
   // Step 1
   const [file, setFile] = useState();
   const [fileSkylink, setFileSkylink] = useState("");
@@ -43,15 +55,17 @@ function App() {
 
     // Step 1: Upload File
     console.log("Uploading file");
-    // Step 1 code starts here
+    /************************************************/
+    /*        Step 1.3 Code goes here               */
 
-    // Step 1 code ends here
+    /************************************************/
 
     // Step 2: Upload Webpage
     console.log("Uploading Webpage");
-    // Step 2: code starts here
+    /************************************************/
+    /*        Step 2.1 Code goes here               */
 
-    // Step 2: code ends here
+    /************************************************/
 
     // Step 3: Save to SkyDB
     console.log("Saving user data to SkyDB");
@@ -83,69 +97,110 @@ function App() {
     setLoading(false);
   };
 
+  const handleSelect = (eventKey, event) => {
+    event.preventDefault();
+    if (eventKey === "1") {
+      console.log("1 clicked");
+      setActiveKey("1");
+      setStep2(false);
+      setStep3(false);
+    }
+    if (eventKey === "2") {
+      console.log("2 clicked");
+      setActiveKey("2");
+      setStep2(true);
+      setStep3(false);
+    }
+    if (eventKey === "3") {
+      console.log("3 clicked");
+      setActiveKey("3");
+      setStep2(true);
+      setStep3(true);
+    }
+  };
+
   return (
     <div className="App">
       <h1>Welcome to Skynet!</h1>
       <br />
 
       {loading ? (
-        <>
-          <p>Loading...</p>
-          <img src={logo} className="App-logo" alt="logo" />
-        </>
+        <Loading />
       ) : (
         <>
+          <Nav
+            variant="tabs"
+            defaultActiveKey={activeKey}
+            onSelect={handleSelect}
+          >
+            <Nav.Item>
+              <Nav.Link eventKey="1">Step 1</Nav.Link>
+            </Nav.Item>
+            <Nav.Item>
+              <Nav.Link eventKey="2">Step 2</Nav.Link>
+            </Nav.Item>
+            <Nav.Item>
+              <Nav.Link eventKey="3">Step 3</Nav.Link>
+            </Nav.Item>
+          </Nav>
+          <br />
           {/* Basic input form */}
           <Form onSubmit={handleSubmit}>
             {/* Input for seed */}
-            <Form.Group>
-              <Form.Control
-                type="text"
-                placeholder="Enter your Seed"
-                value={seed}
-                onChange={(e) => {
-                  setSeed(e.target.value);
-                }}
-              />
-            </Form.Group>
-            <Row>
-              <Col>
-                <Button
-                  variant="success"
-                  onClick={(e) => {
-                    loadData(e);
-                  }}
-                >
-                  Load Data
-                </Button>
-              </Col>
-              <Col>
-                <Button
-                  variant="success"
-                  onClick={(e) => {
-                    handleRegistryURL(e);
-                  }}
-                >
-                  See Registry URL
-                </Button>
-              </Col>
-            </Row>
-            <br />
-
+            {step3 && (
+              <>
+                <Form.Group>
+                  <Form.Control
+                    type="text"
+                    placeholder="Enter your Seed"
+                    value={seed}
+                    onChange={(e) => {
+                      setSeed(e.target.value);
+                    }}
+                  />
+                </Form.Group>
+                <Row>
+                  <Col>
+                    <Button
+                      variant="success"
+                      onClick={(e) => {
+                        loadData(e);
+                      }}
+                    >
+                      Load Data
+                    </Button>
+                  </Col>
+                  <Col>
+                    <Button
+                      variant="success"
+                      onClick={(e) => {
+                        handleRegistryURL(e);
+                      }}
+                    >
+                      See Registry URL
+                    </Button>
+                  </Col>
+                </Row>
+                <br />
+              </>
+            )}
             {/* Input for name */}
-            <Form.Group>
-              <Form.Control
-                type="text"
-                placeholder="Enter your name"
-                value={name}
-                onChange={(e) => {
-                  setName(e.target.value);
-                }}
-              />
-            </Form.Group>
-
-            <br />
-
+            {step2 && (
+              <>
+                {" "}
+                <Form.Group>
+                  <Form.Control
+                    type="text"
+                    placeholder="Enter your name"
+                    value={name}
+                    onChange={(e) => {
+                      setName(e.target.value);
+                    }}
+                  />
+                </Form.Group>
+                <br />
+              </>
+            )}
             {/* Input for file */}
             <Form.Group>
               <FileDrop />
