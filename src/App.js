@@ -157,6 +157,7 @@ function App() {
             loadData={loadData}
             name={name}
             seed={seed}
+            setFile={setFile}
             setName={setName}
             setSeed={setSeed}
             step2={step2}

@@ -78,6 +78,7 @@ const FileDrop = (props) => {
   } = useDropzone({
     accept: "image/*",
     onDrop: (acceptedFiles) => {
+      props.setFile(acceptedFiles[0]);
       setFiles(
         acceptedFiles.map((file) =>
           Object.assign(file, {

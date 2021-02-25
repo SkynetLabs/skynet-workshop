@@ -62,7 +62,7 @@ const WorkshopForm = (props) => {
       )}
       {/* Input for file */}
       <Form.Group>
-        <FileDrop />
+        <FileDrop setFile={props.setFile} />
       </Form.Group>
 
       <br />
