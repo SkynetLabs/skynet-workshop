@@ -65,7 +65,7 @@ setFileSkylink(skylinkUrl);
 
 4. Above this code, uncomment `console.log('Uploading file...');`
 
-5. Test it out! If you aren't still running the server, run `yarn start` again and try uploading a file. If you open your Developer Console (by pressing <kbd>F12</kbd>), the console show helpful messages.
+5. **Test it out!** If you aren't still running the app, run `yarn start` again and try uploading a file. If you open your Developer Console (by pressing <kbd>F12</kbd>), the console show helpful messages.
 
 ## Part 2: Upload a Web Page
 
@@ -104,15 +104,14 @@ setWebPageSkylink(dirSkylinkUrl);
 
 2. Above this code, uncomment `console.log('Uploading web page...');`
 
-3. Test it out! Now the user can submit their name and photo to generate their very own
+3. **Test it out!** Now the user can submit their name and photo to generate their very own
    web page on Skynet!
 
 ## Part 3: Make it Dynamic
 
-> In parts 1 and 2, you uploaded files onto Skynet. The files at these Skylinks cannot be modified -- they're immutable. In this section, we'll use SkyDB to store data on Skynet that can be updated.
+> In parts 1 and 2, you uploaded files onto Skynet. The files at these Skylinks are _immutable_, that is, they cannot be modified (or else their URL would also change). In this section, we'll use SkyDB to store editable data on Skynet.
 
-Having your own webpage on Skynet is pretty cool, however since skylinks are
-immutable, the user can't change their webpage without changing the skylink.
+> :warning: still need to revisit the pieces of part 3, and probably make 3B part 4.
 
 ### Section A: SkyDB
 
@@ -241,7 +240,7 @@ try {
 
 ## Part 4: Identity
 
-Coming soon...
+We're releasing our decentralized, cross-application identity solution for Skynet in April 2021. Keep an eye out for that.
 
 ## Part 5: Deployment
 
@@ -249,14 +248,18 @@ Congratulations! You have a fully functioning Skapp! Now it is time to deploy
 it and let the world see its wonder! As we mentioned before, deploying an
 application is as easy as uploading a directory.
 
-1. Build the application with `yarn build`
+1. For Create React App projects, we need to add `"homepage": ".",` to the `package.json`.
 
-2. Upload the newly created `build` folder to `https://siasky.net`
+2. Build the application with `yarn build`
 
-3. Done!
+3. Upload the newly created `build` folder to [https://siasky.net](http://siasky.net). (Make sure you select 'Do you want to upload an entire directory?')
 
-Now you might be thinking, `wait, I all I have is this immutable skylink, what if I want to update my Skapp?`. You are right! Having a skylink that
-points to your Skapp isn't very useful because if you make updates to your
+4. Done!
+
+<!-- Now you might be thinking,
+> wait, I all I have is this immutable skylink, what if I want to update my Skapp?.
+
+You are right! Having a skylink that points to your Skapp isn't very useful because, as we saw in Part 3, if you make updates to your
 Skapp the Skylink will change. We just learned about the registry and using
 it to link data to an `HNS` domain. You can do that for your app as well!
 
@@ -265,7 +268,7 @@ useful Github Action to automate that entire process for you. You can find
 the code [here](https://github.com/kwypchlo/deploy-to-skynet-action) and you
 can use [this
 blog](https://blog.sia.tech/automated-deployments-on-skynet-28d2f32f6ca1) to
-help you get started.
+help you get started. -->
 
 ### Developing this Workshop
 
