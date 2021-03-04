@@ -1,7 +1,7 @@
 // Logo
-import logo from "./skynet_logo.svg";
+import logo from '../assets/skynet_logo.svg';
 // css
-import "./loading.css";
+import './Loading.css';
 
 // Loading is a loading screen
 const Loading = () => {
@@ -13,4 +13,4 @@ const Loading = () => {
   );
 };
 
-export { Loading };
+export default Loading;

@@ -31,4 +31,4 @@ const Links = ({ fileSkylink, webPageSkylink, registryURL }) => {
   );
 };
 
-export { Links };
+export default Links;

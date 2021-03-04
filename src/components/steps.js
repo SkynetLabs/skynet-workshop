@@ -1,4 +1,4 @@
-import { Nav } from "react-bootstrap";
+import { Nav } from 'react-bootstrap';
 
 // TODO: style tabs to match skynet styling
 
@@ -23,4 +23,4 @@ const Steps = (props) => {
   );
 };
 
-export { Steps };
+export default Steps;

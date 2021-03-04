@@ -1,5 +1,5 @@
-import { Button, Col, Form, Row } from "react-bootstrap";
-import { FileDrop } from "./filedrop";
+import { Button, Col, Form, Row } from 'react-bootstrap';
+import FileDrop from './Filedrop';
 
 // WorkshopForm is a simple form used for the Skynet Workshop
 const WorkshopForm = (props) => {
@@ -46,7 +46,7 @@ const WorkshopForm = (props) => {
       {/* Input for name */}
       {props.step2 && (
         <>
-          {" "}
+          {' '}
           <Form.Group>
             <Form.Control
               type="text"
@@ -73,4 +73,4 @@ const WorkshopForm = (props) => {
   );
 };
 
-export { WorkshopForm };
+export default WorkshopForm;

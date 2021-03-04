@@ -33,7 +33,7 @@ to Skynet. For this sample app, we'll ask the user to upload a picture.
 
 ```javascript
 // Import the SkynetClient and a helper
-import { SkynetClient, parseSkylink } from 'skynet-js';
+import { SkynetClient } from 'skynet-js';
 
 // We'll define a portal to allow for developing on localhost.
 // When hosted on a skynet portal, SkynetClient doesn't need any arguments.

@@ -2,10 +2,10 @@
 import { useState } from 'react';
 
 // Import App Component
-import { Links } from './components/links';
-import { Loading } from './components/loading';
-import { Steps } from './components/steps';
-import { WorkshopForm } from './components/form';
+import Links from './components/Links';
+import Loading from './components/Loading';
+import Steps from './components/Steps';
+import WorkshopForm from './components/Form';
 import generateWebPage from './helpers/generateWebPage';
 
 /************************************************/
@@ -13,7 +13,7 @@ import generateWebPage from './helpers/generateWebPage';
 /************************************************/
 
 // Import the SkynetClient and a helper method
-import { SkynetClient, parseSkylink } from 'skynet-js';
+import { SkynetClient } from 'skynet-js';
 
 // We'll define a portal to allow for developing on localhost.
 // When hosted on a skynet portal, SkynetClient doesn't need any arguments.
@@ -21,7 +21,6 @@ const portal = 'https://siasky.net/';
 
 // Initiate the SkynetClient
 const client = new SkynetClient(portal);
-window.sn = client;
 
 /************************************************/
 /*        Step 3A.1 Code goes here               */
