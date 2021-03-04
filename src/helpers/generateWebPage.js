@@ -1,11 +1,12 @@
-// Create the HTML file for the Skynet content.
-const WebPage = (name, imageSource) => {
-  return new File([certificate(name, imageSource)], "index.html", {
-    type: "text/html",
+const generateWebPage = (name, imageSkylinkUrl) => {
+  return new File([certificate(name, imageSkylinkUrl)], 'index.html', {
+    type: 'text/html',
   });
 };
 
-const certificate = (name) => {
+export default generateWebPage;
+
+const certificate = (name, imageSkylinkUrl) => {
   // Define date variables
   const today = new Date();
   const day = today.getDate();
@@ -14,7 +15,7 @@ const certificate = (name) => {
 
   // Define sources
   const resources =
-    "https://siasky.net/PALEjinbHTTnydodyL370S9koJByTPBIdN5VlANcxfucmA";
+    'https://siasky.net/PALEjinbHTTnydodyL370S9koJByTPBIdN5VlANcxfucmA';
 
   /* eslint-disable */
   return `
@@ -57,7 +58,7 @@ const certificate = (name) => {
 			</div>
 						
 			<div class="avatar">
-				<img src="./image.jpg" alt="Avatar">
+				<img src="${imageSkylinkUrl}" alt="Avatar">
 			</div>
 							
 			<footer>Sia Skynet 2021, all rights reserved</footer>				
@@ -68,4 +69,3 @@ const certificate = (name) => {
 `;
   /* eslint-enable */
 };
-export { WebPage };
