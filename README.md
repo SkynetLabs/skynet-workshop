@@ -129,6 +129,8 @@ import { genKeyPairFromSeed } from 'skynet-js';
 2. Next we want to define the `SkyDB` entry `datakey`, this is the `Key` that
    we will be working with in `SkyDB`. Add the code to `src/Add.js` for `Step 3A.2`.
 
+   > :warning: I don't really like this here? this isn't really the key so :/
+
 ```javascript
 const dataKey = 'workshop';
 ```

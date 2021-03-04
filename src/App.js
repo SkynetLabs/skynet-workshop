@@ -9,6 +9,10 @@ import WorkshopForm from './components/Form';
 import generateWebPage from './helpers/generateWebPage';
 
 /************************************************/
+/*        Step 3A.1 Code goes here               */
+/************************************************/
+
+/************************************************/
 /*        Step 1.2 Code goes here               */
 /************************************************/
 
@@ -21,14 +25,6 @@ const portal = 'https://siasky.net/';
 
 // Initiate the SkynetClient
 const client = new SkynetClient(portal);
-
-/************************************************/
-/*        Step 3A.1 Code goes here               */
-/************************************************/
-
-/************************************************/
-/*        Step 1.2 Code goes here               */
-/************************************************/
 
 /************************************************/
 /*        Step 3A.2 Code goes here               */
