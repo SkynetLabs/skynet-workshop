@@ -198,7 +198,35 @@ setUserColor(data.color);
 
 5. **Test it out!** Now the user can update the color of the halo and see it change when they refresh the page! Or, in our web app, you can load previous data so you don't have to fill out the form if want to generate a whole new page.
 
-## Section 4: HNS
+## Part 4: Deploy the Web App on Skynet
+
+Congratulations! You have a fully functioning Skapp! Let's deploy
+it and let the world see its wonder! As we mentioned before, deploying an
+application is as easy as uploading a directory.
+
+1. For Create React App projects, we need to add `"homepage": ".",` to the `package.json`.
+
+2. Build the application with `yarn build`
+
+3. Upload the newly created `build` folder to [https://siasky.net](http://siasky.net). (Make sure you select 'Do you want to upload an entire directory?')
+
+4. Now any of your friends can make their own certificates!
+
+<!-- ## Part 5: Getting a Human-Readable URL with HNS? This isn't a coding flow but a tooling one? -->
+
+## Where to go from here?
+
+Now that you've deployed a Skynet app, there's many things to keep learning!
+
+- You can [learn how to use Handshake](https://support.siasky.net/key-concepts/handshake-names) for a decentralized human-readable URL like [skyfeed.hns.siasky.net](https://skyfeed.hns.siasky.net).
+
+- You can integrate cross-application identity with [SkyID](https://github.com/DaWe35/SkyID) (or the soon-to-be-released mySky, available April 2021).
+
+- You can [automate deployment](https://blog.sia.tech/automated-deployments-on-skynet-28d2f32f6ca1) of your site using a [Github Action](https://github.com/kwypchlo/deploy-to-skynet-action).
+
+We're always improving our [Skynet Developer Resources](https://support.siasky.net/the-technology/developing-on-skynet), so check that out and join [our Discord](https://discord.gg/sia) to share ideas with other devs.
+
+<!-- ## Section 4: HNS
 
 1. Look at linking to dLink
 
@@ -254,21 +282,7 @@ try {
 
 ## Part 4: Identity
 
-We're releasing our decentralized, cross-application identity solution for Skynet in April 2021. Keep an eye out for that.
-
-## Part 5: Deployment
-
-Congratulations! You have a fully functioning Skapp! Now it is time to deploy
-it and let the world see its wonder! As we mentioned before, deploying an
-application is as easy as uploading a directory.
-
-1. For Create React App projects, we need to add `"homepage": ".",` to the `package.json`.
-
-2. Build the application with `yarn build`
-
-3. Upload the newly created `build` folder to [https://siasky.net](http://siasky.net). (Make sure you select 'Do you want to upload an entire directory?')
-
-4. Done!
+We're releasing our decentralized, cross-application identity solution for Skynet in April 2021. Keep an eye out for that. -->
 
 <!-- Now you might be thinking,
 > wait, I all I have is this immutable skylink, what if I want to update my Skapp?.
@@ -284,9 +298,9 @@ can use [this
 blog](https://blog.sia.tech/automated-deployments-on-skynet-28d2f32f6ca1) to
 help you get started. -->
 
-### Developing this Workshop
+## Developing this Workshop
 
-#### Available Scripts
+### Available Scripts
 
 In the project directory, you can run:
 
