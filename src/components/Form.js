@@ -17,6 +17,22 @@ const WorkshopForm = (props) => {
                 props.setSeed(e.target.value);
               }}
             />
+            <Form.Control
+              type="text"
+              placeholder="Enter a dataKey"
+              value={props.dataKey}
+              onChange={(e) => {
+                props.setDataKey(e.target.value);
+              }}
+            />
+            <Form.Control
+              type="text"
+              placeholder="Enter a color"
+              value={props.userColor}
+              onChange={(e) => {
+                props.setUserColor(e.target.value);
+              }}
+            />
           </Form.Group>
           <Row>
             <Col>

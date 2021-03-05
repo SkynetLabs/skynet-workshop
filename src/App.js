@@ -9,8 +9,10 @@ import WorkshopForm from './components/Form';
 import generateWebPage from './helpers/generateWebPage';
 
 /************************************************/
-/*        Step 3A.1 Code goes here               */
+/*        Step 3.1 Code goes here               */
 /************************************************/
+
+import { genKeyPairFromSeed } from 'skynet-js';
 
 /************************************************/
 /*        Step 1.2 Code goes here               */
@@ -25,10 +27,6 @@ const portal = 'https://siasky.net/';
 
 // Initiate the SkynetClient
 const client = new SkynetClient(portal);
-
-/************************************************/
-/*        Step 3A.2 Code goes here               */
-/************************************************/
 
 function App() {
   // Define app state helpers
@@ -47,6 +45,8 @@ function App() {
 
   // Step 3 Helpers
   const [seed, setSeed] = useState('');
+  const [dataKey, setDataKey] = useState('');
+  const [userColor, setUserColor] = useState('#000000');
   const [registryURL, setRegistryURL] = useState('');
 
   // Handle form submission. This is where the bulk of the workshop logic is
@@ -90,7 +90,7 @@ function App() {
 
     // Create the text of an html file what will be uploaded to Skynet
     // We'll use the skylink from Part 1 in the file to load our Skynet-hosted image.
-    const webPage = generateWebPage(name, skylinkUrl);
+    const webPage = generateWebPage(name, skylinkUrl, seed, dataKey);
 
     // Build our directory object, we're just including the file for our webpage.
     const webDirectory = {
@@ -116,11 +116,37 @@ function App() {
     /************************************************/
     /*        Part 3: Make it Dynamic               */
     /************************************************/
-    // console.log('Saving user data to SkyDB');
+    console.log('Saving user data to SkyDB...');
 
     /************************************************/
-    /*        Step 3A.3 Code goes here              */
+    /*        Step 3.2 Code goes here              */
     /************************************************/
+
+    // Generate the user's private and public keys
+    const { privateKey, publicKey } = genKeyPairFromSeed(seed);
+
+    // Create an object to write to SkyDB
+    // Conversion to JSON happens automatically.
+    // 'color' will be read by our certificate
+    // the rest will let use reload our form entries later.
+    const jsonData = {
+      name,
+      fileSkylink,
+      webPageSkylink,
+      color: userColor,
+    };
+
+    // Use setJSON to save the user's information to SkyDB
+    try {
+      await client.db.setJSON(privateKey, dataKey, jsonData);
+    } catch (error) {
+      console.log(`error with setJSON: ${error.message}`);
+    }
+
+    // Let's get the info on our SkyDB entry
+    console.log('SkyDB Entry Written--');
+    console.log('Public Key: ', publicKey);
+    console.log('Data Key: ', dataKey);
 
     setLoading(false);
   };
@@ -132,16 +158,27 @@ function App() {
     console.log('Loading user data from SkyDB');
 
     /************************************************/
-    /*        Step 3A.4 Code goes here              */
+    /*        Step 3.4 Code goes here              */
     /************************************************/
+
+    // Generate the user's public key again from the seed.
+    const { publicKey } = genKeyPairFromSeed(seed);
+
+    // Use getJSON to load the user's information from SkyDB
+    const { data } = await client.db
+      .getJSON(publicKey, dataKey)
+      .catch((error) => {
+        console.error(`error with getJSON: ${error.message}`);
+      });
+
+    // To use this elsewhere in our React app, save the data to the state.
+    setName(data.name);
+    setFileSkylink(data.fileskylink);
+    setWebPageSkylink(data.webPageSkylink);
+    setUserColor(data.color);
 
     setLoading(false);
     console.log('User data loaded from SkyDB!');
-    return {
-      name: res.data.name,
-      fileskylink: res.data.fileskylink,
-      webskylink: res.data.webpageskylink,
-    };
   };
 
   // handleRegistryURL will handle generating the registry URL for the WebPage
@@ -187,6 +224,24 @@ function App() {
     }
   };
 
+  // define args passed to form
+  const formProps = {
+    handleRegistryURL,
+    handleSubmit,
+    loadData,
+    name,
+    seed,
+    dataKey,
+    userColor,
+    setDataKey,
+    setFile,
+    setName,
+    setSeed,
+    setUserColor,
+    step2,
+    step3,
+  };
+
   return (
     <div className="App">
       <h1>Welcome to Skynet!</h1>
@@ -201,18 +256,7 @@ function App() {
           <br />
 
           {/* Workshop input form */}
-          <WorkshopForm
-            handleRegistryURL={handleRegistryURL}
-            handleSubmit={handleSubmit}
-            loadData={loadData}
-            name={name}
-            seed={seed}
-            setFile={setFile}
-            setName={setName}
-            setSeed={setSeed}
-            step2={step2}
-            step3={step3}
-          />
+          <WorkshopForm {...formProps} />
           <br />
 
           {/* Show button to view user's file on skynet once uploaded */}
