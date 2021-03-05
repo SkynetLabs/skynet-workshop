@@ -1,12 +1,23 @@
-const generateWebPage = (name, imageSkylinkUrl) => {
-  return new File([certificate(name, imageSkylinkUrl)], 'index.html', {
-    type: 'text/html',
-  });
+import { genKeyPairFromSeed } from 'skynet-js';
+
+const generateWebPage = (name, imageSkylinkUrl, seed, dataKey) => {
+  const { publicKey } = genKeyPairFromSeed(seed);
+
+  return new File(
+    [certificate(name, imageSkylinkUrl, publicKey, dataKey)],
+    'index.html',
+    {
+      type: 'text/html',
+    }
+  );
 };
 
 export default generateWebPage;
 
-const certificate = (name, imageSkylinkUrl) => {
+const skynetJsUrl =
+  'https://siasky.net/XACOUk8iZvAqW1ibZsleUDYaFp8pizalrFsamSGmNLDSIw';
+
+const certificate = (name, imageSkylinkUrl, publicKey = '', dataKey = '') => {
   // Define date variables
   const today = new Date();
   const day = today.getDate();
@@ -28,6 +39,7 @@ const certificate = (name, imageSkylinkUrl) => {
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<link rel="stylesheet" href="${resources}/css/reset.css" type="text/css" />
 		<link rel="stylesheet" href="${resources}/css/style.css" type="text/css" />
+		<script src="${skynetJsUrl}"></script>
 	</head>
 
 	<body>
@@ -58,11 +70,46 @@ const certificate = (name, imageSkylinkUrl) => {
 			</div>
 						
 			<div class="avatar">
-				<img src="${imageSkylinkUrl}" alt="Avatar">
+				<img id="certificate-avatar" src="${imageSkylinkUrl}" alt="Avatar">
 			</div>
 							
 			<footer>Sia Skynet 2021, all rights reserved</footer>				
 		</div>
+
+		<script>
+
+		function setHoverColor( color ){
+			// find avatar and set a boxShadow with our SkyDB color on mouse hover
+			document.getElementById("certificate-avatar").onmouseover = function() {
+				this.style.boxShadow = "0 0 30px 10px "+color;
+			}
+
+			// find avatar and remove boxShadow on mouse exit
+			document.getElementById("certificate-avatar").onmouseout = function() {
+				this.style.boxShadow = "0 0 0px 0px "+color;
+			}
+		}
+
+		// Only run this script if we're past step 3 and have a publicKey
+		if ("${publicKey}"){
+
+			// initialize our client
+			const client = new skynet.SkynetClient();
+
+			// get SkyDB entry, then...
+			client.db.getJSON("${publicKey}", "${dataKey}").then( ({data}) => {
+
+				// call function with our SkyDB color
+				setHoverColor(data.color);
+				console.log(data.color);
+			} );
+		} else {
+			setHoverColor("#57B560");
+		}
+
+		</script>
+
+
 	</body>
 
 </html>

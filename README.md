@@ -107,86 +107,126 @@ setWebPageSkylink(dirSkylinkUrl);
 3. **Test it out!** Now the user can submit their name and photo to generate their very own
    web page on Skynet!
 
-## Part 3: Make it Dynamic
+## Part 3: Make it Dynamic with SkyDB
 
-> In parts 1 and 2, you uploaded files onto Skynet. The files at these Skylinks are _immutable_, that is, they cannot be modified (or else their URL would also change). In this section, we'll use SkyDB to store editable data on Skynet.
+> In parts 1 and 2, you uploaded files onto Skynet. The files at these Skylinks are _immutable_, that is, they cannot be modified (or else their URL would also change). In this section, we'll use SkyDB to store editable data on Skynet that we can come back to and update.
 
-> :warning: still need to revisit the pieces of part 3, and probably make 3B part 4.
+> :warning: Completely changed this section to make SkyDB a singular concept.
 
-### Section A: SkyDB
+Right now, if you hover over your image in the certificate, you get a nice green halo effect. But, we may want to change this later without changing our skylink. We can do this by saving some editable JSON data to Skynet and having our web page read the info directly from Skynet.
 
-The first step to making this webpage editable is hooking it up to `SkyDB`.
-`SkyDB` uses a user's seed to access and store information in a simple `Key | Value` store. Although this might seem very basic, it enables some incredible
-functionality on Skynet.
+The first step is hooking up our app to `SkyDB`, but you'll need a little theory here.
+
+SkyDB users Public / Private key pairs for read / write access. If you want to write to SkyDB, you can use a private key and whatever name you want to give it (the "data key"), and a JSON object to write. So the key combinations are associated with a value. Then, anyone can read this value with your public key and the data key. This kind of database is called a "key-value store."
+
+To get this public/private key pair, you'll use a "seed" which will always generate the same pair based off the same text input.
 
 1. First we need to import the `genKeyPariFromSeed` method from
-   `skynet-js`. Add the code to `src/Add.js` for `Step 3A.1`.
+   `skynet-js`. Add the code to `src/Add.js` for `Step 3.1`.
 
 ```javascript
 import { genKeyPairFromSeed } from 'skynet-js';
 ```
 
-2. Next we want to define the `SkyDB` entry `datakey`, this is the `Key` that
+<!-- 2. Next we want to define the `SkyDB` entry `datakey`, this is the `Key` that
    we will be working with in `SkyDB`. Add the code to `src/Add.js` for `Step 3A.2`.
 
-   > :warning: I don't really like this here? this isn't really the key so :/
+   > :warning: I don't really like this here? this isn't really the key so
 
 ```javascript
 const dataKey = 'workshop';
-```
+``` -->
 
-3. Create the functionality to save the user's data to `SkyDB`. Add the
-   following code to `src/App.js` for `Step 3A.3`.
+2. Create the functionality to save the user's data to `SkyDB`. Add the
+   following code to `src/App.js` for `Step 3.2`.
 
 ```javascript
-// Generate the user's private key
-const { privateKey } = genKeyPairFromSeed(seed);
+// Generate the user's private and public keys
+const { privateKey, publicKey } = genKeyPairFromSeed(seed);
 
-// Create a json object with the relevant data
-const json = {
-  name: name,
-  fileskylink: fileLink,
-  webpageskylink: webLink,
+// Create an object to write to SkyDB
+// Conversion to JSON happens automatically.
+const jsonData = {
+  name,
+  fileSkylink,
+  webPageSkylink,
+  color: userColor,
 };
 
 // Use setJSON to save the user's information to SkyDB
 try {
-  await client.db.setJSON(privateKey, dataKey, json);
+  await client.db.setJSON(privateKey, dataKey, jsonData);
 } catch (error) {
   console.log(`error with setJSON: ${error.message}`);
 }
+
+// Let's get see info on our SkyDB entry
+console.log('SkyDB Entry Written--');
+console.log('Public Key: ', publicKey);
+console.log('Data Key: ', dataKey);
 ```
 
-4. Create the functionality to load the user's data from `SkyDB`. Add the
-   following code to `loadData` in `src/App.js` for `Step 3A.4`.
+3. Next, we want the certificate web page to read this data. The code to fetch the SkyDB entry is already in the generated page, but you'll need to tell it the public key and data key before uploading it to Skynet. Find the code from _Step 2.1_ that says
 
 ```javascript
-// Generate the user's public key
+const webPage = generateWebPage(name, skylinkUrl);
+```
+
+and replace it with
+
+```javascript
+const webPage = generateWebPage(name, skylinkUrl, seed, dataKey);
+```
+
+4. You may want to load the SkyDB entry later for viewing and editing. To create the functionality to load the user's data, we'll use a button to call the `loadData` function in our app. Put the following code in the below _Step 3.4_.
+
+```javascript
+// Generate the user's public key again from the seed.
 const { publicKey } = genKeyPairFromSeed(seed);
 
 // Use getJSON to load the user's information from SkyDB
-const res = await client.db.getJSON(publicKey, dataKey).catch((error) => {
-  console.log(`error with getJSON: ${error.message}`);
+const { data } = await client.db.getJSON(publicKey, dataKey).catch((error) => {
+  console.error(`error with getJSON: ${error.message}`);
 });
 
-// Check for a response
-if (!res) {
-  setLoading(false);
-  return;
-}
-
-// Update App State
-// NOTE: This is for this app specifically, not required.
-setName(res.data.name);
-setFileSkylink(res.data.fileskylink);
-setWebPageSkylink(res.data.webpageskylink);
-console.log(res);
+// To load the data into our form, let's save the data to the React state.
+setName(data.name);
+setFileSkylink(data.fileskylink);
+setWebPageSkylink(data.webPageSkylink);
+setUserColor(data.color);
 ```
 
-5. Test it out!\
-   Now the user can update their information and see those updates!
+5. **Test it out!** Now the user can update the color of the halo and see it change when they refresh the page! Or, in our web app, you can load previous data so you don't have to fill out the form if want to generate a whole new page.
 
-## Section 3B: HNS
+## Part 4: Deploy the Web App on Skynet
+
+Congratulations! You have a fully functioning Skapp! Let's deploy
+it and let the world see its wonder! As we mentioned before, deploying an
+application is as easy as uploading a directory.
+
+1. For Create React App projects, we need to add `"homepage": ".",` to the `package.json`.
+
+2. Build the application with `yarn build`
+
+3. Upload the newly created `build` folder to [https://siasky.net](http://siasky.net). (Make sure you select 'Do you want to upload an entire directory?')
+
+4. Now any of your friends can make their own certificates!
+
+<!-- ## Part 5: Getting a Human-Readable URL with HNS? This isn't a coding flow but a tooling one? -->
+
+## Where to go from here?
+
+Now that you've deployed a Skynet app, there's many things to keep learning!
+
+- You can [learn how to use Handshake](https://support.siasky.net/key-concepts/handshake-names) for a decentralized human-readable URL like [skyfeed.hns.siasky.net](https://skyfeed.hns.siasky.net).
+
+- You can integrate cross-application identity with [SkyID](https://github.com/DaWe35/SkyID) (or the soon-to-be-released mySky, available April 2021).
+
+- You can [automate deployment](https://blog.sia.tech/automated-deployments-on-skynet-28d2f32f6ca1) of your site using a [Github Action](https://github.com/kwypchlo/deploy-to-skynet-action).
+
+We're always improving our [Skynet Developer Resources](https://support.siasky.net/the-technology/developing-on-skynet), so check that out and join [our Discord](https://discord.gg/sia) to share ideas with other devs.
+
+<!-- ## Section 4: HNS
 
 1. Look at linking to dLink
 
@@ -242,21 +282,7 @@ try {
 
 ## Part 4: Identity
 
-We're releasing our decentralized, cross-application identity solution for Skynet in April 2021. Keep an eye out for that.
-
-## Part 5: Deployment
-
-Congratulations! You have a fully functioning Skapp! Now it is time to deploy
-it and let the world see its wonder! As we mentioned before, deploying an
-application is as easy as uploading a directory.
-
-1. For Create React App projects, we need to add `"homepage": ".",` to the `package.json`.
-
-2. Build the application with `yarn build`
-
-3. Upload the newly created `build` folder to [https://siasky.net](http://siasky.net). (Make sure you select 'Do you want to upload an entire directory?')
-
-4. Done!
+We're releasing our decentralized, cross-application identity solution for Skynet in April 2021. Keep an eye out for that. -->
 
 <!-- Now you might be thinking,
 > wait, I all I have is this immutable skylink, what if I want to update my Skapp?.
@@ -272,9 +298,9 @@ can use [this
 blog](https://blog.sia.tech/automated-deployments-on-skynet-28d2f32f6ca1) to
 help you get started. -->
 
-### Developing this Workshop
+## Developing this Workshop
 
-#### Available Scripts
+### Available Scripts
 
 In the project directory, you can run:
 
