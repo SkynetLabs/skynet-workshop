@@ -49,9 +49,7 @@ const client = new SkynetClient(portal);
 
 ```javascript
 // Upload user's file and get backs descriptor for our Skyfile
-const { skylink } = await client.uploadFile(file).catch((error) => {
-  console.error(`error uploading file: ${error.message}`);
-});
+const { skylink } = await client.uploadFile(file);
 
 // skylinks start with `sia://` and don't specify a portal URL
 // we can generate URLs for our current portal though.
@@ -87,11 +85,10 @@ const webDirectory = {
 };
 
 // Upload user's webpage
-const { skylink: dirSkylink } = await client
-  .uploadDirectory(webDirectory, 'certificate')
-  .catch((error) => {
-    console.error(`error uploading web page: ${error.message}`);
-  });
+const { skylink: dirSkylink } = await client.uploadDirectory(
+  webDirectory,
+  'certificate'
+);
 
 // generate a URL for our current portal
 const dirSkylinkUrl = client.getSkylinkUrl(dirSkylink);
@@ -128,15 +125,6 @@ To get this public/private key pair, you'll use a "seed" which will always gener
 import { genKeyPairFromSeed } from 'skynet-js';
 ```
 
-<!-- 2. Next we want to define the `SkyDB` entry `datakey`, this is the `Key` that
-   we will be working with in `SkyDB`. Add the code to `src/Add.js` for `Step 3A.2`.
-
-   > :warning: I don't really like this here? this isn't really the key so
-
-```javascript
-const dataKey = 'workshop';
-``` -->
-
 2. Create the functionality to save the user's data to `SkyDB`. Add the
    following code to `src/App.js` for `Step 3.2`.
 
@@ -166,7 +154,9 @@ console.log('Public Key: ', publicKey);
 console.log('Data Key: ', dataKey);
 ```
 
-3. Next, we want the certificate web page to read this data. The code to fetch the SkyDB entry is already in the generated page, but you'll need to tell it the public key and data key before uploading it to Skynet. Find the code from _Step 2.1_ that says
+3. Above this code, uncomment `console.log('Saving user data to SkyDB...');`
+
+4. Next, we want the certificate web page to read this data. The code to fetch the SkyDB entry is already in the generated page, but you'll need to tell it the public key and data key before uploading it to Skynet. Find the code from _Step 2.1_ that says
 
 ```javascript
 const webPage = generateWebPage(name, skylinkUrl);
@@ -178,22 +168,25 @@ and replace it with
 const webPage = generateWebPage(name, skylinkUrl, seed, dataKey);
 ```
 
-4. You may want to load the SkyDB entry later for viewing and editing. To create the functionality to load the user's data, we'll use a button to call the `loadData` function in our app. Put the following code in the below _Step 3.4_.
+5. You may want to load the SkyDB entry later for viewing and editing. To create the functionality to load the user's data, we'll use a button to call the `loadData` function in our app. Put the following code in the below _Step 3.4_.
 
 ```javascript
 // Generate the user's public key again from the seed.
 const { publicKey } = genKeyPairFromSeed(seed);
 
 // Use getJSON to load the user's information from SkyDB
-const { data } = await client.db.getJSON(publicKey, dataKey).catch((error) => {
-  console.error(`error with getJSON: ${error.message}`);
-});
+const { data } = await client.db.getJSON(publicKey, dataKey);
 
-// To load the data into our form, let's save the data to the React state.
-setName(data.name);
-setFileSkylink(data.fileskylink);
-setWebPageSkylink(data.webPageSkylink);
-setUserColor(data.color);
+// To use this elsewhere in our React app, save the data to the state.
+if (data) {
+  setName(data.name);
+  setFileSkylink(data.fileSkylink);
+  setWebPageSkylink(data.webPageSkylink);
+  setUserColor(data.color);
+  console.log('User data loaded from SkyDB!');
+} else {
+  console.error('There was a problem with getJSON');
+}
 ```
 
 5. **Test it out!** Now the user can update the color of the halo and see it change when they refresh the page! Or, in our web app, you can load previous data so you don't have to fill out the form if want to generate a whole new page.

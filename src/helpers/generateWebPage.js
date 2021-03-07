@@ -1,7 +1,11 @@
 import { genKeyPairFromSeed } from 'skynet-js';
 
 const generateWebPage = (name, imageSkylinkUrl, seed, dataKey) => {
-  const { publicKey } = genKeyPairFromSeed(seed);
+  let publicKey = '';
+
+  if (seed) {
+    publicKey = genKeyPairFromSeed(seed).publicKey;
+  }
 
   return new File(
     [certificate(name, imageSkylinkUrl, publicKey, dataKey)],

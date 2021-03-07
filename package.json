@@ -10,9 +10,12 @@
     "prettier": "^2.2.1",
     "react": "^17.0.1",
     "react-bootstrap": "^1.4.3",
+    "react-colorful": "^5.0.0",
     "react-dom": "^17.0.1",
     "react-dropzone": "^11.3.1",
     "react-scripts": "4.0.1",
+    "semantic-ui-css": "^2.4.1",
+    "semantic-ui-react": "^2.0.3",
     "skynet-js": "^3.0.0",
     "web-vitals": "^0.2.4"
   },
