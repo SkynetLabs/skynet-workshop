@@ -1,4 +1,4 @@
-import { Button } from 'semantic-ui-react';
+import { Button } from "semantic-ui-react";
 
 // Links is a simple row containing links created during the workshop
 const Links = ({ fileSkylink, webPageSkylink, registryURL }) => {
