@@ -1,7 +1,7 @@
-import { genKeyPairFromSeed } from 'skynet-js';
+import { genKeyPairFromSeed } from "skynet-js";
 
 const generateWebPage = (name, imageSkylinkUrl, seed, dataKey) => {
-  let publicKey = '';
+  let publicKey = "";
 
   if (seed) {
     publicKey = genKeyPairFromSeed(seed).publicKey;
@@ -9,9 +9,9 @@ const generateWebPage = (name, imageSkylinkUrl, seed, dataKey) => {
 
   return new File(
     [certificate(name, imageSkylinkUrl, publicKey, dataKey)],
-    'index.html',
+    "index.html",
     {
-      type: 'text/html',
+      type: "text/html",
     }
   );
 };
@@ -19,9 +19,9 @@ const generateWebPage = (name, imageSkylinkUrl, seed, dataKey) => {
 export default generateWebPage;
 
 const skynetJsUrl =
-  'https://siasky.net/XACOUk8iZvAqW1ibZsleUDYaFp8pizalrFsamSGmNLDSIw';
+  "https://siasky.net/XACOUk8iZvAqW1ibZsleUDYaFp8pizalrFsamSGmNLDSIw";
 
-const certificate = (name, imageSkylinkUrl, publicKey = '', dataKey = '') => {
+const certificate = (name, imageSkylinkUrl, publicKey = "", dataKey = "") => {
   // Define date variables
   const today = new Date();
   const day = today.getDate();
@@ -30,7 +30,7 @@ const certificate = (name, imageSkylinkUrl, publicKey = '', dataKey = '') => {
 
   // Define sources
   const resources =
-    'https://siasky.net/PALEjinbHTTnydodyL370S9koJByTPBIdN5VlANcxfucmA';
+    "https://siasky.net/PALEjinbHTTnydodyL370S9koJByTPBIdN5VlANcxfucmA";
 
   /* eslint-disable */
   return `

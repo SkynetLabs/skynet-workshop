@@ -1,12 +1,12 @@
 // Import react components
-import { useState } from 'react';
+import { useState } from "react";
 
 // Import App Component & helper
-import WorkshopForm from './components/Form';
-import generateWebPage from './helpers/generateWebPage';
+import WorkshopForm from "./components/Form";
+import generateWebPage from "./helpers/generateWebPage";
 
 // Import UI Components
-import { Header, Tab, Container } from 'semantic-ui-react';
+import { Header, Tab, Container } from "semantic-ui-react";
 
 /************************************************/
 /*        Step 3.1 Code goes here               */
@@ -25,28 +25,28 @@ function App() {
 
   // Step 1 Helpers
   const [file, setFile] = useState();
-  const [fileSkylink, setFileSkylink] = useState('');
+  const [fileSkylink, setFileSkylink] = useState("");
 
   // Step 2 Helpers
-  const [name, setName] = useState('');
-  const [webPageSkylink, setWebPageSkylink] = useState('');
+  const [name, setName] = useState("");
+  const [webPageSkylink, setWebPageSkylink] = useState("");
 
   // Step 3 Helpers
-  const [seed, setSeed] = useState('');
-  const [dataKey, setDataKey] = useState('');
-  const [userColor, setUserColor] = useState('#000000');
+  const [seed, setSeed] = useState("");
+  const [dataKey, setDataKey] = useState("");
+  const [userColor, setUserColor] = useState("#000000");
 
   // Handle form submission. This is where the bulk of the workshop logic is
   // handled
   const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log('form submitted');
+    console.log("form submitted");
     setLoading(true);
 
     /************************************************/
     /*        Part 1: Upload a file                */
     /************************************************/
-    // console.log('Uploading file...');
+    // console.log("Uploading file...");
 
     /************************************************/
     /*        Step 1.3 Code goes here               */
@@ -55,7 +55,7 @@ function App() {
     /************************************************/
     /*        Part 2: Upload a Web Page             */
     /************************************************/
-    // console.log('Uploading web page...');
+    // console.log("Uploading web page...");
 
     /************************************************/
     /*        Step 2.1 Code goes here               */
@@ -64,7 +64,7 @@ function App() {
     /************************************************/
     /*        Part 3: Make it Dynamic               */
     /************************************************/
-    // console.log('Saving user data to SkyDB...');
+    // console.log("Saving user data to SkyDB...");
 
     /************************************************/
     /*        Step 3.2 Code goes here              */
@@ -79,7 +79,7 @@ function App() {
   const loadData = async (event) => {
     event.preventDefault();
     setLoading(true);
-    console.log('Loading user data from SkyDB');
+    console.log("Loading user data from SkyDB");
 
     /************************************************/
     /*        Step 3.5 Code goes here              */
@@ -116,7 +116,7 @@ function App() {
 
   const panes = [
     {
-      menuItem: 'Part 1: File Upload',
+      menuItem: "Part 1: File Upload",
       render: () => (
         <Tab.Pane>
           <WorkshopForm {...formProps} />
@@ -124,7 +124,7 @@ function App() {
       ),
     },
     {
-      menuItem: 'Part 2: Folder Upload',
+      menuItem: "Part 2: Folder Upload",
       render: () => (
         <Tab.Pane>
           <WorkshopForm {...formProps} />
@@ -132,7 +132,7 @@ function App() {
       ),
     },
     {
-      menuItem: 'Part 3: SkyDB',
+      menuItem: "Part 3: SkyDB",
       render: () => (
         <Tab.Pane>
           <WorkshopForm {...formProps} />
@@ -147,7 +147,7 @@ function App() {
         as="h1"
         content="Skynet Workshop App"
         textAlign="center"
-        style={{ marginTop: '1em', marginBottom: '1em' }}
+        style={{ marginTop: "1em", marginBottom: "1em" }}
       />
       <Tab
         menu={{ fluid: true, vertical: true, tabular: true }}
