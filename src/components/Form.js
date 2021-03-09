@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from 'react';
 import {
   Button,
   Form,
@@ -8,14 +8,19 @@ import {
   Dimmer,
   Segment,
   Divider,
-} from "semantic-ui-react";
-import { PopoverPicker } from "./PopoverPicker";
-import Links from "./Links";
-import FileDrop from "./Filedrop";
+} from 'semantic-ui-react';
+import { PopoverPicker } from './PopoverPicker';
+import Links from './Links';
+import FileDrop from './Filedrop';
 
 // WorkshopForm is a simple form used for the Skynet Workshop
 const WorkshopForm = (props) => {
   const [uploadPreview, setUploadPreview] = useState(props.fileSkylink);
+
+  useEffect(() => {
+    setUploadPreview(props.fileSkylink);
+  }, [props.fileSkylink]);
+
   return (
     <>
       <Segment>
