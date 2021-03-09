@@ -15,6 +15,7 @@ important concepts of developing an app on Skynet.
 ## Prerequisites
 
 1. [NodeJS](https://nodejs.org/en/download/) installed.
+1. [Yarn](https://yarnpkg.com/getting-started/install) installed. (`npm install -g yarn`)
 1. Clone this repo.
 
 ## Part 0: Setup
@@ -40,11 +41,11 @@ to Skynet. For this sample app, we'll ask the user to upload a picture.
 
 ```javascript
 // Import the SkynetClient and a helper
-import { SkynetClient } from "skynet-js";
+import { SkynetClient } from 'skynet-js';
 
 // We'll define a portal to allow for developing on localhost.
 // When hosted on a skynet portal, SkynetClient doesn't need any arguments.
-const portal = "https://siasky.net/";
+const portal = 'https://siasky.net/';
 
 // Initiate the SkynetClient
 const client = new SkynetClient(portal);
@@ -62,7 +63,7 @@ const { skylink } = await client.uploadFile(file);
 // we can generate URLs for our current portal though.
 const skylinkUrl = client.getSkylinkUrl(skylink);
 
-console.log("File Uploaded:", skylinkUrl);
+console.log('File Uploaded:', skylinkUrl);
 
 // To use this later in our React app, save the URL to the state.
 setFileSkylink(skylinkUrl);
@@ -94,20 +95,20 @@ const webPage = generateWebPage(name, skylinkUrl);
 
 // Build our directory object, we're just including the file for our webpage.
 const webDirectory = {
-  "index.html": webPage,
+  'index.html': webPage,
   // 'couldList.jpg': moreFiles,
 };
 
 // Upload user's webpage
 const { skylink: dirSkylink } = await client.uploadDirectory(
   webDirectory,
-  "certificate"
+  'certificate'
 );
 
 // generate a URL for our current portal
 const dirSkylinkUrl = client.getSkylinkUrl(dirSkylink);
 
-console.log("Web Page Uploaded:", dirSkylinkUrl);
+console.log('Web Page Uploaded:', dirSkylinkUrl);
 
 // To use this later in our React app, save the URL to the state.
 setWebPageSkylink(dirSkylinkUrl);
@@ -146,7 +147,7 @@ generate the same pair based off the same text input.
    `skynet-js`. Add the code to `src/Add.js` for `Step 3.1`.
 
 ```javascript
-import { genKeyPairFromSeed } from "skynet-js";
+import { genKeyPairFromSeed } from 'skynet-js';
 ```
 
 2. Create the functionality to save the user's data to `SkyDB`. Add the
@@ -173,9 +174,9 @@ try {
 }
 
 // Let's get see info on our SkyDB entry
-console.log("SkyDB Entry Written--");
-console.log("Public Key: ", publicKey);
-console.log("Data Key: ", dataKey);
+console.log('SkyDB Entry Written--');
+console.log('Public Key: ', publicKey);
+console.log('Data Key: ', dataKey);
 ```
 
 3. Above this code, uncomment `console.log('Saving user data to SkyDB...');`
@@ -213,9 +214,9 @@ if (data) {
   setFileSkylink(data.skylinkUrl);
   setWebPageSkylink(data.dirSkylinkUrl);
   setUserColor(data.color);
-  console.log("User data loaded from SkyDB!");
+  console.log('User data loaded from SkyDB!');
 } else {
-  console.error("There was a problem with getJSON");
+  console.error('There was a problem with getJSON');
 }
 ```
 
@@ -237,8 +238,6 @@ application is as easy as uploading a directory.
 3. Upload the newly created `build` folder to [https://siasky.net](http://siasky.net). (Make sure you select 'Do you want to upload an entire directory?')
 
 4. Now any of your friends can make their own certificates!
-
-<!-- ## Part 5: Getting a Human-Readable URL with HNS? This isn't a coding flow but a tooling one? -->
 
 ## Where to go from here?
 
@@ -262,78 +261,6 @@ We're always improving our [Skynet Developer
 Resources](https://support.siasky.net/the-technology/developing-on-skynet),
 so check that out and join [our Discord](https://discord.gg/sia) to share
 ideas with other devs.
-
-<!-- ## Section 4: HNS
-
-1. Look at linking to dLink
-
-- Need to make sure the registry URL points to the webpage
-
-The technology that makes `SkyDB` work is called the `registry`. Now that we
-have the code updating the user's information in `SkyDB`, we want to be able to
-easily see those updates. This is where Handshake domains come in. Let's see
-how we would link this user's data with an HNS domain.
-
-1. First we need to see the registry URL. This a link to the `SkyDB` content.
-
-```javascript
-// This registry entry is going to be different from the SkyDB entry so we need
-// to handle it slightly differently.
-// First we need a new Data Key as to not overwrite what we put into SkyDB
-const registryDataKey = 'registry-workshop2';
-
-// As before we need the public and private keys
-const { publicKey, privateKey } = genKeyPairFromSeed(seed);
-
-// Registry entries have revisions. SkyDB handles the revision for us when we us
-// setJSON and getJSON. Since we are working with the registry directly we need
-// to know the revision number.
-const { entry } = await client.registry.getEntry(publicKey, registryDataKey);
-const revision = entry ? entry.revision + BigInt(1) : BigInt(0);
-
-try {
-  // Build the update entry to save to the registry
-  const updatedEntry = {
-    datakey: registryDataKey,
-    revision,
-    data,
-  };
-  await client.registry.setEntry(privateKey, updatedEntry);
-
-  // Now that we have updated the registry entry, get the registry entry URL
-  const entryUrl = client.registry.getEntryUrl(publicKey, registryDataKey);
-  setRegistryURL(entryUrl);
-  console.log(`Registry entry updated: ${entryUrl}`);
-} catch (error) {
-  console.log(`Failed to update registry entry: ${error.message}`);
-}
-```
-
-2. Now that we have the registry URL we can update our HNS domain records.\
-   Read more about that [here](https://blog.sia.tech/skynet-handshake-d5d16e6b632f)
-
-3. Test it out!\
-   Update the blockchain records the first time will take some time, but all
-   other updates will be instant.\
-   In the mean time you can check out [this example](https://doesitwork.hns.siasky.net)
-
-## Part 4: Identity
-
-We're releasing our decentralized, cross-application identity solution for Skynet in April 2021. Keep an eye out for that. -->
-
-<!-- Now you might be thinking,
-> wait, I all I have is this immutable skylink, what if I want to update my Skapp?.
-
-You are right! Having a skylink that points to your Skapp isn't very useful because, as we saw in Part 3, if you make updates to your
-Skapp the Skylink will change. We just learned about the registry and using
-it to link data to an `HNS` domain. You can do that for your app as well!
-
-To make your life even easier, one of our core team members created a super
-useful Github Action to automate that entire process for you. You can find
-the code [here](https://github.com/kwypchlo/deploy-to-skynet-action) and you
-can use [this
-blog](https://blog.sia.tech/automated-deployments-on-skynet-28d2f32f6ca1) to
-help you get started. -->
 
 ## Developing this Workshop
 

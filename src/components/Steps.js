@@ -1,4 +1,4 @@
-import { Nav } from "react-bootstrap";
+import { Nav } from 'react-bootstrap';
 
 // TODO: style tabs to match skynet styling
 
