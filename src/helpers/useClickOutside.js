@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect } from 'react';
 
 // Improved version of https://usehooks.com/useOnClickOutside/
 const useClickOutside = (ref, handler) => {
@@ -20,14 +20,14 @@ const useClickOutside = (ref, handler) => {
       startedInside = ref.current && ref.current.contains(event.target);
     };
 
-    document.addEventListener("mousedown", validateEventStart);
-    document.addEventListener("touchstart", validateEventStart);
-    document.addEventListener("click", listener);
+    document.addEventListener('mousedown', validateEventStart);
+    document.addEventListener('touchstart', validateEventStart);
+    document.addEventListener('click', listener);
 
     return () => {
-      document.removeEventListener("mousedown", validateEventStart);
-      document.removeEventListener("touchstart", validateEventStart);
-      document.removeEventListener("click", listener);
+      document.removeEventListener('mousedown', validateEventStart);
+      document.removeEventListener('touchstart', validateEventStart);
+      document.removeEventListener('click', listener);
     };
   }, [ref, handler]);
 };
