@@ -233,11 +233,25 @@ application is as easy as uploading a directory.
 
 1. For Create React App projects, we need to add `"homepage": ".",` to the `package.json`.
 
-2. Build the application with `yarn build`
+2. Next, we'll return to where we initialized the `SkynetClient` in _Step 1.2_. When deployed to Skynet, we don't want our App to only communicate with siasky.net, instead we want it to communicate with the portal the app is being served from. Find the line that says
 
-3. Upload the newly created `build` folder to [https://siasky.net](http://siasky.net). (Make sure you select 'Do you want to upload an entire directory?')
+```javascript
+// Initiate the SkynetClient
+const client = new SkynetClient(portal);
+```
 
-4. Now any of your friends can make their own certificates!
+and replace it with
+
+```javascript
+// Initiate the SkynetClient
+const client = new SkynetClient();
+```
+
+3. Build the application with `yarn build`
+
+4. Upload the newly created `build` folder to [https://siasky.net](http://siasky.net). (Make sure you select 'Do you want to upload an entire directory?')
+
+5. Now any of your friends can make their own certificates!
 
 ## Where to go from here?
 
