@@ -195,7 +195,7 @@ function App() {
     /*        Step 3.5 Code goes here              */
     /************************************************/
     // Use getJSON to load the user's information from SkyDB
-    const data = await mySky.getJSON(filePath);
+    const { data } = await mySky.getJSON(filePath);
     console.log(data);
 
     // To use this elsewhere in our React app, save the data to the state.
