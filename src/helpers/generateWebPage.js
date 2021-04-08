@@ -1,14 +1,10 @@
 import { genKeyPairFromSeed } from 'skynet-js';
 
-const generateWebPage = (name, imageSkylinkUrl, seed, dataKey) => {
+const generateWebPage = (name, imageSkylinkUrl, userID, filePath) => {
   let publicKey = '';
 
-  if (seed) {
-    publicKey = genKeyPairFromSeed(seed).publicKey;
-  }
-
   return new File(
-    [certificate(name, imageSkylinkUrl, publicKey, dataKey)],
+    [certificate(name, imageSkylinkUrl, userID, filePath)],
     'index.html',
     {
       type: 'text/html',

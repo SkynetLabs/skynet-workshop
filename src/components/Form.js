@@ -28,28 +28,57 @@ const WorkshopForm = (props) => {
           <Loader active={props.loading} />
         </Dimmer>
 
+        {props.activeTab > 1 && (
+          <>
+            {props.loggedIn === true && (
+              <Button onClick={props.handleMySkyLogout}>
+                Log Out of MySky
+              </Button>
+            )}
+            {props.loggedIn === false && (
+              <Button onClick={props.handleMySkyLogin}>Login with MySky</Button>
+            )}
+            {props.loggedIn === null && (
+              <Button onClick={props.handleMySkyLogin}>Loading MySky...</Button>
+            )}
+            <Divider />
+          </>
+        )}
+
         <Form onSubmit={props.handleSubmit}>
           {/* Input for seed */}
           {props.activeTab > 1 && (
             <>
-              <Header as="h4">SkyDB Data</Header>
-              <Form.Group widths="equal">
+              <Header as="h4">MySky SkyDB Data</Header>
+
+              <Form.Group inline>
+                {/* <Form.Group widths="equal"> */}
+                {/* <Form.Input
+                  label="MySky Data Domain"
+                  // placeholder="Enter your seed."
+                  value={props.dataDomain}
+                  disabled
+                  // onChange={(e) => {
+                  //   props.setSeed(e.target.value);
+                  // }}
+                /> */}
                 <Form.Input
-                  label="Seed"
-                  placeholder="Enter your seed."
-                  value={props.seed}
-                  onChange={(e) => {
-                    props.setSeed(e.target.value);
-                  }}
-                />
-                <Form.Input
-                  label="Data Key"
-                  placeholder="Enter your data key."
+                  label={`Data Path: ${props.dataDomain}/`}
+                  placeholder="Enter rest of path."
                   value={props.dataKey}
                   onChange={(e) => {
                     props.setDataKey(e.target.value);
                   }}
                 />
+                <Button
+                  variant="success"
+                  disabled={props.loggedIn !== true || !props.dataKey}
+                  onClick={(e) => {
+                    props.loadData(e);
+                  }}
+                >
+                  Load Data
+                </Button>
               </Form.Group>
               <Form.Group inline>
                 <Form.Input
@@ -64,18 +93,24 @@ const WorkshopForm = (props) => {
                   color={props.userColor}
                   onChange={props.setUserColor}
                 />
+                {props.activeTab > 2 && (
+                  <Button
+                    style={{ marginLeft: '20px' }}
+                    variant="success"
+                    disabled={
+                      props.loggedIn !== true ||
+                      !props.dataKey ||
+                      !props.userColor
+                    }
+                    onClick={(e) => {
+                      props.handleSaveAndRecord(e);
+                    }}
+                  >
+                    Save Data and Record Action
+                  </Button>
+                )}
               </Form.Group>
-              <Form.Group inline>
-                <Button
-                  variant="success"
-                  disabled={!props.seed || !props.dataKey}
-                  onClick={(e) => {
-                    props.loadData(e);
-                  }}
-                >
-                  Load Data
-                </Button>
-              </Form.Group>
+              <Divider />
             </>
           )}
           {/* Input for name */}
