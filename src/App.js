@@ -12,7 +12,7 @@ import { Header, Tab, Container } from 'semantic-ui-react';
 /*        Step 4.2 Code goes here               */
 /************************************************/
 
-import { ContentRecordDAC } from 'content-record-library';
+import { ContentRecordDAC } from '@skynethq/content-record-library';
 
 /*****/
 
@@ -251,7 +251,7 @@ function App() {
     /*****/
 
     /************************************************/
-    /*        Step 4.8 Code goes here              */
+    /*        Step 4.7 Code goes here              */
     /************************************************/
 
     try {
@@ -272,7 +272,7 @@ function App() {
     console.log('Loading user data from SkyDB');
 
     /************************************************/
-    /*        Step 4.6 Code goes here              */
+    /*        Step 4.5 Code goes here              */
     /************************************************/
 
     // Use getJSON to load the user's information from SkyDB
@@ -299,7 +299,7 @@ function App() {
     setLoading(true);
 
     /************************************************/
-    /*        Step 4.7 Code goes here              */
+    /*        Step 4.6 Code goes here              */
     /************************************************/
 
     console.log('Saving user data to MySky');
@@ -316,7 +316,7 @@ function App() {
       await mySky.setJSON(filePath, jsonData);
 
       // Tell contentRecord we updated the color
-      const result = await contentRecord.recordInteraction({
+      await contentRecord.recordInteraction({
         skylink: webPageSkylink,
         metadata: { action: 'updatedColorOf' },
       });
