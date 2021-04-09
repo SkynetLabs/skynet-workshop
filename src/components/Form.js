@@ -2,12 +2,14 @@ import { useState, useEffect } from 'react';
 import {
   Button,
   Form,
+  Input,
   Header,
   Image,
   Loader,
   Dimmer,
   Segment,
   Divider,
+  Label,
 } from 'semantic-ui-react';
 import { PopoverPicker } from './PopoverPicker';
 import Links from './Links';
@@ -36,51 +38,58 @@ const WorkshopForm = (props) => {
               </Button>
             )}
             {props.loggedIn === false && (
-              <Button onClick={props.handleMySkyLogin}>Login with MySky</Button>
+              <Button color="green" onClick={props.handleMySkyLogin}>
+                Login with MySky
+              </Button>
             )}
-            {props.loggedIn === null && (
-              <Button onClick={props.handleMySkyLogin}>Loading MySky...</Button>
+            {props.loggedIn === null && <Button>Loading MySky...</Button>}
+            {props.activeTab === 2 && (
+              <Label pointing="left" color="green" basic>
+                Once logged into MySky, we can save and load data in "files".
+              </Label>
             )}
             <Divider />
           </>
         )}
 
         <Form onSubmit={props.handleSubmit}>
-          {/* Input for seed */}
           {props.activeTab > 1 && (
             <>
-              <Header as="h4">MySky SkyDB Data</Header>
+              <Header as="h4">MySky File Data</Header>
 
-              <Form.Group inline>
-                {/* <Form.Group widths="equal"> */}
-                {/* <Form.Input
-                  label="MySky Data Domain"
-                  // placeholder="Enter your seed."
-                  value={props.dataDomain}
-                  disabled
-                  // onChange={(e) => {
-                  //   props.setSeed(e.target.value);
-                  // }}
-                /> */}
-                <Form.Input
-                  label={`Data Path: ${props.dataDomain}/`}
-                  placeholder="Enter rest of path."
-                  value={props.dataKey}
-                  onChange={(e) => {
-                    props.setDataKey(e.target.value);
-                  }}
+              <Form.Field>
+                <label>
+                  Discoverable UserID <i>(Shared across MySky)</i>
+                </label>
+                <Input
+                  placeholder="You must Login with MySky..."
+                  value={props.userID}
+                  icon="user circle"
+                  iconPosition="left"
                 />
-                <Button
-                  variant="success"
-                  disabled={props.loggedIn !== true || !props.dataKey}
-                  onClick={(e) => {
-                    props.loadData(e);
-                  }}
-                >
-                  Load Data
-                </Button>
+              </Form.Field>
+              <Form.Group>
+                <Form.Field>
+                  <label>File Path</label>
+                  <Input
+                    label={props.dataDomain + '/'}
+                    placeholder="Enter rest of path."
+                    value={props.dataKey}
+                    onChange={(e) => {
+                      props.setDataKey(e.target.value);
+                    }}
+                  />
+
+                  {props.activeTab === 2 && (
+                    <Label pointing basic color="green">
+                      MySky Files are saved at a path. An app must have
+                      permissions to write there.
+                    </Label>
+                  )}
+                </Form.Field>
               </Form.Group>
-              <Form.Group inline>
+              <Divider />
+              <Form.Group>
                 <Form.Input
                   label="Color"
                   placeholder="#000000"
@@ -89,14 +98,29 @@ const WorkshopForm = (props) => {
                     props.setUserColor(e.target.value);
                   }}
                 />
-                <PopoverPicker
-                  color={props.userColor}
-                  onChange={props.setUserColor}
-                />
-                {props.activeTab > 2 && (
+                <Segment basic>
+                  <PopoverPicker
+                    style={{ bottom: 0 }}
+                    color={props.userColor}
+                    onChange={props.setUserColor}
+                  />
+                </Segment>
+              </Form.Group>
+              {props.activeTab > 2 && (
+                <Form.Group inline>
+                  <Button
+                    variant="success"
+                    disabled={props.loggedIn !== true || !props.dataKey}
+                    onClick={(e) => {
+                      props.loadData(e);
+                    }}
+                  >
+                    Load Data from File
+                  </Button>
                   <Button
                     style={{ marginLeft: '20px' }}
                     variant="success"
+                    size="md"
                     disabled={
                       props.loggedIn !== true ||
                       !props.dataKey ||
@@ -106,10 +130,15 @@ const WorkshopForm = (props) => {
                       props.handleSaveAndRecord(e);
                     }}
                   >
-                    Save Data and Record Action
+                    Save Data and Record Update Action
                   </Button>
-                )}
-              </Form.Group>
+                  {props.activeTab === 3 && (
+                    <Label pointing="left" basic color="green">
+                      MySky + DAC!
+                    </Label>
+                  )}
+                </Form.Group>
+              )}
               <Divider />
             </>
           )}
@@ -141,10 +170,21 @@ const WorkshopForm = (props) => {
             </Form.Field>
             <Image src={uploadPreview} size="small" />
           </Form.Group>
+          {props.activeTab === 0 && (
+            <Label pointing basic color="green">
+              After uploading to Skynet, an immutable Skylink is returned!
+            </Label>
+          )}
           <Divider />
-          <Button variant="success" disabled={!uploadPreview} type="submit">
+          <Button primary disabled={!uploadPreview} type="submit">
             Send to Skynet
           </Button>
+          {props.activeTab === 1 && (
+            <Label pointing="left" basic color="green">
+              Now we'll upload a directory with an index.html file. The Skylink
+              will be a website.
+            </Label>
+          )}
         </Form>
       </Segment>
       <Links

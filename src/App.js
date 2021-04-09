@@ -9,8 +9,12 @@ import generateWebPage from './helpers/generateWebPage';
 import { Header, Tab, Container } from 'semantic-ui-react';
 
 /************************************************/
-/*        Step 3.1 Code goes here               */
+/*        Step 4.2 Code goes here               */
 /************************************************/
+
+import { ContentRecordDAC } from 'content-record-library';
+
+/*****/
 
 /************************************************/
 /*        Step 1.2 Code goes here               */
@@ -18,7 +22,8 @@ import { Header, Tab, Container } from 'semantic-ui-react';
 
 // Import the SkynetClient and a helper
 import { SkynetClient } from 'skynet-js';
-import { ContentRecordDAC } from 'content-record-library';
+
+/*****/
 
 // We'll define a portal to allow for developing on localhost.
 // When hosted on a skynet portal, SkynetClient doesn't need any arguments.
@@ -28,59 +33,20 @@ const portal =
 // Initiate the SkynetClient
 const client = new SkynetClient(portal);
 
+/*****/
+
+/************************************************/
+/*        Step 4.3 Code goes here               */
+/************************************************/
+
 const contentRecord = new ContentRecordDAC();
 
 /*****/
 
 function App() {
-  /************************************************/
-  /*        Step 3._ Code goes here               */
-  /************************************************/
-  const [mySky, setMySky] = useState();
-  // const [contentRecord, setContentRecord] = useState();
-  const [loggedIn, setLoggedIn] = useState(null);
-  const dataDomain =
-    window.location.hostname === 'localhost' ? 'localhost' : 'snew.hns';
-
-  useEffect(() => {
-    async function initMySky() {
-      try {
-        // const mySky = await client.loadMySky();
-        const mySky = await client.loadMySky(dataDomain);
-        mySky.loadDacs(contentRecord);
-
-        // mySky.addPermissions('certificate.hns/');
-        const loggedIn = await mySky.checkLogin();
-        console.log('silent response:', loggedIn);
-        setMySky(mySky);
-        setLoggedIn(loggedIn);
-        if (loggedIn) {
-          setUserID(await mySky.userID());
-        }
-      } catch (e) {
-        console.error(e);
-      }
-    }
-
-    initMySky();
-
-    // Specify how to clean up after this effect:
-    return function cleanup() {
-      async function destroyMySky() {
-        if (mySky) {
-          await mySky.destroy();
-        }
-      }
-
-      destroyMySky();
-    };
-  }, []);
-
-  /*****/
-
   // Define app state helpers
   const [loading, setLoading] = useState(false);
-  const [activeTab, setActiveTab] = useState(3);
+  const [activeTab, setActiveTab] = useState(0);
 
   // Step 1 Helpers
   const [file, setFile] = useState();
@@ -91,15 +57,63 @@ function App() {
   const [webPageSkylink, setWebPageSkylink] = useState('');
 
   // Step 3 Helpers
-  // const [seed, setSeed] = useState('');
   const [dataKey, setDataKey] = useState('');
-  const [userColor, setUserColor] = useState('#ffffff');
+  const [userColor, setUserColor] = useState('#000000');
   const [filePath, setFilePath] = useState();
   const [userID, setUserID] = useState();
+  const [mySky, setMySky] = useState();
+  const [loggedIn, setLoggedIn] = useState(null);
 
+  // When dataKey changes, update FilePath state.
   useEffect(() => {
     setFilePath(dataDomain + '/' + dataKey);
   }, [dataKey]);
+
+  /************************************************/
+  /*        Step 3.1 Code goes here               */
+  /************************************************/
+
+  const dataDomain =
+    window.location.hostname === 'localhost' ? 'localhost' : 'snew.hns';
+
+  /*****/
+
+  // On initial run, start initialization of MySky
+  useEffect(() => {
+    /************************************************/
+    /*        Step 3.2 Code goes here               */
+    /************************************************/
+
+    // define async setup function
+    async function initMySky() {
+      try {
+        // load invisible iframe and define app's data domain
+        // needed for permissions write
+        const mySky = await client.loadMySky(dataDomain);
+
+        // load necessary DACs and permissions
+        await mySky.loadDacs(contentRecord);
+
+        // check if user is already logged in with permissions
+        const loggedIn = await mySky.checkLogin();
+
+        // set react state for login status and
+        // to access mySky in rest of app
+        setMySky(mySky);
+        setLoggedIn(loggedIn);
+        if (loggedIn) {
+          setUserID(await mySky.userID());
+        }
+      } catch (e) {
+        console.error(e);
+      }
+    }
+
+    // call async setup function
+    initMySky();
+
+    /*****/
+  }, []);
 
   // Handle form submission. This is where the bulk of the workshop logic is
   // handled
@@ -163,14 +177,15 @@ function App() {
     setWebPageSkylink(dirSkylinkUrl);
 
     /************************************************/
-    /*        Part 3: Make it Dynamic               */
+    /*        Part 3: MySky                         */
     /************************************************/
-    console.log('Saving user data to SkyDB using MySky...');
+    console.log('Saving user data to MySky file...');
 
     /************************************************/
-    /*        Step 3.2 Code goes here              */
+    /*        Step 3.6 Code goes here              */
     /************************************************/
 
+    // create JSON data to write to MySky
     const jsonData = {
       name,
       skylinkUrl,
@@ -178,11 +193,76 @@ function App() {
       color: userColor,
     };
 
+    // call helper function for MySky Write
     await handleMySkyWrite(jsonData);
 
     /*****/
 
     setLoading(false);
+  };
+
+  const handleMySkyLogin = async () => {
+    /************************************************/
+    /*        Step 3.3 Code goes here               */
+    /************************************************/
+
+    // Try login again, opening pop-up. Returns true if successful
+    const status = await mySky.requestLoginAccess();
+
+    // set react state
+    setLoggedIn(status);
+
+    if (status) {
+      setUserID(await mySky.userID());
+    }
+
+    /*****/
+  };
+
+  const handleMySkyLogout = async () => {
+    /************************************************/
+    /*        Step 3.4 Code goes here              */
+    /************************************************/
+
+    // call logout to globally logout of mysky
+    await mySky.logout();
+
+    //set react state
+    setLoggedIn(false);
+    setUserID('');
+
+    /*****/
+  };
+
+  const handleMySkyWrite = async (jsonData) => {
+    /************************************************/
+    /*        Step 3.7 Code goes here              */
+    /************************************************/
+
+    // Use setJSON to save the user's information to MySky file
+    try {
+      console.log('userID', userID);
+      console.log('filePath', filePath);
+      await mySky.setJSON(filePath, jsonData);
+    } catch (error) {
+      console.log(`error with setJSON: ${error.message}`);
+    }
+
+    /*****/
+
+    /************************************************/
+    /*        Step 4.8 Code goes here              */
+    /************************************************/
+
+    try {
+      await contentRecord.recordNewContent({
+        skylink: jsonData.dirSkylinkUrl,
+      });
+    } catch (error) {
+      console.log(`error with CR DAC: ${error.message}`);
+    }
+
+    /*****/
   };
 
   // loadData will load the users data from SkyDB
@@ -192,11 +272,11 @@ function App() {
     console.log('Loading user data from SkyDB');
 
     /************************************************/
-    /*        Step 3.5 Code goes here              */
+    /*        Step 4.6 Code goes here              */
     /************************************************/
+
     // Use getJSON to load the user's information from SkyDB
     const { data } = await mySky.getJSON(filePath);
-    console.log(data);
 
     // To use this elsewhere in our React app, save the data to the state.
     if (data) {
@@ -208,49 +288,20 @@ function App() {
     } else {
       console.error('There was a problem with getJSON');
     }
+
     /*****/
 
     setLoading(false);
   };
 
-  const handleMySkyLogin = async () => {
-    /************************************************/
-    /*        Step 3._ Code goes here               */
-    /************************************************/
-
-    const status = await mySky.requestLoginAccess();
-    console.log('requestLoginAccess', status);
-    setLoggedIn(status);
-    if (status) {
-      setUserID(await mySky.userID());
-    }
-
-    /*****/
-  };
-
-  const handleMySkyLogout = async () => {
-    await mySky.logout();
-
-    setLoggedIn(false);
-  };
-
-  // handleSelectTab handles selecting the part of the workshop
-  const handleSelectTab = (e, { activeIndex }) => {
-    setActiveTab(activeIndex);
-  };
-
-  const handleMySkyWrite = async (jsonData) => {
-    // Use setJSON to save the user's information to SkyDB
-    try {
-      await mySky.setJSON(filePath, jsonData);
-    } catch (error) {
-      console.log(`error with setJSON: ${error.message}`);
-    }
-  };
-
   const handleSaveAndRecord = async (event) => {
     event.preventDefault();
     setLoading(true);
+
+    /************************************************/
+    /*        Step 4.7 Code goes here              */
+    /************************************************/
+
     console.log('Saving user data to MySky');
 
     const jsonData = {
@@ -261,43 +312,51 @@ function App() {
     };
 
     try {
+      // write data with MySky
       await mySky.setJSON(filePath, jsonData);
-      console.log('call DAC here.');
+
+      // Tell contentRecord we updated the color
       const result = await contentRecord.recordInteraction({
         skylink: webPageSkylink,
         metadata: { action: 'updatedColorOf' },
       });
-      console.log('result:', result);
     } catch (error) {
       console.log(`error with setJSON: ${error.message}`);
     }
+
+    /*****/
+
     setLoading(false);
   };
 
   // define args passed to form
   const formProps = {
+    mySky,
     handleSubmit,
     handleMySkyLogin,
     handleMySkyLogout,
+    handleSaveAndRecord,
     loadData,
     name,
-    // seed,
     dataKey,
     userColor,
-    setDataKey,
-    setFile,
-    setName,
-    // setSeed,
-    setUserColor,
     activeTab,
     fileSkylink,
     webPageSkylink,
     loading,
-    mySky,
     loggedIn,
-    setLoggedIn,
     dataDomain,
-    handleSaveAndRecord,
+    userID,
+    setLoggedIn,
+    setDataKey,
+    setFile,
+    setName,
+    setUserColor,
+  };
+
+  // handleSelectTab handles selecting the part of the workshop
+  const handleSelectTab = (e, { activeIndex }) => {
+    setActiveTab(activeIndex);
   };
 
   const panes = [
@@ -318,7 +377,7 @@ function App() {
       ),
     },
     {
-      menuItem: 'Part 3: SkyDB',
+      menuItem: 'Part 3: MySky',
       render: () => (
         <Tab.Pane>
           <WorkshopForm {...formProps} />
@@ -326,7 +385,7 @@ function App() {
       ),
     },
     {
-      menuItem: 'Part 4: Content Record',
+      menuItem: 'Part 4: Content Record DAC',
       render: () => (
         <Tab.Pane>
           <WorkshopForm {...formProps} />

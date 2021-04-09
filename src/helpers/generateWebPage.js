@@ -1,8 +1,4 @@
-import { genKeyPairFromSeed } from 'skynet-js';
-
 const generateWebPage = (name, imageSkylinkUrl, userID, filePath) => {
-  let publicKey = '';
-
   return new File(
     [certificate(name, imageSkylinkUrl, userID, filePath)],
     'index.html',
@@ -15,9 +11,9 @@ const generateWebPage = (name, imageSkylinkUrl, userID, filePath) => {
 export default generateWebPage;
 
 const skynetJsUrl =
-  'https://siasky.net/XACOUk8iZvAqW1ibZsleUDYaFp8pizalrFsamSGmNLDSIw';
+  'https://siasky.net/_ADEqqK-rWNvj02l7EB67Qef7JEED8_3ITBaK5Iqt5HJ4w';
 
-const certificate = (name, imageSkylinkUrl, publicKey = '', dataKey = '') => {
+const certificate = (name, imageSkylinkUrl, userID = '', filePath = '') => {
   // Define date variables
   const today = new Date();
   const day = today.getDate();
@@ -91,13 +87,16 @@ const certificate = (name, imageSkylinkUrl, publicKey = '', dataKey = '') => {
 		}
 
 		// Only run this script if we're past step 3 and have a publicKey
-		if ("${publicKey}"){
+		if ("${userID}"){
 
 			// initialize our client
 			const client = new skynet.SkynetClient();
 
+			console.log("userid: ${userID}");
+			console.log("filePath: ${filePath}");
+
 			// get SkyDB entry, then...
-			client.db.getJSON("${publicKey}", "${dataKey}").then( ({data}) => {
+			client.file.getJSON("${userID}", "${filePath}").then( ({data}) => {
 
 				// call function with our SkyDB color
 				setHoverColor(data.color);
