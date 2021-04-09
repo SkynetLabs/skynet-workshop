@@ -2,7 +2,6 @@
   "name": "skynet-workshop",
   "version": "0.1.0",
   "private": true,
-  "homepage": ".",
   "dependencies": {
     "@skynethq/content-record-library": "^0.2.1",
     "@testing-library/jest-dom": "^5.11.4",
