@@ -8,7 +8,7 @@ developing on Skynet!
 The goal of this workshop is to provide developers with examples of the
 important concepts of developing an app on Skynet.
 
-_Note: Local Development using MySky can run into issues if your browser security settings are set to "block third-party cookies and data." MySky isn't hosted at localhost, so it is considered "third-party" when your app isn't being run on Skynet. If you see this problem in Chrome or Brave, try visiting [chrome://settings/cookies](chrome://settings/cookies) and selecting "Allow all cookies" or "Block thrid-party cookies in Incognito"._
+_Note: Local Development using MySky can run into issues if your browser security settings are set to "block third-party cookies and data." MySky isn't hosted at localhost, so it is considered "third-party" when your app isn't being run on Skynet. If you see this problem in Chrome or Brave, try visiting [chrome://settings/cookies](chrome://settings/cookies) and adding `localhost` to "Sites that can always use cookies."_
 
 > [Create React App](https://github.com/facebook/create-react-app) is used
 > for structuring the project and simplifying deployment, but you don't need
