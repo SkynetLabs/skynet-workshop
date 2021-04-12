@@ -8,6 +8,8 @@ developing on Skynet!
 The goal of this workshop is to provide developers with examples of the
 important concepts of developing an app on Skynet.
 
+_Note: Local Development may not work on Brave or Safari. We're looking into this, but for now, please use Chrome or Firefox._
+
 > [Create React App](https://github.com/facebook/create-react-app) is used
 > for structuring the project and simplifying deployment, but you don't need
 > any knowledge of React to follow the workshop.
@@ -265,8 +267,7 @@ DACs provider Javascript libraries that simplify interacting with the web app fr
 import { ContentRecordDAC } from '@skynethq/content-record-library';
 ```
 
-3.  Now, we'll create a `contentRecord` object, used to call methods against the Content Record DAC's API. For _Step 4.3_, paste the
-    following code.
+3.  Now, we'll create a `contentRecord` object, used to call methods against the Content Record DAC's API. For _Step 4.3_, paste the following code.
 
 ```javascript
 const contentRecord = new ContentRecordDAC();
@@ -278,7 +279,7 @@ const contentRecord = new ContentRecordDAC();
 await mySky.loadDacs(contentRecord);
 ```
 
-5. Add the following code to `src/App.js` for _Step 4.5_.
+5. Let's wire up our "Load Data" button, by grabbing data from MySky in the `loadData` method. Add the following code for _Step 4.5_.
 
 ```javascript
 // Use getJSON to load the user's information from SkyDB
@@ -296,7 +297,7 @@ if (data) {
 }
 ```
 
-6. Add the following code to `src/App.js` for _Step 4.6_.
+6. Here, we'll add logic for saving edited content to MySky without re-uploading our image and directory. Then, we'll call the Content Record DAC and have it record that we "interacted" with this skylink. This will occur when the "Save Data and Record Update Action" button is pressed, triggering the `handleSaveAndRecord` method. Add the following code at _Step 4.6_.
 
 ```javascript
 console.log('Saving user data to MySky');
@@ -322,7 +323,7 @@ try {
 }
 ```
 
-7. Add the following code to `src/App.js` for _Step 4.7_.
+7. Returning to our logic from before, we want to tell the Content Record DAC that we've created a new certificate when we upload a webpage. Add the following code for _Step 4.7_.
 
 ```javascript
 try {
