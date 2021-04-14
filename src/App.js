@@ -12,7 +12,7 @@ import { Header, Tab, Container } from 'semantic-ui-react';
 /*        Step 4.2 Code goes here               */
 /************************************************/
 
-import { ContentRecordDAC } from '@skynethq/content-record-library';
+import { ContentRecordDAC } from '@skynetlabs/content-record-library';
 
 /*****/
 
@@ -89,7 +89,10 @@ function App() {
       try {
         // load invisible iframe and define app's data domain
         // needed for permissions write
-        const mySky = await client.loadMySky(dataDomain, { debug: true });
+        const mySky = await client.loadMySky(dataDomain, {
+          dev: true,
+          debug: true,
+        });
 
         // load necessary DACs and permissions
         await mySky.loadDacs(contentRecord);
