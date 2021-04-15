@@ -90,7 +90,6 @@ function App() {
         // load invisible iframe and define app's data domain
         // needed for permissions write
         const mySky = await client.loadMySky(dataDomain, {
-          dev: true,
           debug: true,
         });
 

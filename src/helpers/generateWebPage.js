@@ -10,8 +10,7 @@ const generateWebPage = (name, imageSkylinkUrl, userID, filePath) => {
 
 export default generateWebPage;
 
-const skynetJsUrl =
-  'https://siasky.net/_ADEqqK-rWNvj02l7EB67Qef7JEED8_3ITBaK5Iqt5HJ4w';
+const skynetJsUrl = 'https://skynet-js.hns.siasky.net/4.0-beta/index.js';
 
 const certificate = (name, imageSkylinkUrl, userID = '', filePath = '') => {
   // Define date variables
