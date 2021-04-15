@@ -259,12 +259,12 @@ const webPage = generateWebPage(name, skylinkUrl, userID, filePath);
 
 DACs provider Javascript libraries that simplify interacting with the web app from your code.
 
-1.  Install `content-record-library` by running `yarn add @skynethq/content-record-library`
+1.  Install `content-record-library` by running `yarn add @skynetlabs/content-record-library`
 2.  Next we need to import the DAC. Look for where _Step 4.2_ code goes, and paste the
     following code.
 
 ```javascript
-import { ContentRecordDAC } from '@skynethq/content-record-library';
+import { ContentRecordDAC } from '@skynetlabs/content-record-library';
 ```
 
 3.  Now, we'll create a `contentRecord` object, used to call methods against the Content Record DAC's API. For _Step 4.3_, paste the following code.
