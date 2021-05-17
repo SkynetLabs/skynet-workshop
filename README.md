@@ -374,10 +374,6 @@ Now that you've deployed a Skynet app, there's many things to keep learning!
   decentralized human-readable URL like
   [skyfeed.hns.siasky.net](https://skyfeed.hns.siasky.net).
 
-- You can integrate cross-application identity with
-  [SkyID](https://github.com/DaWe35/SkyID) (or the soon-to-be-released mySky,
-  available April 2021).
-
 - You can [automate
   deployment](https://blog.sia.tech/automated-deployments-on-skynet-28d2f32f6ca1)
   of your site using a [Github
