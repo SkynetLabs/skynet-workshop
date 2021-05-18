@@ -120,7 +120,7 @@ const WorkshopForm = (props) => {
                   <Button
                     style={{ marginLeft: '20px' }}
                     variant="success"
-                    size="md"
+                    size="medium"
                     disabled={
                       props.loggedIn !== true ||
                       !props.dataKey ||
