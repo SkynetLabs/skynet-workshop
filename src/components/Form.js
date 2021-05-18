@@ -189,7 +189,7 @@ const WorkshopForm = (props) => {
       </Segment>
       <Links
         fileSkylink={props.fileSkylink}
-        webPageSkylink={props.webPageSkylink}
+        webPageSkylink={props.webPageSkylinkUrl}
       />
     </>
   );
