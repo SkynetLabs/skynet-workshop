@@ -120,7 +120,7 @@ const WorkshopForm = (props) => {
                   <Button
                     style={{ marginLeft: '20px' }}
                     variant="success"
-                    size="md"
+                    size="medium"
                     disabled={
                       props.loggedIn !== true ||
                       !props.dataKey ||
@@ -189,7 +189,7 @@ const WorkshopForm = (props) => {
       </Segment>
       <Links
         fileSkylink={props.fileSkylink}
-        webPageSkylink={props.webPageSkylink}
+        webPageSkylink={props.webPageSkylinkUrl}
       />
     </>
   );
