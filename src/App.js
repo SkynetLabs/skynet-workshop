@@ -73,7 +73,7 @@ function App() {
   /************************************************/
 
   // choose a data domain for saving files in MySky
-  const dataDomain = 'localhost';
+  const dataDomain = 'snew.hns';
 
   /*****/
 
