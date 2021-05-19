@@ -47,7 +47,8 @@ import { SkynetClient } from 'skynet-js';
 
 // We'll define a portal to allow for developing on localhost.
 // When hosted on a skynet portal, SkynetClient doesn't need any arguments.
-const portal = 'https://siasky.net/';
+const portal =
+  window.location.hostname === 'localhost' ? 'https://siasky.net' : undefined;
 
 // Initiate the SkynetClient
 const client = new SkynetClient(portal);
@@ -107,13 +108,17 @@ const { skylink: dirSkylink } = await client.uploadDirectory(
   'certificate'
 );
 
-// generate a URL for our current portal
-const dirSkylinkUrl = await client.getSkylinkUrl(dirSkylink);
+// Generate a URL for our current portal
+// We'll use a subdomain-style link
+const dirSkylinkUrl = await client.getSkylinkUrl(dirSkylink, {
+  subdomain: true,
+});
 
 console.log('Web Page Uploaded:', dirSkylinkUrl);
 
 // To use this later in our React app, save the URL to the state.
-setWebPageSkylink(dirSkylinkUrl);
+setWebPageSkylink(dirSkylink);
+setWebPageSkylinkUrl(dirSkylinkUrl);
 ```
 
 2. Above this code, uncomment `console.log('Uploading web page...');`
@@ -216,6 +221,7 @@ setUserID('');
 const jsonData = {
   name,
   skylinkUrl,
+  dirSkylink,
   dirSkylinkUrl,
   color: userColor,
 };
@@ -289,7 +295,8 @@ const { data } = await mySky.getJSON(filePath);
 if (data) {
   setName(data.name);
   setFileSkylink(data.skylinkUrl);
-  setWebPageSkylink(data.dirSkylinkUrl);
+  setWebPageSkylink(data.dirSkylink);
+  setWebPageSkylinkUrl(data.dirSkylinkUrl);
   setUserColor(data.color);
   console.log('User data loaded from SkyDB!');
 } else {
@@ -305,7 +312,8 @@ console.log('Saving user data to MySky');
 const jsonData = {
   name,
   skylinkUrl: fileSkylink,
-  dirSkylinkUrl: webPageSkylink,
+  dirSkylink: webPageSkylink,
+  dirSkylinkUrl: webPageSkylinkUrl,
   color: userColor,
 };
 
@@ -328,7 +336,7 @@ try {
 ```javascript
 try {
   await contentRecord.recordNewContent({
-    skylink: jsonData.dirSkylinkUrl,
+    skylink: jsonData.dirSkylink,
   });
 } catch (error) {
   console.log(`error with CR DAC: ${error.message}`);
@@ -345,17 +353,18 @@ application is as easy as uploading a directory.
 
 1. For Create React App projects, we need to add `"homepage": ".",` to the `package.json`.
 
-2. Next, we'll return to where we initialized the `SkynetClient` in _Step 1.2_. When deployed to Skynet, we don't want our App to only communicate with siasky.net, instead we want it to communicate with the portal the app is being served from. Find the line that says
+2. Next, we'll return to where we initialized the `SkynetClient` in _Step 1.2_. When deployed to Skynet, we don't want our App to only communicate with siasky.net, instead we want it to communicate with the portal the app is being served from. Find the lines we used to initialize the Skynet Client:
 
 ```javascript
-// Initiate the SkynetClient
+const portal =
+  window.location.hostname === 'localhost' ? 'https://siasky.net' : undefined;
+
 const client = new SkynetClient(portal);
 ```
 
-and replace it with
+In a production app, you don't need any arguments here (which in JS is the same as passing `undefined` as an argument):
 
 ```javascript
-// Initiate the SkynetClient
 const client = new SkynetClient();
 ```
 
@@ -373,10 +382,6 @@ Now that you've deployed a Skynet app, there's many things to keep learning!
   Handshake](https://support.siasky.net/key-concepts/handshake-names) for a
   decentralized human-readable URL like
   [skyfeed.hns.siasky.net](https://skyfeed.hns.siasky.net).
-
-- You can integrate cross-application identity with
-  [SkyID](https://github.com/DaWe35/SkyID) (or the soon-to-be-released mySky,
-  available April 2021).
 
 - You can [automate
   deployment](https://blog.sia.tech/automated-deployments-on-skynet-28d2f32f6ca1)
