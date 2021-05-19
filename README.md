@@ -353,11 +353,12 @@ application is as easy as uploading a directory.
 
 1. For Create React App projects, we need to add `"homepage": ".",` to the `package.json`.
 
-2. Next, we'll return to where we initialized the `SkynetClient` in _Step 1.2_. When deployed to Skynet, we don't want our App to only communicate with siasky.net, instead we want it to communicate with the portal the app is being served from. Find the lines that says
+2. Next, we'll return to where we initialized the `SkynetClient` in _Step 1.2_. When deployed to Skynet, we don't want our App to only communicate with siasky.net, instead we want it to communicate with the portal the app is being served from. Find the lines we used to initialize the Skynet Client:
 
 ```javascript
 const portal =
   window.location.hostname === 'localhost' ? 'https://siasky.net' : undefined;
+
 const client = new SkynetClient(portal);
 ```
 
