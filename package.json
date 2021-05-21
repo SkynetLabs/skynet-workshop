@@ -18,7 +18,7 @@
     "react-scripts": "4.0.1",
     "semantic-ui-css": "^2.4.1",
     "semantic-ui-react": "^2.0.3",
-    "skynet-js": "^4.0.6-beta",
+    "skynet-js": "^4.0.8-beta",
     "web-vitals": "^0.2.4"
   },
   "prettier": {
