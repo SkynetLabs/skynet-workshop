@@ -328,6 +328,8 @@ function App() {
         skylink: webPageSkylink,
         metadata: { action: 'updatedColorOf' },
       });
+
+      console.log('Content Record Updated');
     } catch (error) {
       console.log(`error with setJSON: ${error.message}`);
     }
