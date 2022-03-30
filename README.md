@@ -76,7 +76,7 @@ setFileSkylink(skylinkUrl);
 
 5. **Test it out!** If you aren't still running the app, run `yarn start`
    again and try uploading a file. If you open your Developer Console (by
-   pressing <kbd>F12</kbd>), the console show helpful messages.
+   pressing <kbd>F12</kbd>), the console shows helpful messages.
 
 ## Part 2: Upload a Web Page
 
