@@ -10254,10 +10254,10 @@ skynet-js@^4.0.17-beta:
     url-join "^4.0.1"
     url-parse "^1.5.1"
 
-skynet-js@^4.0.27-beta:
-  version "4.0.27-beta"
-  resolved "https://registry.yarnpkg.com/skynet-js/-/skynet-js-4.0.27-beta.tgz#4257bffda8757830656e0beb89d0d2e44da17e2f"
-  integrity sha512-JV+QE/2l2YwVN1jQHVMFXgggwtBrPAnuyXySbLgafEJAde5dUwSEr5YRMV+3LvEgYkGhxSb74pyq0u0wrF2sUg==
+skynet-js@^4.1.0:
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/skynet-js/-/skynet-js-4.1.0.tgz#eccb84d04e9f42aa4f86ecb24fb4d59ed21e44cc"
+  integrity sha512-VmUjJ9QnLpfuQA2j7vzFh8JvukjQlX4QLGw1HY3VyslFPj92vPpyO8gqjPfzgbkR05TXL7CbdqZoLZr/RBDZPw==
   dependencies:
     "@skynetlabs/tus-js-client" "^2.3.0"
     async-mutex "^0.3.2"
