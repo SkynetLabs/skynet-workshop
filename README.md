@@ -36,7 +36,7 @@ We'll first cover the most basic functionality of Skynet, uploading data.
 Follow the steps below to update this app to allow the user to upload a file
 to Skynet. For this sample app, we'll ask the user to upload a picture.
 
-1.  Install `skynet-js` by running `yarn add skynet-js@beta`
+1.  Install `skynet-js` by running `yarn add skynet-js`
 2.  First, you need to import the SDK and initialize a Skynet Client. Open the
     file `src/App.js`, look for where _Step 1.2_ code goes, and paste the
     following code.
