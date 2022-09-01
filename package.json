@@ -19,7 +19,7 @@
     "semantic-ui-css": "^2.4.1",
     "semantic-ui-react": "^2.0.3",
     "skynet-js": "^4.1.0",
-    "web-vitals": "^0.2.4"
+    "web-vitals": "^3.0.1"
   },
   "prettier": {
     "arrowParens": "always",
